@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar, User, Tag, ArrowRight } from 'lucide-react';
+import { Calendar, User, ArrowRight } from 'lucide-react';
 import { SEOHead } from '../components/SEOHead';
 
 interface BlogPost {

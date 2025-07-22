@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CheckCircle, Clock, FileText, Lightbulb, Download, Print } from 'lucide-react';
+import { CheckCircle, Clock, FileText, Lightbulb, Download, Printer } from 'lucide-react';
 import { movingChecklist, austinMovingTips } from '../lib/utils';
 import { SEOHead } from '../components/SEOHead';
 
@@ -45,8 +45,8 @@ export const MovingGuidePage: React.FC = () => {
           onClick={() => window.print()}
           className="bg-austin-blue text-white px-6 py-3 rounded-lg font-semibold hover:bg-austin-teal transition-colors inline-flex items-center justify-center no-print"
         >
-          <Print className="mr-2 h-5 w-5" />
-          Print Checklist
+          <Printer className="mr-2 h-5 w-5" />
+          Printer Checklist
         </button>
         <button className="border-2 border-austin-blue text-austin-blue px-6 py-3 rounded-lg font-semibold hover:bg-austin-blue hover:text-white transition-colors inline-flex items-center justify-center no-print">
           <Download className="mr-2 h-5 w-5" />
@@ -61,7 +61,7 @@ export const MovingGuidePage: React.FC = () => {
         </h2>
         
         <div className="space-y-8">
-          {movingChecklist.map((section, sectionIndex) => (
+          {movingChecklist.map((section) => (
             <div key={section.timeline} className="austin-card p-6 moving-checklist">
               <div className="flex items-center mb-4">
                 <Clock className="h-6 w-6 text-austin-blue mr-3" />
