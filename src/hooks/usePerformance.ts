@@ -21,7 +21,7 @@ export const usePerformance = (enableLogging: boolean = import.meta.env.DEV) => 
   useEffect(() => {
     if (!enableLogging) return;
 
-    let metrics: PerformanceMetrics = {};
+    const metrics: PerformanceMetrics = {};
 
     // Monitor Core Web Vitals using the new Web Vitals API
     const observeWebVitals = () => {
