@@ -13,11 +13,11 @@ export const HomePage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="font-heading text-4xl md:text-6xl font-bold mb-6">
-              Your Guide to Moving to Austin
+              Your Guide to Moving to Austin, Texas
             </h1>
             <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90">
               Discover the perfect Austin neighborhood, get expert moving tips, 
-              and everything you need for your Texas relocation
+              and everything you need for your Austin, TX relocation. From downtown condos to Hill Country homes.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link 
@@ -66,10 +66,10 @@ export const HomePage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="font-heading text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Popular Austin Neighborhoods
+              Popular Austin, TX Neighborhoods for Moving
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Discover the unique character and amenities of Austin's most sought-after areas
+              Discover the unique character and amenities of Austin's most sought-after areas. From East Austin's creative scene to Westlake's luxury homes.
             </p>
           </div>
           
@@ -137,16 +137,16 @@ export const HomePage: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="font-heading text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-                Why Move to Austin?
+                Why Move to Austin, Texas in 2025?
               </h2>
               <div className="space-y-4">
                 {[
-                  'No state income tax in Texas',
-                  'Thriving tech and startup scene',
-                  'World-class live music and entertainment',
-                  'Amazing food scene and food trucks',
-                  'Beautiful outdoor spaces and activities',
-                  'Keep Austin Weird culture and community'
+                  'No state income tax in Texas - keep more of your income',
+                  'Thriving tech scene with Apple, Google, Tesla, and Meta',
+                  'World-class live music scene - Live Music Capital of the World',
+                  'Amazing Austin food scene with famous food trucks and BBQ',
+                  'Beautiful outdoor spaces like Zilker Park and Lady Bird Lake',
+                  'Keep Austin Weird culture and vibrant community spirit'
                 ].map((benefit) => (
                   <div key={benefit} className="flex items-start space-x-3">
                     <CheckCircle className="h-6 w-6 text-austin-green flex-shrink-0 mt-0.5" />
@@ -167,16 +167,16 @@ export const HomePage: React.FC = () => {
             
             <div className="austin-card p-8">
               <h3 className="font-heading text-2xl font-bold text-gray-900 mb-6">
-                Start Your Austin Journey
+                Start Your Austin Move Today
               </h3>
               <p className="text-gray-600 mb-6">
-                Get personalized recommendations and expert guidance for your move to Austin.
+                Get personalized Austin neighborhood recommendations and expert guidance for your Texas relocation. Free consultation available.
               </p>
               <Link 
                 to="/contact"
                 className="w-full bg-austin-blue text-white px-6 py-3 rounded-lg font-semibold hover:bg-austin-teal transition-colors inline-flex items-center justify-center"
               >
-                Get Started Today
+                Get Free Moving Consultation
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </div>

@@ -8,6 +8,14 @@ interface SEOHeadProps {
   image?: string;
   type?: string;
   keywords?: string[];
+  neighborhood?: {
+    name: string;
+    coordinates: { lat: number; lng: number };
+    zipCodes: string[];
+    averageRent: string;
+    walkScore: number;
+    features: string[];
+  };
 }
 
 export const SEOHead: React.FC<SEOHeadProps> = ({
@@ -16,28 +24,114 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
   url,
   image = '/og-image.jpg',
   type = 'website',
-  keywords = ['Austin moving', 'Austin neighborhoods', 'moving to Austin', 'Austin real estate', 'Texas relocation']
+  keywords = ['Austin moving', 'Austin neighborhoods', 'moving to Austin', 'Austin real estate', 'Texas relocation'],
+  neighborhood
 }) => {
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Austin Move Finder",
-    "url": "https://austinmovefinder.com",
-    "description": "Your complete guide to moving to Austin, Texas",
-    "publisher": {
-      "@type": "Organization",
+  // Generate structured data based on page type
+  const generateStructuredData = () => {
+    const baseData = {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
       "name": "Austin Move Finder",
-      "url": "https://austinmovefinder.com"
-    },
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": {
-        "@type": "EntryPoint",
-        "urlTemplate": "https://austinmovefinder.com/search?q={search_term_string}"
+      "url": "https://austinmovefinder.com",
+      "description": "Your complete guide to moving to Austin, Texas",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Austin Move Finder",
+        "url": "https://austinmovefinder.com",
+        "sameAs": [
+          "https://www.facebook.com/austinmovefinder",
+          "https://twitter.com/austinmovefinder"
+        ]
       },
-      "query-input": "required name=search_term_string"
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://austinmovefinder.com/search?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    };
+
+    // Add LocalBusiness schema for main site
+    const localBusinessData = {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Austin Move Finder",
+      "description": "Professional moving guide and relocation services for Austin, Texas",
+      "url": "https://austinmovefinder.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Austin",
+        "addressRegion": "TX",
+        "addressCountry": "US"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "30.2672",
+        "longitude": "-97.7431"
+      },
+      "areaServed": [
+        {
+          "@type": "City",
+          "name": "Austin",
+          "sameAs": "https://en.wikipedia.org/wiki/Austin,_Texas"
+        },
+        {
+          "@type": "State",
+          "name": "Texas"
+        }
+      ],
+      "serviceType": "Moving and Relocation Services",
+      "priceRange": "$$"
+    };
+
+    // Add neighborhood-specific Place schema
+    if (neighborhood) {
+      const placeData = {
+        "@context": "https://schema.org",
+        "@type": "Place",
+        "name": neighborhood.name,
+        "description": `${neighborhood.name} neighborhood in Austin, Texas`,
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Austin",
+          "addressRegion": "TX",
+          "addressCountry": "US",
+          "postalCode": neighborhood.zipCodes.join(", ")
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": neighborhood.coordinates.lat.toString(),
+          "longitude": neighborhood.coordinates.lng.toString()
+        },
+        "containedInPlace": {
+          "@type": "City",
+          "name": "Austin",
+          "sameAs": "https://en.wikipedia.org/wiki/Austin,_Texas"
+        },
+        "additionalProperty": [
+          {
+            "@type": "PropertyValue",
+            "name": "Walk Score",
+            "value": neighborhood.walkScore
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "Average Rent",
+            "value": neighborhood.averageRent
+          }
+        ]
+      };
+
+      return [baseData, localBusinessData, placeData];
     }
+
+    return [baseData, localBusinessData];
   };
+
+  const structuredData = generateStructuredData();
 
   return (
     <Helmet>
@@ -62,10 +156,12 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={image} />
 
-      {/* Local Business Schema */}
-      <script type="application/ld+json">
-        {JSON.stringify(structuredData)}
-      </script>
+      {/* Structured Data - LocalBusiness and Place Schemas */}
+      {structuredData.map((schema, index) => (
+        <script key={index} type="application/ld+json">
+          {JSON.stringify(schema)}
+        </script>
+      ))}
 
       {/* Additional SEO Meta Tags */}
       <meta name="robots" content="index, follow" />

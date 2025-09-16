@@ -29,6 +29,7 @@ export const NeighborhoodsPage: React.FC = () => {
           description={`Complete guide to ${neighborhood.name} in Austin, TX. ${neighborhood.description} Average rent, walk score, and local amenities.`}
           url={`https://austinmovefinder.com/neighborhoods/${slug}`}
           keywords={[`${neighborhood.name}`, 'Austin neighborhood', 'Austin real estate', 'moving to Austin']}
+          neighborhood={neighborhood}
         />
         
         <Link 
