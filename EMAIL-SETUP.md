@@ -164,7 +164,7 @@ VITE_EMAILJS_PUBLIC_KEY=xxxxxxxxxxxxxxxx
 In `/src/services/emailService.ts`, line 25:
 
 ```typescript
-to_email: 'your-actual-business-email@gmail.com', // Replace with your email
+to_email: 'kaluxtech@gmail.com', // Replace with your email
 ```
 
 ## 🧪 Testing

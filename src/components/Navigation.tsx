@@ -10,6 +10,7 @@ export const Navigation: React.FC = () => {
     { path: '/', label: 'Home' },
     { path: '/neighborhoods', label: 'Neighborhoods' },
     { path: '/moving-guide', label: 'Moving Guide' },
+    { path: '/fast-quote', label: 'Fast Quote', highlight: true },
     { path: '/blog', label: 'Blog' },
     { path: '/about', label: 'About' },
     { path: '/contact', label: 'Contact' },
@@ -36,7 +37,9 @@ export const Navigation: React.FC = () => {
                 key={item.path}
                 to={item.path}
                 className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                  isActivePath(item.path)
+                  item.highlight
+                    ? 'bg-austin-blue text-white hover:bg-austin-teal'
+                    : isActivePath(item.path)
                     ? 'text-austin-blue bg-austin-blue/10 border-b-2 border-austin-blue'
                     : 'text-gray-700 hover:text-austin-blue hover:bg-austin-blue/5'
                 }`}
@@ -67,7 +70,9 @@ export const Navigation: React.FC = () => {
                 key={item.path}
                 to={item.path}
                 className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${
-                  isActivePath(item.path)
+                  item.highlight
+                    ? 'bg-austin-blue text-white hover:bg-austin-teal'
+                    : isActivePath(item.path)
                     ? 'text-austin-blue bg-austin-blue/10'
                     : 'text-gray-700 hover:text-austin-blue hover:bg-austin-blue/5'
                 }`}

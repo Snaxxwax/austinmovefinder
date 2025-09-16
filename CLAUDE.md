@@ -1,321 +1,112 @@
-# Claude Code Configuration - SPARC Development Environment
+# CLAUDE.md
 
-## 🚨 CRITICAL: CONCURRENT EXECUTION FOR ALL ACTIONS
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-**ABSOLUTE RULE**: ALL operations MUST be concurrent/parallel in a single message:
+## Repository Structure
 
-### 🔴 MANDATORY CONCURRENT PATTERNS:
-1. **TodoWrite**: ALWAYS batch ALL todos in ONE call (5-10+ todos minimum)
-2. **Task tool**: ALWAYS spawn ALL agents in ONE message with full instructions
-3. **File operations**: ALWAYS batch ALL reads/writes/edits in ONE message
-4. **Bash commands**: ALWAYS batch ALL terminal operations in ONE message
-5. **Memory operations**: ALWAYS batch ALL memory store/retrieve in ONE message
+This repository contains a React TypeScript application for Austin, Texas moving services, plus shared database dependencies:
 
-### ⚡ GOLDEN RULE: "1 MESSAGE = ALL RELATED OPERATIONS"
+- **austinmovefinder/** - Production-ready TypeScript/React/Tailwind moving guide
+- **Root level** - SQLite database dependencies (better-sqlite3, sqlite3)
 
-**Examples of CORRECT concurrent execution:**
-```javascript
-// ✅ CORRECT: Everything in ONE message
-[Single Message]:
-  - TodoWrite { todos: [10+ todos with all statuses/priorities] }
-  - Task("Agent 1 with full instructions and hooks")
-  - Task("Agent 2 with full instructions and hooks")
-  - Task("Agent 3 with full instructions and hooks")
-  - Read("file1.js")
-  - Read("file2.js")
-  - Write("output1.js", content)
-  - Write("output2.js", content)
-  - Bash("npm install")
-  - Bash("npm test")
-  - Bash("npm run build")
-```
+## Primary Project: austinmovefinder
 
-**Examples of WRONG sequential execution:**
-```javascript
-// ❌ WRONG: Multiple messages (NEVER DO THIS)
-Message 1: TodoWrite { todos: [single todo] }
-Message 2: Task("Agent 1")
-Message 3: Task("Agent 2")
-Message 4: Read("file1.js")
-Message 5: Write("output1.js")
-Message 6: Bash("npm install")
-// This is 6x slower and breaks coordination!
-```
+### Key Commands
 
-### 🎯 CONCURRENT EXECUTION CHECKLIST:
-
-Before sending ANY message, ask yourself:
-- ✅ Are ALL related TodoWrite operations batched together?
-- ✅ Are ALL Task spawning operations in ONE message?
-- ✅ Are ALL file operations (Read/Write/Edit) batched together?
-- ✅ Are ALL bash commands grouped in ONE message?
-- ✅ Are ALL memory operations concurrent?
-
-If ANY answer is "No", you MUST combine operations into a single message!
-
-## Project Overview
-This project uses the SPARC (Specification, Pseudocode, Architecture, Refinement, Completion) methodology for systematic Test-Driven Development with AI assistance through Claude-Flow orchestration.
-
-## SPARC Development Commands
-
-### Core SPARC Commands
-- `./claude-flow sparc modes`: List all available SPARC development modes
-- `./claude-flow sparc run <mode> "<task>"`: Execute specific SPARC mode for a task
-- `./claude-flow sparc tdd "<feature>"`: Run complete TDD workflow using SPARC methodology
-- `./claude-flow sparc info <mode>`: Get detailed information about a specific mode
-
-### Standard Build Commands
-- `npm run build`: Build the project
-- `npm run test`: Run the test suite
-- `npm run lint`: Run linter and format checks
-- `npm run typecheck`: Run TypeScript type checking
-
-## SPARC Methodology Workflow
-
-### 1. Specification Phase
 ```bash
-# Create detailed specifications and requirements
-./claude-flow sparc run spec-pseudocode "Define user authentication requirements"
-```
-- Define clear functional requirements
-- Document edge cases and constraints
-- Create user stories and acceptance criteria
-- Establish non-functional requirements
+cd austinmovefinder
 
-### 2. Pseudocode Phase
-```bash
-# Develop algorithmic logic and data flows
-./claude-flow sparc run spec-pseudocode "Create authentication flow pseudocode"
-```
-- Break down complex logic into steps
-- Define data structures and interfaces
-- Plan error handling and edge cases
-- Create modular, testable components
+# Development
+npm run dev                    # Start dev server (port 5173)
+npm run build                  # TypeScript build + Vite build
+npm run preview               # Preview production build
 
-### 3. Architecture Phase
-```bash
-# Design system architecture and component structure
-./claude-flow sparc run architect "Design authentication service architecture"
-```
-- Create system diagrams and component relationships
-- Define API contracts and interfaces
-- Plan database schemas and data flows
-- Establish security and scalability patterns
-
-### 4. Refinement Phase (TDD Implementation)
-```bash
-# Execute Test-Driven Development cycle
-./claude-flow sparc tdd "implement user authentication system"
+# Code Quality
+npm run lint                  # ESLint with TypeScript rules
+npm run storybook            # Component development (port 6006)
+npm run build-storybook      # Build Storybook
 ```
 
-**TDD Cycle:**
-1. **Red**: Write failing tests first
-2. **Green**: Implement minimal code to pass tests
-3. **Refactor**: Optimize and clean up code
-4. **Repeat**: Continue until feature is complete
+### Tech Stack
+- **Frontend**: React 18 + TypeScript + Vite
+- **Styling**: Tailwind CSS with Austin-themed design system + shadcn/ui
+- **Components**: Radix UI primitives with custom Austin branding
+- **Icons**: Lucide React
+- **SEO**: React Helmet Async with structured data
+- **Routing**: React Router DOM
 
-### 5. Completion Phase
-```bash
-# Integration, documentation, and validation
-./claude-flow sparc run integration "integrate authentication with user management"
+### Architecture
+
 ```
-- Integrate all components
-- Perform end-to-end testing
-- Create comprehensive documentation
-- Validate against original requirements
-
-## SPARC Mode Reference
-
-### Development Modes
-- **`architect`**: System design and architecture planning
-- **`code`**: Clean, modular code implementation
-- **`tdd`**: Test-driven development and testing
-- **`spec-pseudocode`**: Requirements and algorithmic planning
-- **`integration`**: System integration and coordination
-
-### Quality Assurance Modes
-- **`debug`**: Troubleshooting and bug resolution
-- **`security-review`**: Security analysis and vulnerability assessment
-- **`refinement-optimization-mode`**: Performance optimization and refactoring
-
-### Support Modes
-- **`docs-writer`**: Documentation creation and maintenance
-- **`devops`**: Deployment and infrastructure management
-- **`mcp`**: External service integration
-- **`swarm`**: Multi-agent coordination for complex tasks
-
-## Claude Code Slash Commands
-
-Claude Code slash commands are available in `.claude/commands/`:
-
-### Project Commands
-- `/sparc`: Execute SPARC methodology workflows
-- `/sparc-<mode>`: Run specific SPARC mode (e.g., /sparc-architect)
-- `/claude-flow-help`: Show all Claude-Flow commands
-- `/claude-flow-memory`: Interact with memory system
-- `/claude-flow-swarm`: Coordinate multi-agent swarms
-
-### Using Slash Commands
-1. Type `/` in Claude Code to see available commands
-2. Select a command or type its name
-3. Commands are context-aware and project-specific
-4. Custom commands can be added to `.claude/commands/`
-
-## Code Style and Best Practices
-
-### SPARC Development Principles
-- **Modular Design**: Keep files under 500 lines, break into logical components
-- **Environment Safety**: Never hardcode secrets or environment-specific values
-- **Test-First**: Always write tests before implementation (Red-Green-Refactor)
-- **Clean Architecture**: Separate concerns, use dependency injection
-- **Documentation**: Maintain clear, up-to-date documentation
-
-### Coding Standards
-- Use TypeScript for type safety and better tooling
-- Follow consistent naming conventions (camelCase for variables, PascalCase for classes)
-- Implement proper error handling and logging
-- Use async/await for asynchronous operations
-- Prefer composition over inheritance
-
-### Memory and State Management
-- Use claude-flow memory system for persistent state across sessions
-- Store progress and findings using namespaced keys
-- Query previous work before starting new tasks
-- Export/import memory for backup and sharing
-
-## SPARC Memory Integration
-
-### Memory Commands for SPARC Development
-```bash
-# Store project specifications
-./claude-flow memory store spec_auth "User authentication requirements and constraints"
-
-# Store architectural decisions
-./claude-flow memory store arch_decisions "Database schema and API design choices"
-
-# Store test results and coverage
-./claude-flow memory store test_coverage "Authentication module: 95% coverage, all tests passing"
-
-# Query previous work
-./claude-flow memory query auth_implementation
-
-# Export project memory
-./claude-flow memory export project_backup.json
+src/
+├── components/
+│   ├── ui/                  # shadcn/ui reusable components
+│   ├── Navigation.tsx       # Responsive nav with mobile menu
+│   ├── Footer.tsx          # Austin-branded footer
+│   └── SEOHead.tsx         # Advanced SEO meta component
+├── pages/                  # Page components with Austin focus
+│   ├── HomePage.tsx        # Landing page with local features
+│   ├── NeighborhoodsPage.tsx  # 25+ Austin neighborhoods guide
+│   ├── MovingGuidePage.tsx    # 8-week moving timeline
+│   ├── BlogPage.tsx           # Austin moving tips blog
+│   ├── AboutPage.tsx          # About the service
+│   └── ContactPage.tsx        # Contact form
+├── lib/
+│   └── utils.ts            # Austin data + utility functions
+└── App.tsx                 # Main router configuration
 ```
 
-### Memory Namespaces
-- **`spec`**: Requirements and specifications
-- **`arch`**: Architecture and design decisions
-- **`impl`**: Implementation notes and code patterns
-- **`test`**: Test results and coverage reports
-- **`debug`**: Bug reports and resolution notes
+### Data Management
 
-## Workflow Examples
+Austin-specific data is centralized in `src/lib/utils.ts`:
+- `austinNeighborhoods`: 25+ neighborhoods with rent, walk scores, features
+- `movingChecklist`: 8-week Austin-specific moving timeline
+- `austinMovingTips`: Local utilities, DMV, traffic, culture tips
 
-### Feature Development Workflow
-```bash
-# 1. Start with specification
-./claude-flow sparc run spec-pseudocode "User profile management feature"
+### Austin Design System
 
-# 2. Design architecture
-./claude-flow sparc run architect "Profile service architecture with data validation"
+The project uses a custom Austin-themed color palette:
+- Austin Blue: `#00a0dc` (primary brand)
+- Austin Green: `#8cc63f` (Keep Austin Weird)
+- Austin Orange: `#f47321` (UT orange)  
+- Austin Purple: `#663399` (SXSW purple)
+- Austin Teal: `#0d7377` (Lady Bird Lake)
 
-# 3. Implement with TDD
-./claude-flow sparc tdd "user profile CRUD operations"
+## Development Guidelines
 
-# 4. Security review
-./claude-flow sparc run security-review "profile data access and validation"
+### Code Patterns
+- Follow TypeScript best practices
+- Use shadcn/ui components for consistent UI
+- Implement responsive design with Tailwind mobile-first approach
+- Include Austin-specific SEO meta tags and structured data
+- Use React Router for client-side routing
 
-# 5. Integration testing
-./claude-flow sparc run integration "profile service with authentication system"
+### Content Management
+- Austin neighborhoods: Edit `austinNeighborhoods` array in `src/lib/utils.ts`
+- Moving timeline: Update `movingChecklist` in `src/lib/utils.ts`  
+- Blog posts: Add to `blogPosts` array in `src/pages/BlogPage.tsx`
+- Austin tips: Modify `austinMovingTips` in `src/lib/utils.ts`
 
-# 6. Documentation
-./claude-flow sparc run docs-writer "profile service API documentation"
-```
+### Austin Market Focus
+The project targets people moving to or living in Austin, Texas. Maintain local relevance:
+- Use Austin-specific terminology and references
+- Include local utilities, services, and cultural information
+- Reference Austin neighborhoods, landmarks, and lifestyle
+- Optimize for local search terms and Austin moving keywords
 
-### Bug Fix Workflow
-```bash
-# 1. Debug and analyze
-./claude-flow sparc run debug "authentication token expiration issue"
+### Testing and Quality
+- Run TypeScript check: `npm run build` (includes tsc)
+- Lint before commits: `npm run lint`
+- Test responsive design across mobile/desktop
+- Validate SEO with structured data testing tools
+- Check Core Web Vitals for performance
 
-# 2. Write regression tests
-./claude-flow sparc run tdd "token refresh mechanism tests"
+## Deployment
 
-# 3. Implement fix
-./claude-flow sparc run code "fix token refresh in authentication service"
+The austinmovefinder project includes:
+- Cloudflare Pages deployment configuration
+- GitHub Actions CI/CD workflow
+- Production build optimizations
+- SEO and performance optimizations
 
-# 4. Security review
-./claude-flow sparc run security-review "token handling security implications"
-```
-
-## Configuration Files
-
-### Claude Code Integration
-- **`.claude/commands/`**: Claude Code slash commands for all SPARC modes
-- **`.claude/logs/`**: Conversation and session logs
-
-### SPARC Configuration
-- **`.roomodes`**: SPARC mode definitions and configurations (auto-generated)
-- **`.roo/`**: SPARC templates and workflows (auto-generated)
-
-### Claude-Flow Configuration
-- **`memory/`**: Persistent memory and session data
-- **`coordination/`**: Multi-agent coordination settings
-- **`CLAUDE.md`**: Project instructions for Claude Code
-
-## Git Workflow Integration
-
-### Commit Strategy with SPARC
-- **Specification commits**: After completing requirements analysis
-- **Architecture commits**: After design phase completion
-- **TDD commits**: After each Red-Green-Refactor cycle
-- **Integration commits**: After successful component integration
-- **Documentation commits**: After completing documentation updates
-
-### Branch Strategy
-- **`feature/sparc-<feature-name>`**: Feature development with SPARC methodology
-- **`hotfix/sparc-<issue>`**: Bug fixes using SPARC debugging workflow
-- **`refactor/sparc-<component>`**: Refactoring using optimization mode
-
-## Troubleshooting
-
-### Common SPARC Issues
-- **Mode not found**: Check `.roomodes` file exists and is valid JSON
-- **Memory persistence**: Ensure `memory/` directory has write permissions
-- **Tool access**: Verify required tools are available for the selected mode
-- **Namespace conflicts**: Use unique memory namespaces for different features
-
-### Debug Commands
-```bash
-# Check SPARC configuration
-./claude-flow sparc modes
-
-# Verify memory system
-./claude-flow memory stats
-
-# Check system status
-./claude-flow status
-
-# View detailed mode information
-./claude-flow sparc info <mode-name>
-```
-
-## Project Architecture
-
-This SPARC-enabled project follows a systematic development approach:
-- **Clear separation of concerns** through modular design
-- **Test-driven development** ensuring reliability and maintainability
-- **Iterative refinement** for continuous improvement
-- **Comprehensive documentation** for team collaboration
-- **AI-assisted development** through specialized SPARC modes
-
-## Important Notes
-
-- Always run tests before committing (`npm run test`)
-- Use SPARC memory system to maintain context across sessions
-- Follow the Red-Green-Refactor cycle during TDD phases
-- Document architectural decisions in memory for future reference
-- Regular security reviews for any authentication or data handling code
-- Claude Code slash commands provide quick access to SPARC modes
-
-For more information about SPARC methodology, see: https://github.com/ruvnet/claude-code-flow/docs/sparc.md
+Refer to the comprehensive README.md in austinmovefinder/ for detailed deployment instructions.

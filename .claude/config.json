@@ -1,5 +1,17 @@
 {
   "version": "1.0",
+  "project": {
+    "name": "Austin Move Finder",
+    "type": "react-typescript-vite",
+    "framework": "React + TypeScript + Tailwind",
+    "domain": "Austin moving services",
+    "commands": {
+      "dev": "npm run dev",
+      "build": "npm run build",
+      "lint": "npm run lint",
+      "test": "npm run test"
+    }
+  },
   "sparc": {
     "enabled": true,
     "modes": [
@@ -31,6 +43,19 @@
       "testing",
       "optimization",
       "maintenance"
+    ]
+  },
+  "context": {
+    "austin_focus": true,
+    "tech_stack": ["React", "TypeScript", "Tailwind", "Vite", "shadcn/ui"],
+    "key_directories": [
+      "src/components",
+      "src/pages",
+      "src/lib",
+      "src/data"
+    ],
+    "data_files": [
+      "src/lib/utils.ts"
     ]
   }
 }

@@ -6,6 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 // Austin neighborhoods data - Comprehensive guide to 25+ Austin areas
+// Updated for 2025 with enhanced SEO data and local market insights
 export const austinNeighborhoods = [
   {
     name: "Downtown Austin",
@@ -21,9 +22,9 @@ export const austinNeighborhoods = [
     name: "South Austin (SoCo)",
     slug: "south-austin",
     description: "Eclectic neighborhood known for 'Keep Austin Weird' culture and Zilker Park access",
-    averageRent: "$1,800",
-    walkScore: 75,
-    features: ["Food trucks", "Live music", "Vintage shops", "Zilker Park", "Keep Austin Weird", "Music venues"],
+    averageRent: "$1,840",
+    walkScore: 79,
+    features: ["Zilker Park (350+ acres)", "Barton Springs Pool", "Austin City Limits Festival", "Food trucks", "Live music venues", "Keep Austin Weird culture", "South Congress shopping", "Lady Bird Lake trail access", "The Far Out Lounge", "Lustre Pearl South"],
     zipCodes: ["78704", "78745"],
     coordinates: { lat: 30.2360, lng: -97.7675 }
   },
@@ -61,9 +62,9 @@ export const austinNeighborhoods = [
     name: "Cedar Park",
     slug: "cedar-park",
     description: "Suburban community north of Austin with excellent schools and family amenities",
-    averageRent: "$1,700",
-    walkScore: 40,
-    features: ["Family-friendly", "New developments", "Recreation", "Shopping", "Top-rated schools", "Safe neighborhoods"],
+    averageRent: "$1,639",
+    walkScore: 52,
+    features: ["#2 Best School District in Austin Area", "Cedar Park Recreation Center", "1,000+ acres of parkland", "H-E-B Center venues", "Nebraska Furniture Mart (2025)", "1890 Ranch shopping", "The Parke retail center", "Family-friendly community", "Low crime rates", "250+ restaurants and cafes"],
     zipCodes: ["78613"],
     coordinates: { lat: 30.5052, lng: -97.8203 }
   },
@@ -250,10 +251,10 @@ export const austinNeighborhoods = [
   {
     name: "Pflugerville",
     slug: "pflugerville",
-    description: "Fast-growing suburb northeast of Austin with affordable family housing",
-    averageRent: "$1,550",
+    description: "Fast-growing suburb northeast of Austin with affordable family housing and Lake Pflugerville recreation",
+    averageRent: "$1,697",
     walkScore: 35,
-    features: ["Fast-growing", "Affordable", "Family housing", "Good schools", "Lake Pflugerville", "New developments"],
+    features: ["Lake Pflugerville (180 acres)", "Pflugerville Recreation Center", "56-mile trail system", "92.6% graduation rate schools", "Hawaiian Falls waterpark", "Family-oriented (73% family households)", "Swimming and water sports", "Heritage Trail greenway", "Growing tech employment", "Strategic Austin/Round Rock location"],
     zipCodes: ["78660"],
     coordinates: { lat: 30.4394, lng: -97.6200 }
   }
@@ -308,14 +309,66 @@ export const movingChecklist = [
   }
 ];
 
-// Austin-specific moving tips
+// 2025 Austin moving cost estimates (Enhanced for SEO)
+export const austinMovingCosts = {
+  localMoves: {
+    studio: { range: '$400-800', average: '$600' },
+    oneBedroom: { range: '$500-1200', average: '$850' },
+    twoBedroom: { range: '$800-1800', average: '$1300' },
+    threeBedroom: { range: '$1200-2500', average: '$1850' }
+  },
+  longDistance: {
+    california: { range: '$2800-5500', average: '$4150', days: '3-5' },
+    newYork: { range: '$3200-6200', average: '$4700', days: '4-7' },
+    florida: { range: '$2400-4800', average: '$3600', days: '3-6' },
+    chicago: { range: '$2100-4200', average: '$3150', days: '2-4' }
+  },
+  additionalServices: {
+    packing: '$25-50 per hour per packer',
+    storage: '$80-200 per month (10x10 unit)',
+    pianoMoving: '$300-800 depending on type',
+    carShipping: '$800-1500 depending on distance'
+  }
+};
+
+// Austin area utility providers and setup info
+export const austinUtilities = {
+  electricity: {
+    provider: 'Austin Energy',
+    website: 'austinenergy.com',
+    phone: '512-494-9400',
+    setupTime: '1-3 business days',
+    averageRate: '$0.087 per kWh'
+  },
+  water: {
+    provider: 'City of Austin Water Utility',
+    website: 'austintexas.gov/department/water',
+    phone: '512-972-0101',
+    setupTime: '1-2 business days'
+  },
+  gas: {
+    provider: 'Texas Gas Service',
+    website: 'texasgasservice.com',
+    phone: '512-370-8243',
+    setupTime: '1-3 business days'
+  },
+  internet: {
+    providers: [
+      { name: 'Google Fiber', speed: 'Up to 2 Gig', price: '$70-100/month' },
+      { name: 'Spectrum', speed: 'Up to 1 Gig', price: '$50-80/month' },
+      { name: 'AT&T Fiber', speed: 'Up to 5 Gig', price: '$55-180/month' }
+    ]
+  }
+};
+
+// Austin-specific moving tips for 2025
 export const austinMovingTips = [
   {
     title: "Best Time to Move in Austin",
     content: "Avoid summer months (June-August) when it's hottest. Spring and fall offer the best weather for moving."
   },
   {
-    title: "Austin Traffic Considerations", 
+    title: "Austin Traffic Considerations",
     content: "Plan moves around rush hour (7-9 AM, 4-7 PM) and avoid I-35 during peak times. Consider MoPac and 183 as alternatives."
   },
   {
@@ -325,5 +378,159 @@ export const austinMovingTips = [
   {
     title: "Austin Utility Setup",
     content: "Austin Energy provides electricity. Set up water through the City of Austin. Research internet options: Google Fiber, Spectrum, AT&T."
+  },
+  {
+    title: "Austin DMV and Vehicle Registration",
+    content: "Visit the Travis County Tax Office at 5501 Airport Blvd for vehicle registration. Bring proof of insurance, inspection, and identification."
+  },
+  {
+    title: "Austin Moving Permits",
+    content: "Large moving trucks may need permits for downtown Austin streets. Check with the City of Austin Transportation Department for requirements."
+  },
+  {
+    title: "Austin Storage Solutions",
+    content: "If you need temporary storage, Austin has many climate-controlled facilities. Popular areas include North Austin, Cedar Park, and South Austin."
+  },
+  {
+    title: "Austin Pet Relocation",
+    content: "Austin is very pet-friendly! Register with local vets, visit Zilker Park dog park, and consider pet microchipping services available citywide."
   }
 ];
+
+// Popular Austin landmarks and points of interest for local SEO
+export const austinLandmarks = [
+  { name: 'State Capitol', neighborhood: 'Downtown', type: 'Government' },
+  { name: 'Zilker Park', neighborhood: 'Zilker', type: 'Recreation' },
+  { name: 'Lady Bird Lake', neighborhood: 'Downtown', type: 'Recreation' },
+  { name: 'South by Southwest (SXSW)', neighborhood: 'Downtown', type: 'Event' },
+  { name: 'Austin City Limits Festival', neighborhood: 'Zilker', type: 'Event' },
+  { name: 'University of Texas', neighborhood: 'UT Campus', type: 'Education' },
+  { name: 'Barton Springs Pool', neighborhood: 'Zilker', type: 'Recreation' },
+  { name: 'Franklin Barbecue', neighborhood: 'East Austin', type: 'Dining' },
+  { name: 'The Domain', neighborhood: 'North Austin', type: 'Shopping' },
+  { name: 'Rainey Street', neighborhood: 'Downtown', type: 'Entertainment' }
+];
+
+// Austin school districts for family relocation SEO
+export const austinSchoolDistricts = [
+  {
+    name: 'Austin ISD',
+    rating: '7/10',
+    highlights: ['Diverse programs', 'Multiple language immersion', 'STEM focus'],
+    topSchools: ['Liberal Arts & Science Academy', 'Ann Richards School'],
+    areas: ['Central Austin', 'East Austin', 'South Austin']
+  },
+  {
+    name: 'Eanes ISD',
+    rating: '10/10',
+    highlights: ['Top academic performance', 'Low student-teacher ratio', 'High graduation rates'],
+    topSchools: ['Westlake High School', 'West Ridge Middle School'],
+    areas: ['Westlake', 'West Lake Hills']
+  },
+  {
+    name: 'Leander ISD',
+    rating: '9/10',
+    highlights: ['Rapid growth', 'New facilities', 'Technology integration'],
+    topSchools: ['Vandegrift High School', 'Four Points Middle School'],
+    areas: ['Cedar Park', 'Leander', 'Northwest Austin']
+  },
+  {
+    name: 'Round Rock ISD',
+    rating: '8/10',
+    highlights: ['STEM programs', 'Career readiness', 'Dual credit options'],
+    topSchools: ['Round Rock High School', 'Stony Point High School'],
+    areas: ['Round Rock', 'Pflugerville', 'North Austin']
+  }
+];
+
+// Austin job market data for relocation decisions
+export const austinJobMarket = {
+  topIndustries: [
+    { name: 'Technology', growth: '+8.5%', averageSalary: '$89,000' },
+    { name: 'Healthcare', growth: '+6.2%', averageSalary: '$67,000' },
+    { name: 'Government', growth: '+3.1%', averageSalary: '$55,000' },
+    { name: 'Education', growth: '+4.8%', averageSalary: '$48,000' },
+    { name: 'Finance', growth: '+5.7%', averageSalary: '$71,000' }
+  ],
+  majorEmployers: [
+    'Apple', 'Google', 'Tesla', 'Meta', 'AMD', 'IBM', 'Dell Technologies',
+    'University of Texas', 'Austin-Travis County', 'H-E-B', 'Whole Foods'
+  ],
+  unemployment: '3.2%',
+  medianHouseholdIncome: '$73,800'
+};
+
+// Austin transportation options for newcomers
+export const austinTransportation = {
+  publicTransit: {
+    provider: 'Capital Metro',
+    website: 'capmetro.org',
+    services: [
+      { name: 'MetroRail', description: 'Red Line connects downtown to Cedar Park/Leander' },
+      { name: 'MetroBus', description: 'Extensive bus network throughout Austin' },
+      { name: 'MetroRapid', description: 'Bus rapid transit on major corridors' }
+    ],
+    monthlyPass: '$41.25'
+  },
+  rideshare: {
+    services: ['Uber', 'Lyft', 'Austin Pedicabs'],
+    averageCost: '$8-15 for typical Austin trip'
+  },
+  biking: {
+    bikeScore: '4.5/5',
+    features: ['200+ miles of bike lanes', 'B-Cycle bike share', 'Veloway recreational trail'],
+    popular: ['Lady Bird Lake Trail', 'Shoal Creek Trail', 'Walnut Creek Trail']
+  },
+  airports: {
+    primary: 'Austin-Bergstrom International (AUS)',
+    distance: '8 miles southeast of downtown',
+    airlines: ['American', 'Delta', 'Southwest', 'United', 'JetBlue']
+  }
+};
+
+// Generate Austin-specific SEO keywords based on user intent
+export function generateAustinSEOKeywords(intent: 'moving' | 'neighborhood' | 'cost' | 'schools'): string[] {
+  const baseKeywords = ['Austin Texas', 'Austin TX', 'moving to Austin'];
+
+  switch (intent) {
+    case 'moving':
+      return [
+        ...baseKeywords,
+        'Austin moving services', 'best movers Austin', 'Austin relocation guide',
+        'moving companies Austin TX', 'local movers Austin', 'Austin moving tips',
+        'professional movers Austin', 'residential moving Austin'
+      ];
+    case 'neighborhood':
+      return [
+        ...baseKeywords,
+        'best Austin neighborhoods', 'Austin areas to live', 'family friendly Austin',
+        'affordable Austin neighborhoods', 'luxury Austin areas', 'Austin suburbs',
+        'downtown Austin living', 'East Austin neighborhoods', 'South Austin areas'
+      ];
+    case 'cost':
+      return [
+        ...baseKeywords,
+        'cost of living Austin', 'Austin housing costs', 'Austin rent prices',
+        'moving costs to Austin', 'Austin salary requirements', 'Austin home prices',
+        'affordable living Austin', 'Austin cost comparison'
+      ];
+    case 'schools':
+      return [
+        ...baseKeywords,
+        'best schools Austin', 'Austin school districts', 'family moving Austin',
+        'top rated schools Austin TX', 'Austin education', 'school ratings Austin',
+        'elementary schools Austin', 'high schools Austin'
+      ];
+    default:
+      return baseKeywords;
+  }
+}
+
+// Format Austin phone numbers for local business schema
+export function formatAustinPhoneNumber(phone: string): string {
+  // Ensure Austin area code if not provided
+  if (!phone.includes('512') && !phone.includes('737')) {
+    return `+1-512-${phone}`;
+  }
+  return phone.startsWith('+1') ? phone : `+1-${phone}`;
+}

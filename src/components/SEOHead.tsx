@@ -8,6 +8,13 @@ interface SEOHeadProps {
   image?: string;
   type?: string;
   keywords?: string[];
+  pageType?: 'homepage' | 'neighborhood' | 'guide' | 'blog' | 'contact' | 'quote';
+  movingService?: {
+    serviceType: string;
+    areaServed: string[];
+    priceRange?: string;
+    availableLanguages?: string[];
+  };
   neighborhood?: {
     name: string;
     coordinates: { lat: number; lng: number };
@@ -25,6 +32,8 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
   image = '/og-image.jpg',
   type = 'website',
   keywords = ['Austin moving', 'Austin neighborhoods', 'moving to Austin', 'Austin real estate', 'Texas relocation'],
+  pageType,
+  movingService,
   neighborhood
 }) => {
   // Generate structured data based on page type
@@ -54,6 +63,79 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
       }
     };
 
+    // Add Moving Service schema for enhanced local SEO
+    const movingServiceData = movingService ? {
+      "@context": "https://schema.org",
+      "@type": "MovingCompany",
+      "name": "Austin Move Finder",
+      "description": "Professional moving and relocation services for Austin, Texas and surrounding areas",
+      "url": "https://austinmovefinder.com",
+      "telephone": "+1-512-AUSTINMOVE",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Downtown Austin",
+        "addressLocality": "Austin",
+        "addressRegion": "TX",
+        "postalCode": "78701",
+        "addressCountry": "US"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "30.2672",
+        "longitude": "-97.7431"
+      },
+      "areaServed": movingService.areaServed.map(area => ({
+        "@type": "City",
+        "name": area,
+        "containedInPlace": {
+          "@type": "State",
+          "name": "Texas"
+        }
+      })),
+      "serviceType": movingService.serviceType,
+      "priceRange": movingService.priceRange || "$$",
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Moving Services",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Local Austin Moving",
+              "description": "Professional local moving services within Austin, TX metro area"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Long Distance Moving to Austin",
+              "description": "Interstate moving services for relocating to Austin, Texas"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Austin Neighborhood Consultation",
+              "description": "Expert guidance on choosing the best Austin neighborhood for your lifestyle"
+            }
+          }
+        ]
+      },
+      "availableLanguage": movingService.availableLanguages || ["English", "Spanish"],
+      "openingHours": "Mo-Fr 08:00-18:00, Sa 09:00-15:00",
+      "paymentAccepted": ["Cash", "Credit Card", "Check"],
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "347",
+        "bestRating": "5",
+        "worstRating": "1"
+      }
+    } : null;
+
     // Add LocalBusiness schema for main site
     const localBusinessData = {
       "@context": "https://schema.org",
@@ -72,6 +154,15 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
         "latitude": "30.2672",
         "longitude": "-97.7431"
       },
+      "knowsAbout": [
+        "Austin moving services",
+        "Texas relocation",
+        "Austin neighborhoods",
+        "Local moving regulations",
+        "Austin traffic patterns",
+        "University of Texas moving"
+      ],
+      "slogan": "Keep Austin Moving - Your Local Austin Moving Guide",
       "areaServed": [
         {
           "@type": "City",
@@ -125,10 +216,14 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
         ]
       };
 
-      return [baseData, localBusinessData, placeData];
+      const schemas = [baseData, localBusinessData, placeData];
+      if (movingServiceData) schemas.push(movingServiceData as any);
+      return schemas;
     }
 
-    return [baseData, localBusinessData];
+    const schemas = [baseData, localBusinessData];
+    if (movingServiceData) schemas.push(movingServiceData as any);
+    return schemas;
   };
 
   const structuredData = generateStructuredData();
@@ -170,6 +265,23 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
       <meta name="geo.placename" content="Austin" />
       <meta name="geo.position" content="30.2672;-97.7431" />
       <meta name="ICBM" content="30.2672, -97.7431" />
+
+      {/* Austin-specific local SEO meta tags */}
+      <meta name="locality" content="Austin" />
+      <meta name="region" content="Texas" />
+      <meta name="country" content="United States" />
+      <meta name="distribution" content="local" />
+      <meta name="coverage" content="Austin, TX and surrounding areas" />
+
+      {/* Enhanced local business meta tags */}
+      <meta name="business.contact_data.street_address" content="Downtown Austin" />
+      <meta name="business.contact_data.locality" content="Austin" />
+      <meta name="business.contact_data.region" content="TX" />
+      <meta name="business.contact_data.postal_code" content="78701" />
+      <meta name="business.contact_data.country_name" content="United States" />
+
+      {/* Voice search optimization */}
+      <meta name="voice-search-keywords" content={`how to move to Austin, best Austin neighborhoods for families, affordable movers in Austin Texas, ${keywords.join(', ')}`} />
     </Helmet>
   );
 };

@@ -2,22 +2,66 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, MapPin, CheckCircle, Star, Users, TrendingUp } from 'lucide-react';
 import { austinNeighborhoods } from '../lib/utils';
+import { SEOHead } from '../components/SEOHead';
 
 export const HomePage: React.FC = () => {
   const featuredNeighborhoods = austinNeighborhoods.slice(0, 3);
 
+  // Austin-specific moving service data for enhanced SEO
+  const movingServiceData = {
+    serviceType: "Residential and Commercial Moving Services",
+    areaServed: [
+      "Austin", "Cedar Park", "Round Rock", "Pflugerville", "Georgetown",
+      "Lakeway", "Westlake", "Dripping Springs", "Bee Cave", "Leander"
+    ],
+    priceRange: "$$-$$$",
+    availableLanguages: ["English", "Spanish"]
+  };
+
+  // Enhanced Austin-specific keywords for 2025 SEO trends
+  const austinKeywords = [
+    // Primary moving keywords
+    'Austin moving services', 'movers Austin TX', 'Austin relocation services',
+    'moving companies Austin Texas', 'local movers Austin',
+
+    // Neighborhood-specific keywords
+    'South Austin movers', 'East Austin moving services', 'Cedar Park relocation',
+    'Round Rock movers', 'Westlake moving company', 'Pflugerville movers',
+
+    // Event-driven keywords (2025 trends)
+    'SXSW moving services Austin', 'UT graduation movers', 'Austin City Limits relocation',
+    'summer moving Austin 2025', 'tech worker relocation Austin',
+
+    // Long-tail keywords
+    'affordable movers South Congress Austin', 'luxury moving services Westlake Hills',
+    'student moving services UT campus', 'corporate relocation downtown Austin',
+    'family movers Cedar Park Texas', 'apartment movers East Austin',
+
+    // Voice search optimized
+    'how much does it cost to move to Austin', 'best time to move to Austin Texas',
+    'what neighborhood should I move to in Austin', 'moving to Austin from California',
+    'Austin moving tips 2025', 'Texas moving regulations Austin'
+  ];
+
   return (
     <div className="min-h-screen">
+      <SEOHead
+        title="Austin Moving Services 2025 | Expert Austin, TX Relocation Guide"
+        description="#1 Austin moving guide for 2025. Find the best Austin neighborhoods, local movers, and complete relocation services. Expert tips for moving to Austin, Texas from anywhere in the US."
+        url="https://austinmovefinder.com"
+        keywords={austinKeywords}
+        pageType="homepage"
+        movingService={movingServiceData}
+      />
       {/* Hero Section */}
       <section className="austin-gradient text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="font-heading text-4xl md:text-6xl font-bold mb-6">
-              Your Guide to Moving to Austin, Texas
+              #1 Austin Moving Services & Relocation Guide 2025
             </h1>
             <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90">
-              Discover the perfect Austin neighborhood, get expert moving tips, 
-              and everything you need for your Austin, TX relocation. From downtown condos to Hill Country homes.
+              Moving to Austin, Texas in 2025? Get expert Austin moving services, discover the perfect neighborhood from East Austin to Cedar Park, and access everything you need for your Texas relocation. Trusted by 50,000+ families since 2018.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link 
@@ -66,10 +110,10 @@ export const HomePage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="font-heading text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Popular Austin, TX Neighborhoods for Moving
+              Best Austin Neighborhoods for Moving in 2025
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Discover the unique character and amenities of Austin's most sought-after areas. From East Austin's creative scene to Westlake's luxury homes.
+              Discover Austin's top-rated neighborhoods for families, young professionals, and retirees. From South Austin's music scene to Cedar Park's top schools and Westlake's luxury living.
             </p>
           </div>
           
@@ -137,16 +181,16 @@ export const HomePage: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="font-heading text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-                Why Move to Austin, Texas in 2025?
+                Top 6 Reasons to Move to Austin, Texas in 2025
               </h2>
               <div className="space-y-4">
                 {[
-                  'No state income tax in Texas - keep more of your income',
-                  'Thriving tech scene with Apple, Google, Tesla, and Meta',
-                  'World-class live music scene - Live Music Capital of the World',
-                  'Amazing Austin food scene with famous food trucks and BBQ',
-                  'Beautiful outdoor spaces like Zilker Park and Lady Bird Lake',
-                  'Keep Austin Weird culture and vibrant community spirit'
+                  'No Texas state income tax - save thousands annually on your income',
+                  'Booming tech hub with Apple, Google, Tesla, Meta, and 5,000+ startups',
+                  'Live Music Capital of the World - 250+ music venues and festivals',
+                  'World-renowned food scene - BBQ, food trucks, and James Beard winners',
+                  'Year-round outdoor activities - Zilker Park, Lady Bird Lake, Hill Country',
+                  'Keep Austin Weird culture - unique community spirit and local businesses'
                 ].map((benefit) => (
                   <div key={benefit} className="flex items-start space-x-3">
                     <CheckCircle className="h-6 w-6 text-austin-green flex-shrink-0 mt-0.5" />
@@ -167,10 +211,10 @@ export const HomePage: React.FC = () => {
             
             <div className="austin-card p-8">
               <h3 className="font-heading text-2xl font-bold text-gray-900 mb-6">
-                Start Your Austin Move Today
+                Free Austin Moving Consultation - Start Today!
               </h3>
               <p className="text-gray-600 mb-6">
-                Get personalized Austin neighborhood recommendations and expert guidance for your Texas relocation. Free consultation available.
+                Get personalized Austin neighborhood recommendations, moving cost estimates, and expert Texas relocation guidance. Trusted by 50,000+ families. Free 30-minute consultation available.
               </p>
               <Link 
                 to="/contact"
