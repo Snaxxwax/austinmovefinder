@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest'
 import { screen, waitFor, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { render, createMockFile, createMockVideoFile, waitForFileAnalysis } from '../../test/test-utils'
+import { render, createMockFile, createMockVideoFile } from '../../test/test-utils'
 import { MediaUpload } from '../MediaUpload'
 
 describe('MediaUpload', () => {
@@ -17,7 +17,7 @@ describe('MediaUpload', () => {
       onload: null,
       onerror: null,
     }
-    vi.mocked(global.FileReader).mockImplementation(() => mockFileReader as any)
+    vi.mocked(global.FileReader).mockImplementation(() => mockFileReader as unknown as FileReader)
   })
 
   afterEach(() => {
@@ -91,7 +91,7 @@ describe('MediaUpload', () => {
       const mockFileReader = vi.mocked(global.FileReader).mock.results[0].value
       setTimeout(() => {
         if (mockFileReader.onload) {
-          mockFileReader.onload({ target: mockFileReader } as any)
+          mockFileReader.onload({ target: mockFileReader } as ProgressEvent<FileReader>)
         }
       }, 10)
 
@@ -118,7 +118,7 @@ describe('MediaUpload', () => {
         if (mockFileReader) {
           setTimeout(() => {
             if (mockFileReader.onload) {
-              mockFileReader.onload({ target: mockFileReader } as any)
+              mockFileReader.onload({ target: mockFileReader } as ProgressEvent<FileReader>)
             }
           }, 10 * (index + 1))
         }
@@ -140,7 +140,7 @@ describe('MediaUpload', () => {
       const mockFileReader = vi.mocked(global.FileReader).mock.results[0].value
       setTimeout(() => {
         if (mockFileReader.onload) {
-          mockFileReader.onload({ target: mockFileReader } as any)
+          mockFileReader.onload({ target: mockFileReader } as ProgressEvent<FileReader>)
         }
       }, 10)
 
@@ -216,12 +216,13 @@ describe('MediaUpload', () => {
       const input = screen.getByLabelText(/click to upload/i)
 
       // Mock FileReader
-      [imageFile, videoFile].forEach((_, index) => {
+      const files = [imageFile, videoFile];
+      files.forEach((_, index) => {
         const mockFileReader = vi.mocked(global.FileReader).mock.results[index]?.value
         if (mockFileReader) {
           setTimeout(() => {
             if (mockFileReader.onload) {
-              mockFileReader.onload({ target: mockFileReader } as any)
+              mockFileReader.onload({ target: mockFileReader } as ProgressEvent<FileReader>)
             }
           }, 10 * (index + 1))
         }
@@ -245,7 +246,7 @@ describe('MediaUpload', () => {
       const mockFileReader = vi.mocked(global.FileReader).mock.results[0].value
       setTimeout(() => {
         if (mockFileReader.onload) {
-          mockFileReader.onload({ target: mockFileReader } as any)
+          mockFileReader.onload({ target: mockFileReader } as ProgressEvent<FileReader>)
         }
       }, 10)
 
@@ -272,7 +273,7 @@ describe('MediaUpload', () => {
       const mockFileReader = vi.mocked(global.FileReader).mock.results[0].value
       setTimeout(() => {
         if (mockFileReader.onload) {
-          mockFileReader.onload({ target: mockFileReader } as any)
+          mockFileReader.onload({ target: mockFileReader } as ProgressEvent<FileReader>)
         }
       }, 10)
 
@@ -300,7 +301,7 @@ describe('MediaUpload', () => {
       // Trigger FileReader completion
       const mockFileReader = vi.mocked(global.FileReader).mock.results[0].value
       if (mockFileReader.onload) {
-        mockFileReader.onload({ target: mockFileReader } as any)
+        mockFileReader.onload({ target: mockFileReader } as ProgressEvent<FileReader>)
       }
 
       await waitFor(() => {
@@ -325,7 +326,7 @@ describe('MediaUpload', () => {
         if (mockFileReader) {
           setTimeout(() => {
             if (mockFileReader.onload) {
-              mockFileReader.onload({ target: mockFileReader } as any)
+              mockFileReader.onload({ target: mockFileReader } as ProgressEvent<FileReader>)
             }
           }, 10 * (index + 1))
         }
@@ -348,7 +349,7 @@ describe('MediaUpload', () => {
       const mockFileReader = vi.mocked(global.FileReader).mock.results[0].value
       setTimeout(() => {
         if (mockFileReader.onload) {
-          mockFileReader.onload({ target: mockFileReader } as any)
+          mockFileReader.onload({ target: mockFileReader } as ProgressEvent<FileReader>)
         }
       }, 10)
 
@@ -371,7 +372,7 @@ describe('MediaUpload', () => {
       const mockFileReader = vi.mocked(global.FileReader).mock.results[0].value
       setTimeout(() => {
         if (mockFileReader.onerror) {
-          mockFileReader.onerror(new Error('FileReader error') as any)
+          mockFileReader.onerror({ target: mockFileReader, type: 'error' } as ProgressEvent<FileReader>)
         }
       }, 10)
 
@@ -415,7 +416,7 @@ describe('MediaUpload', () => {
       const mockFileReader = vi.mocked(global.FileReader).mock.results[0].value
       setTimeout(() => {
         if (mockFileReader.onload) {
-          mockFileReader.onload({ target: mockFileReader } as any)
+          mockFileReader.onload({ target: mockFileReader } as ProgressEvent<FileReader>)
         }
       }, 10)
 

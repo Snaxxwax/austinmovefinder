@@ -211,8 +211,19 @@ describe('BackendApiService', () => {
       const mockQuoteResponse: QuoteResponse = {
         success: true,
         data: {
-          quote: { id: 123 } as any,
-          customer: {} as any,
+          quote: {
+            id: 123,
+            move_type: 'local',
+            move_date: '2024-01-15',
+            from_address: '123 Test St, Austin, TX',
+            estimated_size: '2br',
+            status: 'pending'
+          },
+          customer: {
+            name: 'Test User',
+            email: 'test@example.com',
+            phone: '512-555-0123'
+          },
           estimated_cost: 1200,
         },
       }
@@ -375,7 +386,7 @@ describe('BackendApiService', () => {
 
     it('handles detected items addition failure', async () => {
       const quoteId = 123
-      const detectedItems = []
+      const detectedItems: any[] = []
 
       mockFetch.mockResolvedValueOnce({
         ok: false,
@@ -406,14 +417,14 @@ describe('BackendApiService', () => {
       // Mock dynamic import of EmailJS
       vi.doMock('@emailjs/browser', () => mockEmailjs)
 
-      const quoteData = {
+      const quoteData: QuoteRequest = {
         customer: mockQuoteData,
         quote: {
-          move_type: 'local',
+          move_type: 'local' as const,
           move_date: '2024-01-15',
           from_address: mockQuoteData.fromAddress,
           to_address: mockQuoteData.toAddress,
-          estimated_size: '2br',
+          estimated_size: '2br' as const,
           special_items: mockQuoteData.specialItems,
           notes: mockQuoteData.notes,
         },
@@ -437,7 +448,7 @@ describe('BackendApiService', () => {
     it('returns false when EmailJS is not configured', async () => {
       vi.stubEnv('VITE_EMAILJS_SERVICE_ID', '')
 
-      const result = await backendApi.sendEmailFallback({})
+      const result = await backendApi.sendEmailFallback({} as QuoteRequest)
 
       expect(result).toBe(false)
     })
@@ -449,7 +460,7 @@ describe('BackendApiService', () => {
 
       vi.doMock('@emailjs/browser', () => mockEmailjs)
 
-      const result = await backendApi.sendEmailFallback({})
+      const result = await backendApi.sendEmailFallback({} as QuoteRequest)
 
       expect(result).toBe(false)
     })
@@ -461,8 +472,29 @@ describe('BackendApiService', () => {
       const mockResponse: QuoteResponse = {
         success: true,
         data: {
-          quote: { id: quoteId } as any,
-          customer: {} as any,
+          quote: {
+            id: quoteId,
+            customer_id: 456,
+            move_type: 'local',
+            move_date: '2024-01-15',
+            from_address: '123 Test St, Austin, TX',
+            to_address: '456 New St, Austin, TX',
+            estimated_size: '2br',
+            special_items: '',
+            notes: '',
+            status: 'pending',
+            estimated_cost: 1200,
+            created_at: '2024-01-01T00:00:00Z',
+            updated_at: '2024-01-01T00:00:00Z',
+          },
+          customer: {
+            id: 456,
+            name: 'Test User',
+            email: 'test@example.com',
+            phone: '512-555-0123',
+            created_at: '2024-01-01T00:00:00Z',
+            updated_at: '2024-01-01T00:00:00Z',
+          },
           estimated_cost: 1200,
         },
       }
@@ -503,7 +535,7 @@ describe('BackendApiService', () => {
       // This tests the private getBackendUrl method indirectly
       // by checking if the correct URL is used in requests
 
-      const service = new (backendApi.constructor as any)()
+      const service = backendApi
 
       // In test environment, should use localhost
       expect(service).toBeDefined()

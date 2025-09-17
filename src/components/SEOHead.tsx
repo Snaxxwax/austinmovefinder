@@ -1,6 +1,13 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
+// Schema.org types for structured data
+interface SchemaBase {
+  '@context': string;
+  '@type': string;
+  [key: string]: unknown;
+}
+
 interface SEOHeadProps {
   title: string;
   description: string;
@@ -216,13 +223,13 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
         ]
       };
 
-      const schemas = [baseData, localBusinessData, placeData];
-      if (movingServiceData) schemas.push(movingServiceData as any);
+      const schemas: SchemaBase[] = [baseData, localBusinessData, placeData];
+      if (movingServiceData) schemas.push(movingServiceData);
       return schemas;
     }
 
-    const schemas = [baseData, localBusinessData];
-    if (movingServiceData) schemas.push(movingServiceData as any);
+    const schemas: SchemaBase[] = [baseData, localBusinessData];
+    if (movingServiceData) schemas.push(movingServiceData);
     return schemas;
   };
 

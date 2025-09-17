@@ -1,17 +1,17 @@
 import { vi } from 'vitest'
-import { QuoteRequest, QuoteResponse, HealthCheckResponse } from '../../services/backendApi'
+import type { QuoteRequest, QuoteResponse, HealthCheckResponse, DetectedItem } from '../../services/backendApi'
 import { mockQuoteResponse } from '../test-utils'
 
 // Mock backend API service for testing
 export const mockBackendApi = {
-  healthCheck: vi.fn<[], Promise<HealthCheckResponse>>(),
-  createQuote: vi.fn<[QuoteRequest], Promise<QuoteResponse>>(),
-  uploadMediaFiles: vi.fn<[number, File[]], Promise<{ success: boolean; uploaded: number }>>(),
-  getQuote: vi.fn<[number], Promise<QuoteResponse>>(),
-  submitQuote: vi.fn<[number], Promise<QuoteResponse>>(),
-  addDetectedItems: vi.fn<[number, any[]], Promise<{ success: boolean; items_added: number }>>(),
-  isBackendAvailable: vi.fn<[], Promise<boolean>>(),
-  sendEmailFallback: vi.fn<[any], Promise<boolean>>(),
+  healthCheck: vi.fn(),
+  createQuote: vi.fn(),
+  uploadMediaFiles: vi.fn(),
+  getQuote: vi.fn(),
+  submitQuote: vi.fn(),
+  addDetectedItems: vi.fn(),
+  isBackendAvailable: vi.fn(),
+  sendEmailFallback: vi.fn(),
 }
 
 // Default mock implementations

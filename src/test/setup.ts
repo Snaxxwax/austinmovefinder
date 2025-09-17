@@ -19,14 +19,35 @@ global.IntersectionObserver = vi.fn().mockImplementation(() => ({
 global.fetch = vi.fn()
 
 // Mock FileReader
-global.FileReader = vi.fn().mockImplementation(() => ({
+const MockFileReader = vi.fn(() => ({
   readAsDataURL: vi.fn(),
   addEventListener: vi.fn(),
   removeEventListener: vi.fn(),
   onload: null,
   onerror: null,
   result: null,
+  readyState: 0,
+  error: null,
+  onabort: null,
+  onloadend: null,
+  onloadstart: null,
+  onprogress: null,
+  abort: vi.fn(),
+  readAsArrayBuffer: vi.fn(),
+  readAsBinaryString: vi.fn(),
+  readAsText: vi.fn(),
+  dispatchEvent: vi.fn(),
 }))
+
+MockFileReader.EMPTY = 0
+MockFileReader.LOADING = 1
+MockFileReader.DONE = 2
+
+Object.defineProperty(MockFileReader, 'prototype', {
+  value: MockFileReader.prototype,
+})
+
+global.FileReader = MockFileReader as any
 
 // Mock URL.createObjectURL
 global.URL.createObjectURL = vi.fn(() => 'mock-url')

@@ -132,7 +132,7 @@ export const MediaUpload: React.FC<MediaUploadProps> = ({
     if (e.dataTransfer.files.length > 0) {
       processFiles(e.dataTransfer.files);
     }
-  }, [mediaFiles]);
+  }, [mediaFiles, processFiles]);
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();

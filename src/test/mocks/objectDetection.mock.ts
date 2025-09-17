@@ -1,11 +1,11 @@
 import { vi } from 'vitest'
-import { DetectedObject } from '../../services/objectDetection'
+import type { DetectedObject } from '../../services/objectDetection'
 import { mockDetectedObjects } from '../test-utils'
 
 // Mock object detection service
 export const mockObjectDetectionService = {
-  detectObjects: vi.fn<[File], Promise<DetectedObject[]>>(),
-  detectObjectsFromVideo: vi.fn<[File], Promise<DetectedObject[]>>(),
+  detectObjects: vi.fn(),
+  detectObjectsFromVideo: vi.fn(),
 }
 
 // Default mock implementations

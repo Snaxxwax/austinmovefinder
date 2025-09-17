@@ -24,7 +24,7 @@ function log(message, color = colors.reset) {
 
 async function checkUrl(url, description) {
   try {
-    const fetch = (await import('node-fetch')).default;
+    // Using native fetch (Node.js 18+)
     const response = await fetch(url, {
       timeout: 10000,
       headers: {
@@ -47,7 +47,7 @@ async function checkUrl(url, description) {
 
 async function checkAustinSpecificContent(url) {
   try {
-    const fetch = (await import('node-fetch')).default;
+    // Using native fetch (Node.js 18+)
     const response = await fetch(url);
     const html = await response.text();
 
@@ -78,7 +78,7 @@ async function checkAustinSpecificContent(url) {
 
 async function checkPerformance(url) {
   try {
-    const fetch = (await import('node-fetch')).default;
+    // Using native fetch (Node.js 18+)
     const start = Date.now();
     const response = await fetch(url);
     const end = Date.now();

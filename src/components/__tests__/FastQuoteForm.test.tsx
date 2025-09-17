@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest'
-import { screen, waitFor, fireEvent } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { render, mockQuoteData, createMockFile, waitForFormSubmission } from '../../test/test-utils'
+import { render, mockQuoteData, waitForFormSubmission, fillRequiredFields } from '../../test/test-utils'
 import { FastQuoteForm } from '../FastQuoteForm'
 import { mockBackendApi, setupBackendMocks, setupBackendFailures, setupNetworkFailures } from '../../test/mocks/backendApi.mock'
 import { setupObjectDetectionMocks } from '../../test/mocks/objectDetection.mock'
@@ -146,7 +146,7 @@ describe('FastQuoteForm', () => {
     it('successfully submits quote when backend is available', async () => {
       render(<FastQuoteForm />)
 
-      await fillRequiredFields()
+      await fillRequiredFields(user)
 
       const submitButton = screen.getByRole('button', { name: /get my austin moving quote/i })
       await user.click(submitButton)
@@ -173,7 +173,7 @@ describe('FastQuoteForm', () => {
     it('shows loading state during submission', async () => {
       render(<FastQuoteForm />)
 
-      await fillRequiredFields()
+      await fillRequiredFields(user)
 
       const submitButton = screen.getByRole('button', { name: /get my austin moving quote/i })
       await user.click(submitButton)
@@ -186,7 +186,7 @@ describe('FastQuoteForm', () => {
       setupBackendFailures()
       render(<FastQuoteForm />)
 
-      await fillRequiredFields()
+      await fillRequiredFields(user)
 
       const submitButton = screen.getByRole('button', { name: /get my austin moving quote/i })
       await user.click(submitButton)
@@ -200,7 +200,7 @@ describe('FastQuoteForm', () => {
       setupNetworkFailures()
       render(<FastQuoteForm />)
 
-      await fillRequiredFields()
+      await fillRequiredFields(user)
 
       const submitButton = screen.getByRole('button', { name: /get my austin moving quote/i })
       await user.click(submitButton)
@@ -215,7 +215,7 @@ describe('FastQuoteForm', () => {
       const onSubmit = vi.fn()
       render(<FastQuoteForm onSubmit={onSubmit} />)
 
-      await fillRequiredFields()
+      await fillRequiredFields(user)
 
       const submitButton = screen.getByRole('button', { name: /get my austin moving quote/i })
       await user.click(submitButton)
@@ -292,7 +292,7 @@ describe('FastQuoteForm', () => {
       setupNetworkFailures()
       render(<FastQuoteForm />)
 
-      await fillRequiredFields()
+      await fillRequiredFields(user)
 
       const submitButton = screen.getByRole('button', { name: /get my austin moving quote/i })
       await user.click(submitButton)
@@ -314,7 +314,6 @@ describe('FastQuoteForm', () => {
     it('includes Austin-specific move type option', () => {
       render(<FastQuoteForm />)
 
-      const moveTypeSelect = screen.getByLabelText(/move type/i)
       expect(screen.getByText(/local austin move/i)).toBeInTheDocument()
     })
   })
@@ -323,7 +322,7 @@ describe('FastQuoteForm', () => {
     it('displays success message with Austin contact information', async () => {
       render(<FastQuoteForm />)
 
-      await fillRequiredFields()
+      await fillRequiredFields(user)
 
       const submitButton = screen.getByRole('button', { name: /get my austin moving quote/i })
       await user.click(submitButton)
@@ -339,7 +338,7 @@ describe('FastQuoteForm', () => {
     it('shows quote ID when available', async () => {
       render(<FastQuoteForm />)
 
-      await fillRequiredFields()
+      await fillRequiredFields(user)
 
       const submitButton = screen.getByRole('button', { name: /get my austin moving quote/i })
       await user.click(submitButton)
@@ -352,7 +351,7 @@ describe('FastQuoteForm', () => {
     it('hides submit button after successful submission', async () => {
       render(<FastQuoteForm />)
 
-      await fillRequiredFields()
+      await fillRequiredFields(user)
 
       const submitButton = screen.getByRole('button', { name: /get my austin moving quote/i })
       await user.click(submitButton)

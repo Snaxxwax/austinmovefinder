@@ -117,3 +117,27 @@ export const austinNeighborhoodNames = [
 // Wait utilities for async operations
 export const waitForFileAnalysis = () => new Promise(resolve => setTimeout(resolve, 100))
 export const waitForFormSubmission = () => new Promise(resolve => setTimeout(resolve, 200))
+
+// Form testing utilities
+export const fillRequiredFields = async (user: unknown, data = mockQuoteData) => {
+  const nameInput = document.querySelector('input[name="name"]') as HTMLInputElement
+  const emailInput = document.querySelector('input[name="email"]') as HTMLInputElement
+  const phoneInput = document.querySelector('input[name="phone"]') as HTMLInputElement
+  const fromAddressInput = document.querySelector('input[name="fromAddress"]') as HTMLInputElement
+  const toAddressInput = document.querySelector('input[name="toAddress"]') as HTMLInputElement
+
+  if (nameInput) await user.clear(nameInput)
+  if (nameInput) await user.type(nameInput, data.name)
+
+  if (emailInput) await user.clear(emailInput)
+  if (emailInput) await user.type(emailInput, data.email)
+
+  if (phoneInput) await user.clear(phoneInput)
+  if (phoneInput) await user.type(phoneInput, data.phone)
+
+  if (fromAddressInput) await user.clear(fromAddressInput)
+  if (fromAddressInput) await user.type(fromAddressInput, data.fromAddress)
+
+  if (toAddressInput) await user.clear(toAddressInput)
+  if (toAddressInput) await user.type(toAddressInput, data.toAddress)
+}

@@ -1,5 +1,15 @@
 import { useEffect } from 'react';
 
+// Extended PerformanceEntry types for Web Vitals
+interface LayoutShiftEntry extends PerformanceEntry {
+  value: number;
+  hadRecentInput: boolean;
+}
+
+interface FirstInputEntry extends PerformanceEntry {
+  processingStart: number;
+}
+
 interface PerformanceMetrics {
   fcp?: number; // First Contentful Paint
   lcp?: number; // Largest Contentful Paint
@@ -48,8 +58,8 @@ export const usePerformance = (enableLogging: boolean = import.meta.env.DEV) => 
       // First Input Delay (FID)
       new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
-          // @ts-ignore - processingStart is not in the type definition yet
-          const fid = entry.processingStart - entry.startTime;
+          const fidEntry = entry as FirstInputEntry;
+          const fid = fidEntry.processingStart - fidEntry.startTime;
           metrics.fid = fid;
           console.log(`⚡ First Input Delay: ${fid.toFixed(2)}ms`);
         }
@@ -59,9 +69,9 @@ export const usePerformance = (enableLogging: boolean = import.meta.env.DEV) => 
       let clsValue = 0;
       new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
-          // @ts-ignore - value and hadRecentInput are not in the type definition yet
-          if (!(entry as any).hadRecentInput) {
-            clsValue += (entry as any).value;
+          const clsEntry = entry as LayoutShiftEntry;
+          if (!clsEntry.hadRecentInput) {
+            clsValue += clsEntry.value;
           }
         }
         metrics.cls = clsValue;

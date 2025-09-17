@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, MapPin, CheckCircle, Star, Users, TrendingUp } from 'lucide-react';
 import { austinNeighborhoods } from '../lib/utils';
 import { SEOHead } from '../components/SEOHead';
+import { BasicQuoteForm } from '../components/BasicQuoteForm';
 
 export const HomePage: React.FC = () => {
   const featuredNeighborhoods = austinNeighborhoods.slice(0, 3);
@@ -64,20 +65,65 @@ export const HomePage: React.FC = () => {
               Moving to Austin, Texas in 2025? Get expert Austin moving services, discover the perfect neighborhood from East Austin to Cedar Park, and access everything you need for your Texas relocation. Trusted by 50,000+ families since 2018.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link 
-                to="/neighborhoods" 
+              <a
+                href="#get-quote"
+                className="bg-austin-green text-white px-8 py-3 rounded-lg font-semibold hover:bg-austin-green/90 transition-colors inline-flex items-center justify-center"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById('get-quote')?.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                  });
+                }}
+              >
+                Get Quote Now
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </a>
+              <Link
+                to="/neighborhoods"
                 className="bg-white text-austin-blue px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center justify-center"
               >
                 Explore Neighborhoods
-                <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
-              <Link 
-                to="/moving-guide" 
+              <Link
+                to="/moving-guide"
                 className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-austin-blue transition-colors inline-flex items-center justify-center"
               >
                 Moving Guide
               </Link>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Quick Quote Section */}
+      <section id="get-quote" className="py-16 bg-gradient-to-br from-austin-blue/5 via-white to-austin-green/5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="font-heading text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Get Your Austin Moving Quote Now
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Ready to move to Austin? Get a personalized quote in under 2 hours.
+              Our local experts make your Austin relocation simple and stress-free.
+            </p>
+          </div>
+
+          <div className="max-w-4xl mx-auto">
+            <BasicQuoteForm />
+          </div>
+
+          <div className="text-center mt-8">
+            <p className="text-sm text-gray-500 mb-4">
+              Need more detailed pricing with photos?
+            </p>
+            <Link
+              to="/fast-quote"
+              className="inline-flex items-center text-austin-blue hover:text-austin-teal font-medium"
+            >
+              Try our AI-powered Fast Quote tool
+              <ArrowRight className="ml-1 h-4 w-4" />
+            </Link>
           </div>
         </div>
       </section>

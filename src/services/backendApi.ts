@@ -313,7 +313,7 @@ class BackendApiService {
   }
 
   // Fallback email service using EmailJS (when backend is unavailable)
-  async sendEmailFallback(quoteData: any): Promise<boolean> {
+  async sendEmailFallback(quoteData: QuoteRequest): Promise<boolean> {
     const emailJsServiceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
     const emailJsTemplateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
     const emailJsPublicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;

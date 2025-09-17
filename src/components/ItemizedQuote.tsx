@@ -56,13 +56,13 @@ export const ItemizedQuote: React.FC<ItemizedQuoteProps> = ({
     // Group similar items
     const groupedItems = groupSimilarItems(items);
     setQuoteItems(groupedItems);
-  }, [detectedObjects, moveDistance, isSpecialtyMove]);
+  }, [detectedObjects, moveDistance, isSpecialtyMove, groupSimilarItems]);
 
   // Update parent component when quote changes
   useEffect(() => {
     const totalCost = calculateTotalCost();
     onQuoteUpdate(totalCost);
-  }, [quoteItems, onQuoteUpdate]);
+  }, [quoteItems, onQuoteUpdate, calculateTotalCost]);
 
   const groupSimilarItems = (items: QuoteItem[]): QuoteItem[] => {
     const grouped = new Map<string, QuoteItem>();
