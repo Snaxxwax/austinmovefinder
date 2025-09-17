@@ -2,44 +2,46 @@ name = "austinmovefinder"
 compatibility_date = "2024-07-22"
 pages_build_output_dir = "dist"
 
-# Build configuration for Cloudflare Pages
+# Build configuration
 [build]
 command = "npm run build:ci"
 cwd = "."
 watch_dir = "src"
 
-# Production environment variables
-[env.production.vars]
-ENVIRONMENT = "production"
-NODE_ENV = "production"
-AUSTIN_TIMEZONE = "America/Chicago"
-HEALTH_CHECK_ENABLED = "true"
-ANALYTICS_ENABLED = "true"
-VITE_ENVIRONMENT = "production"
-VITE_APP_NAME = "Austin Move Finder"
-VITE_APP_URL = "https://austinmovefinder.pages.dev"
-VITE_BACKEND_URL = "https://api.austinmovefinder.com"
-VITE_BASE_LABOR_RATE = "120"
-VITE_TRUCK_RATE_PER_MILE = "1.2"
-VITE_ENABLE_OBJECT_DETECTION = "true"
-VITE_MAX_DETECTION_FILES = "10"
-VITE_MAX_FILE_SIZE_MB = "25"
+[env.production]
+vars = {
+  ENVIRONMENT = "production",
+  NODE_ENV = "production",
+  AUSTIN_TIMEZONE = "America/Chicago",
+  HEALTH_CHECK_ENABLED = "true",
+  ANALYTICS_ENABLED = "true",
+  VITE_ENVIRONMENT = "production",
+  VITE_APP_NAME = "Austin Move Finder",
+  VITE_APP_URL = "https://austinmovefinder.pages.dev",
+  VITE_BACKEND_URL = "https://api.austinmovefinder.com",
+  VITE_BASE_LABOR_RATE = "120",
+  VITE_TRUCK_RATE_PER_MILE = "1.2",
+  VITE_ENABLE_OBJECT_DETECTION = "true",
+  VITE_MAX_DETECTION_FILES = "10",
+  VITE_MAX_FILE_SIZE_MB = "25"
+}
 
-# Preview environment variables
-[env.preview.vars]
-ENVIRONMENT = "preview"
-NODE_ENV = "development"
-AUSTIN_TIMEZONE = "America/Chicago"
-HEALTH_CHECK_ENABLED = "true"
-VITE_ENVIRONMENT = "preview"
-VITE_APP_NAME = "Austin Move Finder (Preview)"
-VITE_APP_URL = "https://preview.austinmovefinder.pages.dev"
-VITE_BACKEND_URL = "https://preview-api.austinmovefinder.com"
-VITE_BASE_LABOR_RATE = "120"
-VITE_TRUCK_RATE_PER_MILE = "1.2"
-VITE_ENABLE_OBJECT_DETECTION = "true"
-VITE_MAX_DETECTION_FILES = "10"
-VITE_MAX_FILE_SIZE_MB = "25"
+[env.staging]
+vars = {
+  ENVIRONMENT = "staging",
+  NODE_ENV = "staging",
+  AUSTIN_TIMEZONE = "America/Chicago",
+  HEALTH_CHECK_ENABLED = "true",
+  VITE_ENVIRONMENT = "staging",
+  VITE_APP_NAME = "Austin Move Finder",
+  VITE_APP_URL = "https://staging.austinmovefinder.pages.dev",
+  VITE_BACKEND_URL = "https://staging-api.austinmovefinder.com",
+  VITE_BASE_LABOR_RATE = "120",
+  VITE_TRUCK_RATE_PER_MILE = "1.2",
+  VITE_ENABLE_OBJECT_DETECTION = "true",
+  VITE_MAX_DETECTION_FILES = "10",
+  VITE_MAX_FILE_SIZE_MB = "25"
+}
 
 # Header rules for optimization
 [[headers]]

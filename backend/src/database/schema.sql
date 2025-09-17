@@ -71,11 +71,20 @@ CREATE TABLE IF NOT EXISTS quote_history (
 CREATE TABLE IF NOT EXISTS neighborhoods (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL UNIQUE,
+    slug TEXT NOT NULL UNIQUE, -- URL-friendly identifier
     zone TEXT NOT NULL, -- 'central', 'north', 'south', 'east', 'west'
     avg_rent INTEGER,
     walk_score INTEGER,
     difficulty_multiplier DECIMAL(3,2) DEFAULT 1.0, -- For pricing adjustments
-    special_requirements TEXT, -- parking, stairs, etc.
+    parking_difficulty TEXT DEFAULT 'normal', -- 'easy', 'normal', 'difficult', 'extreme'
+    access_type TEXT DEFAULT 'standard', -- 'standard', 'gated', 'hillside', 'downtown'
+    stairs_common BOOLEAN DEFAULT FALSE, -- Prevalence of stairs/multi-story
+    traffic_impact TEXT DEFAULT 'low', -- 'low', 'medium', 'high' (affects move timing)
+    permit_required BOOLEAN DEFAULT FALSE, -- Moving permits needed
+    truck_restrictions BOOLEAN DEFAULT FALSE, -- Size/weight restrictions
+    special_requirements TEXT, -- Additional notes
+    zip_codes TEXT, -- JSON array of zip codes
+    coordinates TEXT, -- JSON object with lat/lng
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -100,3 +109,7 @@ CREATE INDEX IF NOT EXISTS idx_quotes_move_date ON quotes(move_date);
 CREATE INDEX IF NOT EXISTS idx_detected_items_quote_id ON detected_items(quote_id);
 CREATE INDEX IF NOT EXISTS idx_media_files_quote_id ON media_files(quote_id);
 CREATE INDEX IF NOT EXISTS idx_quote_history_quote_id ON quote_history(quote_id);
+CREATE INDEX IF NOT EXISTS idx_neighborhoods_slug ON neighborhoods(slug);
+CREATE INDEX IF NOT EXISTS idx_neighborhoods_zone ON neighborhoods(zone);
+CREATE INDEX IF NOT EXISTS idx_pricing_rules_type ON pricing_rules(rule_type);
+CREATE INDEX IF NOT EXISTS idx_pricing_rules_active ON pricing_rules(active);

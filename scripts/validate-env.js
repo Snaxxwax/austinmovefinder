@@ -163,11 +163,24 @@ function validateEnvironment(environment, envVars) {
   let hasErrors = false;
   let hasWarnings = false;
 
+  // Check if we're in CI environment (Cloudflare Pages, GitHub Actions, etc.)
+  const isCI = process.env.CI === 'true' || process.env.CF_PAGES === '1' || process.env.GITHUB_ACTIONS === 'true';
+
+  if (isCI) {
+    log(`🔧 Detected CI environment - relaxing validation for production build`, colors.blue);
+  }
+
   // Check required variables
   for (const varName of requirements.required) {
     if (!envVars[varName] || envVars[varName].trim() === '') {
-      log(`❌ Missing required: ${varName}`, colors.red);
-      hasErrors = true;
+      if (isCI && environment === 'development') {
+        // In CI, skip validation for development mode since env vars come from platform
+        log(`⚠️  CI Mode - ${varName} will be provided by deployment platform`, colors.yellow);
+        hasWarnings = true;
+      } else {
+        log(`❌ Missing required: ${varName}`, colors.red);
+        hasErrors = true;
+      }
     } else {
       log(`✅ Required: ${varName}`, colors.green);
     }
