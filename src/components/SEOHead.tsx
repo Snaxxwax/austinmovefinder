@@ -32,7 +32,7 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
   image = '/og-image.jpg',
   type = 'website',
   keywords = ['Austin moving', 'Austin neighborhoods', 'moving to Austin', 'Austin real estate', 'Texas relocation'],
-  pageType,
+  pageType: _pageType,
   movingService,
   neighborhood
 }) => {
