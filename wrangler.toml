@@ -16,9 +16,14 @@ vars = {
   HEALTH_CHECK_ENABLED = "true",
   ANALYTICS_ENABLED = "true",
   VITE_ENVIRONMENT = "production",
+  VITE_APP_NAME = "Austin Move Finder",
+  VITE_APP_URL = "https://austinmovefinder.pages.dev",
+  VITE_BACKEND_URL = "https://api.austinmovefinder.com",
   VITE_BASE_LABOR_RATE = "120",
   VITE_TRUCK_RATE_PER_MILE = "1.2",
-  VITE_ENABLE_OBJECT_DETECTION = "true"
+  VITE_ENABLE_OBJECT_DETECTION = "true",
+  VITE_MAX_DETECTION_FILES = "10",
+  VITE_MAX_FILE_SIZE_MB = "25"
 }
 
 [env.staging]
@@ -28,9 +33,14 @@ vars = {
   AUSTIN_TIMEZONE = "America/Chicago",
   HEALTH_CHECK_ENABLED = "true",
   VITE_ENVIRONMENT = "staging",
+  VITE_APP_NAME = "Austin Move Finder",
+  VITE_APP_URL = "https://staging.austinmovefinder.pages.dev",
+  VITE_BACKEND_URL = "https://staging-api.austinmovefinder.com",
   VITE_BASE_LABOR_RATE = "120",
   VITE_TRUCK_RATE_PER_MILE = "1.2",
-  VITE_ENABLE_OBJECT_DETECTION = "true"
+  VITE_ENABLE_OBJECT_DETECTION = "true",
+  VITE_MAX_DETECTION_FILES = "10",
+  VITE_MAX_FILE_SIZE_MB = "25"
 }
 
 # Header rules for optimization
