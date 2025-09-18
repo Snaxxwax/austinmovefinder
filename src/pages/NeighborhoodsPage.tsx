@@ -1,11 +1,43 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { MapPin, DollarSign, TrendingUp, Star, ArrowLeft } from 'lucide-react';
+import { MapPin, DollarSign, TrendingUp, Star, ArrowLeft, Search, Filter } from 'lucide-react';
 import { austinNeighborhoods } from '../lib/utils';
 import { SEOHead } from '../components/SEOHead';
 
 export const NeighborhoodsPage: React.FC = () => {
   const { slug } = useParams();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [sortBy, setSortBy] = useState<'name' | 'rent' | 'walkScore'>('name');
+
+  // Optimized filtering and sorting with useMemo for performance
+  const filteredAndSortedNeighborhoods = useMemo(() => {
+    let filtered = austinNeighborhoods;
+
+    // Filter by search term
+    if (searchTerm.trim()) {
+      filtered = filtered.filter(neighborhood =>
+        neighborhood.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        neighborhood.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        neighborhood.features.some(feature =>
+          feature.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      );
+    }
+
+    // Sort neighborhoods
+    return [...filtered].sort((a, b) => {
+      switch (sortBy) {
+        case 'rent':
+          const rentA = parseInt(a.averageRent.replace(/[^0-9]/g, ''));
+          const rentB = parseInt(b.averageRent.replace(/[^0-9]/g, ''));
+          return rentA - rentB;
+        case 'walkScore':
+          return b.walkScore - a.walkScore;
+        default:
+          return a.name.localeCompare(b.name);
+      }
+    });
+  }, [searchTerm, sortBy]);
   
   // If we have a slug, show individual neighborhood page
   if (slug) {
@@ -100,14 +132,62 @@ export const NeighborhoodsPage: React.FC = () => {
         <h1 className="font-heading text-3xl md:text-4xl font-bold text-gray-900 mb-4">
           Austin Neighborhoods
         </h1>
-        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-          Explore Austin's diverse neighborhoods to find the perfect place to call home. 
+        <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+          Explore Austin's diverse neighborhoods to find the perfect place to call home.
           From vibrant downtown living to peaceful suburban communities.
         </p>
+
+        {/* Search and Filter Controls */}
+        <div className="max-w-2xl mx-auto">
+          <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
+            {/* Search Input */}
+            <div className="relative flex-1 max-w-md">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search neighborhoods, features, or amenities..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-austin-blue focus:border-transparent"
+              />
+            </div>
+
+            {/* Sort Dropdown */}
+            <div className="relative">
+              <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as 'name' | 'rent' | 'walkScore')}
+                className="pl-10 pr-8 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-austin-blue focus:border-transparent appearance-none bg-white"
+              >
+                <option value="name">Sort by Name</option>
+                <option value="rent">Sort by Rent (Low to High)</option>
+                <option value="walkScore">Sort by Walk Score (High to Low)</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Results Count */}
+          <div className="mt-4 text-sm text-gray-600">
+            Showing {filteredAndSortedNeighborhoods.length} of {austinNeighborhoods.length} neighborhoods
+            {searchTerm && (
+              <span className="ml-1">
+                for "{searchTerm}"
+                <button
+                  onClick={() => setSearchTerm('')}
+                  className="ml-2 text-austin-blue hover:text-austin-teal underline"
+                >
+                  Clear
+                </button>
+              </span>
+            )}
+          </div>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {austinNeighborhoods.map((neighborhood) => (
+        {filteredAndSortedNeighborhoods.length > 0 ? (
+          filteredAndSortedNeighborhoods.map((neighborhood) => (
           <div key={neighborhood.slug} className="neighborhood-card">
             <div className="flex items-center justify-between mb-4">
               <h2 className="font-heading text-xl font-bold text-gray-900">
@@ -151,7 +231,26 @@ export const NeighborhoodsPage: React.FC = () => {
               Explore {neighborhood.name}
             </Link>
           </div>
-        ))}
+          ))
+        ) : (
+          <div className="col-span-full text-center py-12">
+            <div className="austin-card p-8">
+              <Search className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+              <h3 className="font-heading text-xl font-bold text-gray-900 mb-2">
+                No neighborhoods found
+              </h3>
+              <p className="text-gray-600 mb-4">
+                Try adjusting your search terms or browse all neighborhoods.
+              </p>
+              <button
+                onClick={() => setSearchTerm('')}
+                className="bg-austin-blue text-white px-6 py-2 rounded-lg font-semibold hover:bg-austin-teal transition-colors"
+              >
+                View All Neighborhoods
+              </button>
+            </div>
+          </div>
+        )}
       </div>
       
       <div className="mt-16 austin-card p-8 text-center">

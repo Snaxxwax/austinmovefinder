@@ -38,7 +38,14 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
   url,
   image = '/og-image.jpg',
   type = 'website',
-  keywords = ['Austin moving', 'Austin neighborhoods', 'moving to Austin', 'Austin real estate', 'Texas relocation'],
+  keywords = [
+    'Austin moving', 'Austin neighborhoods', 'moving to Austin', 'Austin real estate', 'Texas relocation',
+    // 2025 enhanced keywords for AI-powered search and voice queries
+    'Austin tech hub relocation 2025', 'remote work moving to Austin', 'best Austin neighborhoods for tech workers',
+    'sustainable moving Austin eco-friendly', 'Austin cost of living 2025', 'family-friendly Austin neighborhoods',
+    'Austin startup ecosystem moving guide', 'Tesla Apple Google Austin employees', 'South by Southwest SXSW moving',
+    'Austin food scene relocation guide', 'Keep Austin Weird moving experience', 'Lady Bird Lake area housing'
+  ],
   pageType: _pageType,
   movingService,
   neighborhood

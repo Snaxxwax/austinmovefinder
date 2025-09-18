@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, MapPin, CheckCircle, Star, Users, TrendingUp } from 'lucide-react';
 import { austinNeighborhoods } from '../lib/utils';
 import { SEOHead } from '../components/SEOHead';
-import { BasicQuoteForm } from '../components/BasicQuoteForm';
+
+// Lazy load the BasicQuoteForm for better initial page load performance
+const BasicQuoteForm = lazy(() => import('../components/BasicQuoteForm').then(module => ({ default: module.BasicQuoteForm })));
 
 export const HomePage: React.FC = () => {
   const featuredNeighborhoods = austinNeighborhoods.slice(0, 3);
@@ -110,7 +112,25 @@ export const HomePage: React.FC = () => {
           </div>
 
           <div className="max-w-4xl mx-auto">
-            <BasicQuoteForm />
+            <Suspense fallback={
+              <div className="austin-card p-8 text-center">
+                <div className="animate-pulse">
+                  <div className="h-6 bg-austin-blue/20 rounded w-3/4 mx-auto mb-4"></div>
+                  <div className="h-4 bg-gray-200 rounded w-1/2 mx-auto mb-6"></div>
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="h-10 bg-gray-200 rounded"></div>
+                      <div className="h-10 bg-gray-200 rounded"></div>
+                      <div className="h-10 bg-gray-200 rounded"></div>
+                    </div>
+                    <div className="h-12 bg-austin-blue/20 rounded"></div>
+                  </div>
+                </div>
+                <p className="text-austin-blue font-medium mt-4">Loading your Austin quote form...</p>
+              </div>
+            }>
+              <BasicQuoteForm />
+            </Suspense>
           </div>
 
           <div className="text-center mt-8">
