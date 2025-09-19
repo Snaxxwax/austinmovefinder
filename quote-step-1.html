@@ -1,0 +1,121 @@
+
+```
+<!-- Step 1: Basic Information -->
+<div class="form-step" id="step-1">
+    <h2 style="margin-bottom: 20px; font-size: 1.4rem;">Let's start with the basics</h2>
+    
+    <div class="form-group">
+        <label for="name">
+            Full Name<span class="required-star">*</span>
+        </label>
+        <input type="text" 
+               id="name" 
+               name="name" 
+               placeholder="John Smith"
+               required 
+               aria-required="true">
+    </div>
+    
+    <div class="form-row">
+        <div class="form-group">
+            <label for="email">
+                Email Address<span class="required-star">*</span>
+            </label>
+            <input type="email" 
+                   id="email" 
+                   name="email" 
+                   placeholder="john@example.com"
+                   required 
+                   aria-required="true">
+        </div>
+        
+        <div class="form-group">
+            <label for="phone">
+                Phone Number<span class="required-star">*</span>
+            </label>
+            <input type="tel" 
+                   id="phone" 
+                   name="phone" 
+                   placeholder="(512) 555-0123"
+                   required 
+                   aria-required="true">
+        </div>
+    </div>
+    
+    <div class="form-row">
+        <div class="form-group">
+            <label for="move-date">
+                Move Date<span class="required-star">*</span>
+            </label>
+            <input type="date" 
+                   id="move-date" 
+                   name="move-date" 
+                   required 
+                   aria-required="true">
+        </div>
+        
+        <div class="form-group">
+            <label for="flexible-dates">
+                Flexible Dates?
+            </label>
+            <select id="flexible-dates" name="flexible-dates">
+                <option value="exact">Exact date only</option>
+                <option value="3-days">+/- 3 days</option>
+                <option value="1-week">+/- 1 week</option>
+                <option value="2-weeks">+/- 2 weeks</option>
+            </select>
+        </div>
+    </div>
+    
+    <div class="form-row">
+        <div class="form-group">
+            <label for="from-zip">
+                Moving From (Zip)<span class="required-star">*</span>
+            </label>
+            <input type="text" 
+                   id="from-zip" 
+                   name="from-zip" 
+                   placeholder="78701"
+                   pattern="[0-9]{5}" 
+                   maxlength="5"
+                   required 
+                   aria-required="true">
+        </div>
+        
+        <div class="form-group">
+            <label for="to-zip">
+                Moving To (Zip)<span class="required-star">*</span>
+            </label>
+            <input type="text" 
+                   id="to-zip" 
+                   name="to-zip" 
+                   placeholder="78704"
+                   pattern="[0-9]{5}" 
+                   maxlength="5"
+                   required 
+                   aria-required="true">
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label for="move-size">
+            Home Size<span class="required-star">*</span>
+        </label>
+        <select id="move-size" name="move-size" required aria-required="true">
+            <option value="">Select size</option>
+            <option value="studio">Studio Apartment</option>
+            <option value="1-bed">1 Bedroom</option>
+            <option value="2-bed">2 Bedrooms</option>
+            <option value="3-bed">3 Bedrooms</option>
+            <option value="4-bed">4 Bedrooms</option>
+            <option value="5-bed-plus">5+ Bedrooms</option>
+            <option value="office">Office/Commercial</option>
+        </select>
+    </div>
+    
+    <div class="button-group">
+        <button type="button" class="btn btn-primary" id="next-1">
+            Continue to Move Details →
+        </button>
+    </div>
+</div>
