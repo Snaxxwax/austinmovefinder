@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Free Moving Quotes - Austin Move Finder</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="/" class="logo-link" aria-label="Austin Move Finder Home">
+                <img src="logo.png" alt="Austin Move Finder - Your trusted moving partner in Austin" class="logo">
+            </a>
+        </div>
+    </header>
+    
+    <main>
+        <section class="form-section">
+            <div class="container">
+                <h1>Get Instant Moving Quotes</h1>
+                <p class="subtitle">Takes only 2 minutes • Get quotes from 3-5 top movers</p>
+                
+                <!-- Message Box -->
+                <div id="message-box" class="message-box" role="alert" aria-live="polite"></div>
+                
+                <!-- Progress Bar -->
+                <div class="progress-bar">
+                    <div class="progress-bar-fill" id="progress-fill"></div>
+                    <div class="progress-step active" data-step="1">
+                        <div class="progress-step-circle">1</div>
+                        <div class="progress-step-label">Basic Info</div>
+                    </div>
+                    <div class="progress-step" data-step="2">
+                        <div class="progress-step-circle">2</div>
+                        <div class="progress-step-label">Move Details</div>
+                    </div>
+                    <div class="progress-step" data-step="3">
+                        <div class="progress-step-circle">✓</div>
+                        <div class="progress-step-label">Complete</div>
+                    </div>
+                </div>
+                
+                <form id="quote-form" method="POST" novalidate>
+                    <!-- Honeypot -->
+                    <div class="honeypot" aria-hidden="true">
+                        <input type="text" name="website" tabindex="-1" autocomplete="off">
+                    </div>
+                    
+                    <!-- Form steps will be loaded here dynamically -->
+                    <div id="form-steps-container">
+                        <!-- e.g. quote-step-1.html or quote-step-2.html content goes here -->
+                    </div>
+
+                    <!-- removed form steps 1 & 2 HTML content, now loaded dynamically from separate files -->
+                </form>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Austin Move Finder. All rights reserved.</p>
+            <nav class="footer-nav" aria-label="Footer navigation">
+                <a href="/Terms.html">Terms of Service</a>
+                <a href="/Privacy.html">Privacy Policy</a>
+            </nav>
+        </div>
+    </footer>
+
+    <script src="quote.js" defer></script>
+</body>
+</html>
