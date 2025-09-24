@@ -1,0 +1,169 @@
+---
+import BaseLayout from '@/components/layout/BaseLayout.astro';
+import Header from '@/components/layout/Header.astro';
+import Footer from '@/components/layout/Footer.astro';
+import HeroSection from '@/components/ui/HeroSection.astro';
+import FeatureCard from '@/components/ui/FeatureCard.astro';
+
+const pageTitle = "Austin Move Finder - Find Top Movers in Austin";
+const pageDescription = "Compare quotes from trusted, local moving companies in Austin. Get free, no-obligation estimates in minutes. Licensed and insured movers only.";
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <Header />
+
+  <main>
+    <HeroSection
+      title="Simplify Your Move in Austin"
+      subtitle="Compare quotes from trusted, local moving companies in minutes. Get a free, no-obligation estimate today!"
+    />
+
+    <section id="how-it-works" class="info-section">
+      <div class="container">
+        <h2>How It Works in 3 Simple Steps</h2>
+        <div class="features-container">
+          <FeatureCard
+            icon="/icon-form.png"
+            title="1. Tell Us About Your Move"
+            description="Fill out our simple form with your moving details. It only takes a minute!"
+          />
+          <FeatureCard
+            icon="/icon-quotes.png"
+            title="2. Receive Free Quotes"
+            description="We connect you with top-rated, licensed Austin movers who provide competitive quotes."
+          />
+          <FeatureCard
+            icon="/icon-mover.png"
+            title="3. Compare & Choose"
+            description="Compare your options with no obligation. Hire the best mover for your needs and budget."
+          />
+        </div>
+      </div>
+    </section>
+
+    <section id="why-us" class="info-section alternate-bg">
+      <div class="container">
+        <h2>Why Choose Austin Move Finder?</h2>
+        <div class="features-container">
+          <FeatureCard
+            icon="/icon-trusted.png"
+            title="Trusted Local Movers"
+            description="We only partner with reputable, insured, and licensed moving companies based in Austin."
+          />
+          <FeatureCard
+            icon="/icon-save-money.png"
+            title="Save Time & Money"
+            description="Stop calling around. Get multiple quotes from one simple request and find the best deal."
+          />
+          <FeatureCard
+            icon="/icon-no-obligation.png"
+            title="Completely Free"
+            description="Our service is 100% free to use, with no hidden fees and no obligation to book."
+          />
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section">
+      <div class="container">
+        <h2>Ready to Make Your Move?</h2>
+        <p>Get started now and receive your free, no-obligation moving quotes today!</p>
+        <a href="/quote" class="cta-button">Get Free Moving Quotes</a>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  /* Info Sections */
+  .info-section {
+    padding: 4rem 0;
+    text-align: center;
+  }
+
+  .info-section h2 {
+    font-family: var(--heading-font);
+    font-size: 2.2rem;
+    margin-bottom: 3rem;
+    color: var(--primary-color);
+  }
+
+  .features-container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    align-items: stretch;
+  }
+
+  .alternate-bg {
+    background-color: var(--secondary-color);
+  }
+
+  /* Call to Action Section */
+  .cta-section {
+    background: linear-gradient(135deg, var(--primary-color), #2a4a6a);
+    color: #fff;
+    text-align: center;
+    padding: 4rem 0;
+  }
+
+  .cta-section h2 {
+    font-family: var(--heading-font);
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+    color: #fff;
+  }
+
+  .cta-section p {
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    opacity: 0.95;
+  }
+
+  .cta-section .cta-button {
+    background-color: var(--accent-color);
+    color: #fff;
+    font-size: 1.1rem;
+    padding: 1.2rem 2.5rem;
+    box-shadow: 0 4px 15px rgba(249, 168, 38, 0.3);
+  }
+
+  .cta-section .cta-button:hover {
+    background-color: var(--accent-hover-color);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(249, 168, 38, 0.4);
+  }
+
+  /* Mobile responsiveness */
+  @media (max-width: 768px) {
+    .info-section {
+      padding: 3rem 0;
+    }
+
+    .info-section h2 {
+      font-size: 1.8rem;
+      margin-bottom: 2rem;
+    }
+
+    .features-container {
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .cta-section {
+      padding: 3rem 0;
+    }
+
+    .cta-section h2 {
+      font-size: 1.8rem;
+    }
+
+    .cta-section p {
+      font-size: 1rem;
+    }
+  }
+</style>

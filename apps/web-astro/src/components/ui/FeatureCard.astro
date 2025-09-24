@@ -1,0 +1,77 @@
+---
+export interface Props {
+  icon: string;
+  title: string;
+  description: string;
+  iconAlt?: string;
+}
+
+const { icon, title, description, iconAlt = title } = Astro.props;
+---
+
+<div class="feature-item">
+  <img src={icon} alt={iconAlt} class="feature-icon" loading="lazy">
+  <h3>{title}</h3>
+  <p>{description}</p>
+</div>
+
+<style>
+  .feature-item {
+    flex-basis: 250px;
+    flex-grow: 1;
+    max-width: 320px;
+    text-align: center;
+    padding: 1.5rem;
+    border-radius: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .feature-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  .feature-icon {
+    max-height: 80px;
+    width: auto;
+    margin-bottom: 1rem;
+    transition: transform 0.3s ease;
+  }
+
+  .feature-item:hover .feature-icon {
+    transform: scale(1.1);
+  }
+
+  .feature-item h3 {
+    font-family: var(--heading-font);
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+  }
+
+  .feature-item p {
+    color: var(--text-color);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Mobile responsiveness */
+  @media (max-width: 768px) {
+    .feature-item {
+      max-width: 280px;
+      padding: 1rem;
+    }
+
+    .feature-icon {
+      max-height: 60px;
+    }
+
+    .feature-item h3 {
+      font-size: 1.1rem;
+    }
+
+    .feature-item p {
+      font-size: 0.95rem;
+    }
+  }
+</style>

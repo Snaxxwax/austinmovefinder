@@ -1,0 +1,24 @@
+name = "austin-move-finder"
+compatibility_date = "2024-09-24"
+
+# Pages configuration
+[env.production]
+vars = { ENVIRONMENT = "production" }
+
+[env.preview]
+vars = { ENVIRONMENT = "preview" }
+
+# R2 bucket binding for form submissions
+[[env.production.r2_buckets]]
+binding = "R2_BUCKET"
+bucket_name = "austin-move-finder-submissions"
+
+[[env.preview.r2_buckets]]
+binding = "R2_BUCKET"
+bucket_name = "austin-move-finder-submissions-preview"
+
+# Environment variables (secrets set via Cloudflare dashboard)
+# TURNSTILE_SECRET_KEY - Turnstile secret for bot protection
+# EMAIL_API_KEY - For email notifications (Resend/SendGrid)
+# EMAIL_FROM - Sender email address
+# EMAIL_TO - Recipient email address
