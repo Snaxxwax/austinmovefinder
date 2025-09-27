@@ -1,0 +1,840 @@
+---
+import BaseLayout from '@/components/layout/BaseLayout.astro';
+
+const pageTitle = "Get Free Moving Quotes - Austin Move Finder";
+const pageDescription = "Get instant moving quotes from trusted Austin movers. Takes only 2 minutes. Compare quotes from 3-5 top-rated moving companies.";
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <header>
+    <div class="container">
+      <a href="/" class="logo-link" aria-label="Austin Move Finder Home">
+        <img src="/logo.png" alt="Austin Move Finder - Your trusted moving partner in Austin" class="logo">
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <section class="form-section">
+      <div class="container">
+        <h1>Get Instant Moving Quotes</h1>
+        <p class="subtitle">Takes only 2 minutes • Get quotes from 3-5 top movers</p>
+
+        <!-- Message Box -->
+        <div id="message-box" class="message-box" role="alert" aria-live="polite"></div>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar">
+          <div class="progress-bar-fill" id="progress-fill"></div>
+          <div class="progress-step active" data-step="1">
+            <div class="progress-step-circle">1</div>
+            <div class="progress-step-label">Basic Info</div>
+          </div>
+          <div class="progress-step" data-step="2">
+            <div class="progress-step-circle">2</div>
+            <div class="progress-step-label">Move Details</div>
+          </div>
+          <div class="progress-step" data-step="3">
+            <div class="progress-step-circle">✓</div>
+            <div class="progress-step-label">Complete</div>
+          </div>
+        </div>
+
+        <form id="quote-form" method="POST" novalidate>
+          <!-- Honeypot -->
+          <div class="honeypot" aria-hidden="true">
+            <input type="text" name="website" tabindex="-1" autocomplete="off">
+          </div>
+
+          <!-- Step 1: Basic Information -->
+          <div class="form-step active" data-step="1">
+            <h2>Basic Information</h2>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="firstName" class="required">First Name</label>
+                <input
+                  type="text"
+                  id="firstName"
+                  name="firstName"
+                  required
+                  aria-describedby="firstName-error"
+                  autocomplete="given-name"
+                >
+                <div class="error-message" id="firstName-error"></div>
+              </div>
+
+              <div class="form-group">
+                <label for="lastName" class="required">Last Name</label>
+                <input
+                  type="text"
+                  id="lastName"
+                  name="lastName"
+                  required
+                  aria-describedby="lastName-error"
+                  autocomplete="family-name"
+                >
+                <div class="error-message" id="lastName-error"></div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="email" class="required">Email Address</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  required
+                  aria-describedby="email-error"
+                  autocomplete="email"
+                >
+                <div class="error-message" id="email-error"></div>
+              </div>
+
+              <div class="form-group">
+                <label for="phone" class="required">Phone Number</label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  required
+                  aria-describedby="phone-error"
+                  autocomplete="tel"
+                  placeholder="(512) 555-0123"
+                >
+                <div class="error-message" id="phone-error"></div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="moveDate" class="required">Preferred Move Date</label>
+              <input
+                type="date"
+                id="moveDate"
+                name="moveDate"
+                required
+                aria-describedby="moveDate-error"
+              >
+              <div class="error-message" id="moveDate-error"></div>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn-primary" id="next-step-1">
+                Next: Move Details →
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 2: Move Details -->
+          <div class="form-step" data-step="2">
+            <h2>Move Details</h2>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="moveFrom" class="required">Moving From</label>
+                <input
+                  type="text"
+                  id="moveFrom"
+                  name="moveFrom"
+                  required
+                  aria-describedby="moveFrom-error"
+                  placeholder="Current address or zip code"
+                  autocomplete="address-line1"
+                >
+                <div class="error-message" id="moveFrom-error"></div>
+              </div>
+
+              <div class="form-group">
+                <label for="moveTo" class="required">Moving To</label>
+                <input
+                  type="text"
+                  id="moveTo"
+                  name="moveTo"
+                  required
+                  aria-describedby="moveTo-error"
+                  placeholder="Destination address or zip code"
+                >
+                <div class="error-message" id="moveTo-error"></div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="homeSize" class="required">Home Size</label>
+                <select
+                  id="homeSize"
+                  name="homeSize"
+                  required
+                  aria-describedby="homeSize-error"
+                >
+                  <option value="">Select your home size</option>
+                  <option value="1-bedroom">1 Bedroom</option>
+                  <option value="2-bedroom">2 Bedroom</option>
+                  <option value="3-bedroom">3 Bedroom</option>
+                  <option value="4-bedroom">4+ Bedroom</option>
+                  <option value="apartment">Studio/Apartment</option>
+                  <option value="house">Whole House</option>
+                </select>
+                <div class="error-message" id="homeSize-error"></div>
+              </div>
+
+              <div class="form-group">
+                <label for="moveType">Move Type</label>
+                <select id="moveType" name="moveType">
+                  <option value="local">Local Move (within Austin)</option>
+                  <option value="long-distance">Long Distance</option>
+                  <option value="commercial">Commercial Move</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Special Items (check all that apply)</label>
+              <div class="checkbox-group">
+                <label class="checkbox-label">
+                  <input type="checkbox" name="special-items" value="piano">
+                  <span class="checkmark"></span>
+                  Piano
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" name="special-items" value="gun-safe">
+                  <span class="checkmark"></span>
+                  Gun Safe
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" name="special-items" value="hot-tub">
+                  <span class="checkmark"></span>
+                  Hot Tub/Spa
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" name="special-items" value="artwork">
+                  <span class="checkmark"></span>
+                  Artwork/Antiques
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" name="special-items" value="exercise-equipment">
+                  <span class="checkmark"></span>
+                  Exercise Equipment
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" name="special-items" value="other">
+                  <span class="checkmark"></span>
+                  Other
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="additionalInfo">Additional Information</label>
+              <textarea
+                id="additionalInfo"
+                name="additionalInfo"
+                rows="4"
+                placeholder="Any special requirements, access issues, or other details we should know..."
+              ></textarea>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn-secondary" id="prev-step-2">
+                ← Previous
+              </button>
+              <button type="submit" class="btn-primary" id="submit-form">
+                Get My Free Quotes
+              </button>
+            </div>
+          </div>
+
+          <!-- Loading State -->
+          <div class="form-step" data-step="loading" style="display: none;">
+            <div class="loading-container">
+              <div class="loading-spinner"></div>
+              <h2>Finding Your Perfect Movers...</h2>
+              <p>We're connecting you with the best moving companies in Austin.</p>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  /* Header Styles */
+  header {
+    background: #fff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 1rem 0;
+  }
+
+  .logo {
+    height: 60px;
+    width: auto;
+  }
+
+  /* Form Section Styles */
+  .form-section {
+    padding: 3rem 0;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    min-height: 80vh;
+  }
+
+  .form-section h1 {
+    font-family: var(--heading-font);
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .subtitle {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 2rem;
+  }
+
+  /* Message Box */
+  .message-box {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    border-radius: 8px;
+    display: none;
+  }
+
+  .message-box.success {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+  }
+
+  .message-box.error {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+  }
+
+  /* Progress Bar */
+  .progress-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+    position: relative;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .progress-bar::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #e0e0e0;
+    z-index: 1;
+  }
+
+  .progress-bar-fill {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    height: 2px;
+    background: var(--primary-color);
+    transition: width 0.3s ease;
+    z-index: 2;
+    width: 0%;
+  }
+
+  .progress-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 3;
+    position: relative;
+  }
+
+  .progress-step-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: #999;
+    transition: all 0.3s ease;
+  }
+
+  .progress-step.active .progress-step-circle,
+  .progress-step.completed .progress-step-circle {
+    background: var(--primary-color);
+    color: white;
+  }
+
+  .progress-step-label {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: 500;
+  }
+
+  /* Form Styles */
+  #quote-form {
+    background: white;
+    border-radius: 12px;
+    padding: 2.5rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .form-step {
+    display: none;
+  }
+
+  .form-step.active {
+    display: block;
+  }
+
+  .form-step h2 {
+    font-family: var(--heading-font);
+    color: var(--primary-color);
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--text-color);
+  }
+
+  .form-group label.required::after {
+    content: ' *';
+    color: #e74c3c;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+  }
+
+  .form-group input.error,
+  .form-group select.error,
+  .form-group textarea.error {
+    border-color: #e74c3c;
+  }
+
+  .error-message {
+    color: #e74c3c;
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+    display: none;
+  }
+
+  .error-message.show {
+    display: block;
+  }
+
+  /* Checkbox Group */
+  .checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-weight: normal !important;
+  }
+
+  .checkbox-label input[type="checkbox"] {
+    margin-right: 0.5rem;
+    width: auto;
+  }
+
+  /* Form Actions */
+  .form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2.5rem;
+    gap: 1rem;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+  }
+
+  .btn-primary {
+    background: var(--primary-color);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: var(--primary-hover-color);
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    background: #6c757d;
+    color: white;
+  }
+
+  .btn-secondary:hover {
+    background: #5a6268;
+  }
+
+  /* Loading State */
+  .loading-container {
+    text-align: center;
+    padding: 3rem 0;
+  }
+
+  .loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid #e0e0e0;
+    border-top: 4px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1.5rem;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* Honeypot (hidden field for spam protection) */
+  .honeypot {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  /* Mobile Responsiveness */
+  @media (max-width: 768px) {
+    .form-section h1 {
+      font-size: 2rem;
+    }
+
+    .form-row {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    #quote-form {
+      padding: 1.5rem;
+    }
+
+    .progress-bar {
+      margin-bottom: 2rem;
+    }
+
+    .progress-step-label {
+      font-size: 0.8rem;
+    }
+
+    .checkbox-group {
+      grid-template-columns: 1fr;
+    }
+
+    .form-actions {
+      flex-direction: column;
+    }
+  }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const submissionSuccessDelay = 2000;
+
+    // Form elements
+    const form = document.getElementById('quote-form');
+    const messageBox = document.getElementById('message-box');
+    const progressFill = document.getElementById('progress-fill');
+
+    let currentStep = 1;
+    const totalSteps = 2;
+
+    // Initialize form
+    initializeForm();
+
+    function initializeForm() {
+        // Set minimum date to today
+        const moveDate = document.getElementById('moveDate');
+        if (moveDate) {
+            const today = new Date().toISOString().split('T')[0];
+            moveDate.setAttribute('min', today);
+        }
+
+        // Set up phone formatting
+        const phoneInput = document.getElementById('phone');
+        if (phoneInput) {
+            phoneInput.addEventListener('input', formatPhone);
+        }
+
+        // Set up navigation
+        const nextBtn1 = document.getElementById('next-step-1');
+        const prevBtn2 = document.getElementById('prev-step-2');
+        const submitBtn = document.getElementById('submit-form');
+
+        if (nextBtn1) {
+            nextBtn1.addEventListener('click', () => navigateToStep(2));
+        }
+
+        if (prevBtn2) {
+            prevBtn2.addEventListener('click', () => navigateToStep(1));
+        }
+
+        if (submitBtn) {
+            submitBtn.addEventListener('click', handleFormSubmit);
+        }
+
+        // Set up checkbox handling
+        document.querySelectorAll('input[name="special-items"]').forEach(checkbox => {
+            checkbox.addEventListener('change', handleCheckboxChange);
+        });
+
+        // Clear errors on input
+        clearErrorsOnInput();
+
+        // Initialize progress
+        updateProgress(1);
+    }
+
+    function navigateToStep(stepNumber) {
+        if (stepNumber > currentStep && currentStep === 1) {
+            if (!validateStep1()) {
+                showMessage('Please fill in all required fields correctly.', 'error');
+                return;
+            }
+        }
+
+        // Hide current step
+        document.querySelectorAll('.form-step').forEach(step => {
+            step.classList.remove('active');
+        });
+
+        // Show target step
+        const targetStep = document.querySelector(`[data-step="${stepNumber}"]`);
+        if (targetStep) {
+            targetStep.classList.add('active');
+        }
+
+        currentStep = stepNumber;
+        updateProgress(currentStep);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function formatPhone(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length > 10) value = value.slice(0, 10);
+
+        if (value.length >= 7) {
+            value = `(${value.slice(0,3)}) ${value.slice(3,6)}-${value.slice(6)}`;
+        } else if (value.length >= 4) {
+            value = `(${value.slice(0,3)}) ${value.slice(3)}`;
+        } else if (value.length > 0) {
+            value = `(${value}`;
+        }
+
+        e.target.value = value;
+    }
+
+    function handleCheckboxChange() {
+        // Handle "none" vs other options logic if needed
+        this.parentElement.classList.toggle('checked', this.checked);
+    }
+
+    function updateProgress(step) {
+        const steps = document.querySelectorAll('.progress-step');
+        const percentage = step === 1 ? 0 : step === 2 ? 50 : 100;
+
+        if (progressFill) {
+            progressFill.style.width = percentage + '%';
+        }
+
+        steps.forEach((s, index) => {
+            s.classList.remove('active', 'completed');
+
+            if (index < step - 1) {
+                s.classList.add('completed');
+            } else if (index === step - 1) {
+                s.classList.add('active');
+            }
+        });
+    }
+
+    function validateStep1() {
+        const requiredFields = document.querySelectorAll('.form-step[data-step="1"] [required]');
+        let isValid = true;
+
+        // Clear previous errors
+        document.querySelectorAll('.error-message').forEach(msg => {
+            msg.classList.remove('show');
+        });
+        document.querySelectorAll('.form-group input, .form-group select').forEach(field => {
+            field.classList.remove('error');
+        });
+
+        requiredFields.forEach(field => {
+            if (!field.value.trim()) {
+                isValid = false;
+                field.classList.add('error');
+                const errorMsg = document.getElementById(field.id + '-error');
+                if (errorMsg) {
+                    errorMsg.textContent = 'This field is required';
+                    errorMsg.classList.add('show');
+                }
+            }
+        });
+
+        // Email validation
+        const email = document.getElementById('email');
+        if (email && email.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+            isValid = false;
+            email.classList.add('error');
+            const errorMsg = document.getElementById('email-error');
+            if (errorMsg) {
+                errorMsg.textContent = 'Please enter a valid email address';
+                errorMsg.classList.add('show');
+            }
+        }
+
+        // Phone validation
+        const phone = document.getElementById('phone');
+        if (phone && phone.value.replace(/\D/g, '').length !== 10) {
+            isValid = false;
+            phone.classList.add('error');
+            const errorMsg = document.getElementById('phone-error');
+            if (errorMsg) {
+                errorMsg.textContent = 'Please enter a valid 10-digit phone number';
+                errorMsg.classList.add('show');
+            }
+        }
+
+        return isValid;
+    }
+
+    function validateStep2() {
+        const requiredFields = document.querySelectorAll('.form-step[data-step="2"] [required]');
+        let isValid = true;
+
+        requiredFields.forEach(field => {
+            if (!field.value.trim()) {
+                isValid = false;
+                field.classList.add('error');
+                const errorMsg = document.getElementById(field.id + '-error');
+                if (errorMsg) {
+                    errorMsg.textContent = 'This field is required';
+                    errorMsg.classList.add('show');
+                }
+            }
+        });
+
+        return isValid;
+    }
+
+    function handleFormSubmit(e) {
+        e.preventDefault();
+
+        // Honeypot check
+        if (document.querySelector('input[name="website"]').value) {
+            return false;
+        }
+
+        // Validate current step
+        if (!validateStep2()) {
+            showMessage('Please fill in all required fields correctly.', 'error');
+            return;
+        }
+
+        // Show loading state
+        const submitBtn = document.getElementById('submit-form');
+        const loadingStep = document.querySelector('.form-step[data-step="loading"]');
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Submitting...';
+
+        // Hide current step and show loading
+        document.querySelectorAll('.form-step').forEach(step => {
+            step.style.display = 'none';
+        });
+        if (loadingStep) {
+            loadingStep.style.display = 'block';
+        }
+
+        // Simulate form submission
+        setTimeout(() => {
+            // Redirect to thank you page
+            window.location.href = '/thankyou';
+        }, submissionSuccessDelay);
+    }
+
+    function showMessage(text, type) {
+        if (messageBox) {
+            messageBox.textContent = text;
+            messageBox.className = `message-box ${type} show`;
+            setTimeout(() => {
+                messageBox.classList.remove('show');
+            }, 5000);
+        }
+    }
+
+    function clearErrorsOnInput() {
+        document.querySelectorAll('input, select, textarea').forEach(field => {
+            field.addEventListener('input', function() {
+                this.classList.remove('error');
+                const errorMsg = document.getElementById(this.id + '-error');
+                if (errorMsg) {
+                    errorMsg.classList.remove('show');
+                }
+            });
+        });
+    }
+});
+</script>

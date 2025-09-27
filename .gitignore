@@ -80,3 +80,12 @@ coordination/orchestration/*
 claude-flow
 # Removed Windows wrapper files per user request
 hive-mind-prompt-*.txt
+
+# Astro
+.astro/
+.output/
+.vercel/
+.netlify/
+
+# Legacy backup
+legacy/
