@@ -1,5 +1,9 @@
+# wrangler.toml
 name = "austin-move-finder"
 compatibility_date = "2024-09-24"
+
+# ✅ Required for Cloudflare Pages so it runs `npm run build` and picks up /dist
+pages_build_output_dir = "dist"
 
 # Pages configuration
 [env.production]
