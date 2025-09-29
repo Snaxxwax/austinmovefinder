@@ -1,5 +1,15 @@
 import { z } from 'zod';
 
+// Cloudflare Pages Functions types
+interface Env {
+  R2_BUCKET: R2Bucket;
+  TURNSTILE_SECRET_KEY: string;
+}
+
+interface PagesFunction<Env = any> {
+  (context: { request: Request; env: Env; params: Record<string, string>; waitUntil: (promise: Promise<any>) => void; next: (input?: Request | string, init?: RequestInit) => Promise<Response>; data: Record<string, any> }): Promise<Response> | Response;
+}
+
 // Form validation schema
 const FormSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters').max(100),
@@ -39,6 +49,23 @@ async function checkRateLimit(ip: string): Promise<boolean> {
 
   existing.count++;
   return true;
+}
+
+function getOrigin(request: Request): string {
+  const origin = request.headers.get('origin');
+  const allowedOrigins = [
+    'https://austin-move-finder.pages.dev',
+    'https://www.mitm.life',
+    'https://mitm.life',
+    'http://localhost:4321', // Development
+    'http://localhost:3000'  // Development
+  ];
+
+  if (origin && allowedOrigins.includes(origin)) {
+    return origin;
+  }
+
+  return 'https://mitm.life'; // Default fallback
 }
 
 async function verifyTurnstile(token: string, secret: string): Promise<boolean> {
@@ -132,7 +159,11 @@ export const onRequestPost: PagesFunction = async (context) => {
         status: 429,
         headers: {
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Origin': getOrigin(request),
+          'Access-Control-Allow-Credentials': 'true',
+          'X-Content-Type-Options': 'nosniff',
+          'X-Frame-Options': 'DENY',
+          'X-XSS-Protection': '1; mode=block',
           'Retry-After': '3600'
         }
       });
@@ -169,7 +200,11 @@ export const onRequestPost: PagesFunction = async (context) => {
         status: 400,
         headers: {
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
+          'Access-Control-Allow-Origin': getOrigin(request),
+          'Access-Control-Allow-Credentials': 'true',
+          'X-Content-Type-Options': 'nosniff',
+          'X-Frame-Options': 'DENY',
+          'X-XSS-Protection': '1; mode=block'
         }
       });
     }
@@ -190,7 +225,11 @@ export const onRequestPost: PagesFunction = async (context) => {
         status: 403,
         headers: {
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
+          'Access-Control-Allow-Origin': getOrigin(request),
+          'Access-Control-Allow-Credentials': 'true',
+          'X-Content-Type-Options': 'nosniff',
+          'X-Frame-Options': 'DENY',
+          'X-XSS-Protection': '1; mode=block'
         }
       });
     }
@@ -208,7 +247,11 @@ export const onRequestPost: PagesFunction = async (context) => {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
+        'Access-Control-Allow-Origin': getOrigin(request),
+        'Access-Control-Allow-Credentials': 'true',
+        'X-Content-Type-Options': 'nosniff',
+        'X-Frame-Options': 'DENY',
+        'X-XSS-Protection': '1; mode=block'
       }
     });
 
@@ -222,20 +265,31 @@ export const onRequestPost: PagesFunction = async (context) => {
       status: 500,
       headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
+        'Access-Control-Allow-Origin': getOrigin(request),
+        'Access-Control-Allow-Credentials': 'true',
+        'X-Content-Type-Options': 'nosniff',
+        'X-Frame-Options': 'DENY',
+        'X-XSS-Protection': '1; mode=block'
       }
     });
   }
 };
 
 // Handle OPTIONS for CORS
-export const onRequestOptions: PagesFunction = async () => {
+export const onRequestOptions: PagesFunction = async (context) => {
+  const { request } = context;
+
   return new Response(null, {
     status: 200,
     headers: {
-      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Origin': getOrigin(request),
       'Access-Control-Allow-Methods': 'POST, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Allow-Credentials': 'true',
+      'Access-Control-Max-Age': '86400',
+      'X-Content-Type-Options': 'nosniff',
+      'X-Frame-Options': 'DENY',
+      'X-XSS-Protection': '1; mode=block'
     },
   });
 };

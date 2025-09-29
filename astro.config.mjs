@@ -11,7 +11,8 @@ export default defineConfig({
   adapter: cloudflare({
     platformProxy: {
       enabled: true
-    }
+    },
+    imageService: 'compile'
   }),
   integrations: [
     tailwind({
@@ -26,6 +27,9 @@ export default defineConfig({
     })
   ],
   image: {
+    service: {
+      entrypoint: 'astro/assets/services/sharp'
+    },
     domains: ['austinmovefinder.com'],
     remotePatterns: [{
       protocol: 'https',
@@ -42,9 +46,29 @@ export default defineConfig({
     },
     build: {
       rollupOptions: {
-        external: ['sharp']
+        output: {
+          manualChunks: {
+            vendor: ['astro']
+          }
+        }
+      },
+      cssCodeSplit: true,
+      minify: 'terser',
+      terserOptions: {
+        compress: {
+          drop_console: true,
+          drop_debugger: true
+        }
       }
     }
+  },
+  compressHTML: true,
+  build: {
+    inlineStylesheets: 'auto'
+  },
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: 'viewport'
   },
   markdown: {
     shikiConfig: {

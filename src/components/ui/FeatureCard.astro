@@ -10,7 +10,18 @@ const { icon, title, description, iconAlt = title } = Astro.props;
 ---
 
 <div class="feature-item">
-  <img src={icon} alt={iconAlt} class="feature-icon" loading="lazy">
+  <picture>
+    <source srcset={icon.replace(/\.(png|jpg|jpeg)$/, '.webp')} type="image/webp">
+    <img
+      src={icon}
+      alt={iconAlt}
+      class="feature-icon"
+      loading="lazy"
+      decoding="async"
+      width="90"
+      height="90"
+    >
+  </picture>
   <h3>{title}</h3>
   <p>{description}</p>
 </div>
@@ -26,7 +37,9 @@ const { icon, title, description, iconAlt = title } = Astro.props;
     background: #fff;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(0, 0, 0, 0.05);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+    contain: layout style paint;
   }
 
   .feature-item:hover {
@@ -35,15 +48,17 @@ const { icon, title, description, iconAlt = title } = Astro.props;
   }
 
   .feature-icon {
-    max-height: 90px;
-    width: auto;
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
     margin-bottom: 1.5rem;
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
-    transition: transform 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
   }
 
   .feature-item:hover .feature-icon {
-    transform: scale(1.1);
+    transform: scale(1.1) translateZ(0);
   }
 
   .feature-item h3 {

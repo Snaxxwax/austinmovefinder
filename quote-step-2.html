@@ -117,11 +117,26 @@
     
     <div class="form-group">
         <label for="additional-info">Additional Information (optional)</label>
-        <textarea id="additional-info" 
-                  name="additional-info" 
+        <textarea id="additional-info"
+                  name="additional-info"
                   placeholder="Any special requirements, concerns, or details about your move?"></textarea>
     </div>
-    
+
+    <!-- Cloudflare Turnstile security verification -->
+    <div class="form-group">
+        <div class="turnstile-container">
+            <div class="cf-turnstile"
+                 data-sitekey="0x4AAAAAAAkZ8XyLwqKhHBLu"
+                 data-callback="onTurnstileSuccess"
+                 data-error-callback="onTurnstileError"
+                 data-expired-callback="onTurnstileExpired"
+                 data-theme="light"
+                 data-size="normal">
+            </div>
+            <input type="hidden" name="cf-turnstile-response" id="cf-turnstile-response">
+        </div>
+    </div>
+
     <div class="button-group">
         <button type="button" class="btn btn-secondary" id="back-2">
             ← Back

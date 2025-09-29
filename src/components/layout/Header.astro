@@ -6,7 +6,10 @@ const currentPath = Astro.url.pathname;
 <header>
   <div class="container">
     <a href="/" class="logo-link" aria-label="Austin Move Finder Home">
-      <img src="/logo.png" alt="Austin Move Finder - Your trusted moving partner in Austin" class="logo">
+      <picture>
+        <source srcset="/logo.webp" type="image/webp">
+        <img src="/logo.png" alt="Austin Move Finder - Your trusted moving partner in Austin" class="logo" loading="eager" decoding="async">
+      </picture>
     </a>
     <nav class="main-nav" aria-label="Main navigation">
       <a href="/" class={currentPath === '/' ? 'active' : ''}>Home</a>

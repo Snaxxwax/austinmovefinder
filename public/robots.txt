@@ -1,16 +1,84 @@
+# Robots.txt for Austin Move Finder
+# https://austinmovefinder.com/robots.txt
+
 User-agent: *
 Allow: /
 
-# Block access to sensitive files
+# Important pages
+Allow: /quote
+Allow: /services/
+Allow: /guides/
+Allow: /areas/
+Allow: /about
+Allow: /contact
+Allow: /faq
+Allow: /reviews
+
+# Disallow admin and private areas
 Disallow: /admin/
-Disallow: /*.js$
-Disallow: /*.css$
+Disallow: /api/
+Disallow: /private/
+Disallow: /_astro/
+Disallow: /temp/
+Disallow: /tmp/
 
-# Allow important pages
-Allow: /blog/
-Allow: /Quote.html
-Allow: /Terms.html
-Allow: /Privacy.html
+# Disallow query parameters that don't add value
+Disallow: /*?utm_*
+Disallow: /*?ref=*
+Disallow: /*?fbclid=*
+Disallow: /*?gclid=*
 
-# Sitemap location
+# Allow important query parameters
+Allow: /*?page=*
+Allow: /*?service=*
+Allow: /*?area=*
+
+# Specific bot instructions
+
+# Google
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+# Bing
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Yandex
+User-agent: Yandex
+Allow: /
+Crawl-delay: 2
+
+# Facebook
+User-agent: facebookexternalhit
+Allow: /
+
+# Twitter
+User-agent: Twitterbot
+Allow: /
+
+# LinkedIn
+User-agent: LinkedInBot
+Allow: /
+
+# Bad bots
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+# Sitemaps
 Sitemap: https://austinmovefinder.com/sitemap.xml
+Sitemap: https://austinmovefinder.com/sitemap-index.xml
+
+# Additional information
+# Contact: hello@austinmovefinder.com
+# Updated: 2024-09-29

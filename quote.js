@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    /** 
+    /**
      * @tweakable The delay in milliseconds before showing the success message after form submission.
      */
     const submissionSuccessDelay = 2000;
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const formStepsContainer = document.getElementById('form-steps-container');
     const messageBox = document.getElementById('message-box');
     const progressFill = document.getElementById('progress-fill');
-    
+
     let currentStep = 1;
     const formState = {};
     let eventListeners = new Map(); // Track event listeners to prevent duplicates
@@ -30,24 +30,24 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             const stepFile = CONFIG.stepFileTemplate.replace('{step}', stepNumber);
             const response = await fetch(stepFile);
-            
+
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status}: Could not load step ${stepNumber}`);
             }
-            
+
             const html = await response.text();
             formStepsContainer.innerHTML = html;
-            
+
             const stepElement = formStepsContainer.querySelector('.form-step');
             if (!stepElement) {
                 throw new Error(`Step element not found in loaded HTML for step ${stepNumber}`);
             }
 
             stepElement.classList.add('active');
-            
+
             // Setup step-specific functionality
             await setupStepListeners(stepNumber);
-            
+
             if (stepNumber === 1) {
                 restoreStepState(1);
                 removeHiddenStep1Fields();
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 restoreStepState(2);
                 syncStep1HiddenFields();
             }
-            
+
         } catch (error) {
             console.error('Failed to load form step:', error);
             showMessage('Error loading form. Please refresh and try again.', 'error');
@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else if (stepNumber === 2) {
             setupStep2Listeners();
         }
-        
+
         setupCommonListeners();
     }
 
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!eventListeners.has(stepKey)) {
             eventListeners.set(stepKey, []);
         }
-        
+
         eventListeners.get(stepKey).push({ element, event, handler });
         element.addEventListener(event, handler);
     }
@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const handler = () => navigateToStep(2);
             addTrackedListener(1, nextBtn, 'click', handler);
         }
-        
+
         // Set minimum date for move date
         const moveDate = document.getElementById('move-date');
         if (moveDate) {
@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (phoneInput) {
             addTrackedListener(1, phoneInput, 'input', formatPhone);
         }
-        
+
         // ZIP code formatting
         const zipInputs = document.querySelectorAll('#from-zip, #to-zip');
         zipInputs.forEach(input => {
@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const handler = () => navigateToStep(1);
             addTrackedListener(2, backBtn, 'click', handler);
         }
-        
+
         // Service card selection
         const serviceCards = document.querySelectorAll('.service-card');
         serviceCards.forEach(card => {
@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function() {
             };
             addTrackedListener(2, card, 'click', handler);
         });
-        
+
         // Checkbox handling
         const checkboxes = document.querySelectorAll('.checkbox-item input[type="checkbox"]');
         checkboxes.forEach(checkbox => {
@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function setupCommonListeners() {
         clearErrorsOnInput();
     }
-    
+
     /**
      * Navigate to a specific step
      */
@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         persistStepState(currentStep);
         currentStep = stepNumber;
-        
+
         loadStep(currentStep).then(() => {
             updateProgress(currentStep);
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -188,11 +188,11 @@ document.addEventListener('DOMContentLoaded', function() {
      */
     function formatPhone(e) {
         let value = e.target.value.replace(/\D/g, '');
-        
+
         if (value.length > CONFIG.phoneMaxLength) {
             value = value.slice(0, CONFIG.phoneMaxLength);
         }
-        
+
         // Apply formatting based on length
         if (value.length >= 7) {
             value = `(${value.slice(0,3)}) ${value.slice(3,6)}-${value.slice(6)}`;
@@ -201,7 +201,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else if (value.length > 0) {
             value = `(${value}`;
         }
-        
+
         e.target.value = value;
     }
 
@@ -211,14 +211,14 @@ document.addEventListener('DOMContentLoaded', function() {
     function formatZip(e) {
         e.target.value = e.target.value.replace(/\D/g, '').slice(0, CONFIG.zipMaxLength);
     }
-    
+
     /**
      * Handle checkbox selection logic
      */
     function handleCheckboxChange() {
         const parent = this.closest('.checkbox-grid');
         if (!parent) return;
-        
+
         if (this.value === 'none' && this.checked) {
             // If "none" is selected, uncheck all others
             parent.querySelectorAll('input[type="checkbox"]').forEach(cb => {
@@ -237,7 +237,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (wrapper) wrapper.classList.remove('checked');
             }
         }
-        
+
         // Update visual state
         const wrapper = this.closest('.checkbox-item');
         if (wrapper) {
@@ -257,7 +257,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (fieldContainer) {
                 fieldContainer.classList.remove('error');
             }
-            
+
             if (!field.value.trim()) {
                 isValid = false;
                 if (fieldContainer) {
@@ -325,10 +325,10 @@ document.addEventListener('DOMContentLoaded', function() {
      * Handle checkbox field persistence
      */
     function handleCheckboxPersistence(field, fieldsArray, state) {
-        const sameNameCheckboxes = fieldsArray.filter(f => 
+        const sameNameCheckboxes = fieldsArray.filter(f =>
             f.type === 'checkbox' && f.name === field.name
         );
-        
+
         if (sameNameCheckboxes.length > 1) {
             state[field.name] = state[field.name] || [];
             if (field.checked) {
@@ -466,7 +466,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             }
         } else if (value !== undefined && value !== null) {
-            const input = createHiddenInput(name, 
+            const input = createHiddenInput(name,
                 typeof value === 'boolean' ? String(value) : value
             );
             container.appendChild(input);
@@ -510,14 +510,31 @@ document.addEventListener('DOMContentLoaded', function() {
 
             console.log('Form data:', data);
 
-            // TODO: Replace with actual API call
-            await simulateFormSubmission();
-            
-            showSuccessMessage();
-            
+            // Submit to Cloudflare Pages API
+            const response = await fetch('/api/submit', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json'
+                },
+                body: formData
+            });
+
+            const result = await response.json();
+
+            if (response.ok && result.success) {
+                showSuccessMessage();
+            } else {
+                const errorMessage = result.error || `Server error (${response.status}). Please try again.`;
+                showMessage(errorMessage, 'error');
+                setSubmitButtonState(submitBtn, false);
+            }
+
         } catch (error) {
             console.error('Form submission error:', error);
-            showMessage('There was an error submitting your form. Please try again.', 'error');
+            const errorMessage = error.message === 'Failed to fetch'
+                ? 'Network error. Please check your connection and try again.'
+                : 'There was an error submitting your form. Please try again.';
+            showMessage(errorMessage, 'error');
             setSubmitButtonState(submitBtn, false);
         }
     }
@@ -527,18 +544,9 @@ document.addEventListener('DOMContentLoaded', function() {
      */
     function setSubmitButtonState(button, isLoading) {
         if (!button) return;
-        
+
         button.classList.toggle('loading', isLoading);
         button.disabled = isLoading;
-    }
-
-    /**
-     * Simulate form submission (replace with actual API call)
-     */
-    function simulateFormSubmission() {
-        return new Promise(resolve => {
-            setTimeout(resolve, submissionSuccessDelay);
-        });
     }
 
     /**
@@ -546,7 +554,7 @@ document.addEventListener('DOMContentLoaded', function() {
      */
     function showSuccessMessage() {
         updateProgress(CONFIG.totalSteps + 1);
-        
+
         const progressBar = document.querySelector('.progress-bar');
         if (progressBar) {
             progressBar.style.display = 'none';
@@ -558,7 +566,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     Success!
                 </h2>
                 <p style="font-size: 1.1rem; margin-bottom: 1.5rem;">
-                    We've received your detailed moving request. You'll receive personalized quotes 
+                    We've received your detailed moving request. You'll receive personalized quotes
                     from 3-5 top-rated Austin movers within the next 2 hours.
                 </p>
                 <p style="font-size: 1.1rem; margin-bottom: 2rem;">
@@ -569,19 +577,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 </a>
             </div>
         `;
-        
+
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-    
+
     /**
      * Show message to user
      */
     function showMessage(text, type, duration = null) {
         if (!messageBox) return;
-        
+
         messageBox.textContent = text;
         messageBox.className = `message-box ${type} show`;
-        
+
         if (duration) {
             setTimeout(() => messageBox.classList.remove('show'), duration);
         }
@@ -602,7 +610,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     messageBox.classList.remove('show');
                 }
             };
-            
+
             // Remove existing listener to prevent duplicates
             field.removeEventListener('input', handler);
             field.addEventListener('input', handler);
@@ -610,11 +618,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     /**
-     * Update progress bar (placeholder - implement based on your progress bar structure)
+     * Update progress bar
      */
     function updateProgress(step) {
         if (!progressFill) return;
-        
+
         const percentage = Math.min((step / CONFIG.totalSteps) * 100, 100);
         progressFill.style.width = `${percentage}%`;
     }
