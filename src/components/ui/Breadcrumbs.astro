@@ -1,0 +1,145 @@
+---
+import type { BreadcrumbItem } from '@/config/seo';
+
+export interface Props {
+  items: BreadcrumbItem[];
+  class?: string;
+}
+
+const { items, class: className } = Astro.props;
+
+// Always include home as first item if not present
+const breadcrumbItems = items[0]?.url === '/' ? items : [
+  { name: 'Home', url: '/' },
+  ...items
+];
+---
+
+<nav aria-label="Breadcrumb" class={`breadcrumb-nav ${className || ''}`}>
+  <ol class="breadcrumb-list" itemscope itemtype="https://schema.org/BreadcrumbList">
+    {breadcrumbItems.map((item, index) => (
+      <li
+        class="breadcrumb-item"
+        itemprop="itemListElement"
+        itemscope
+        itemtype="https://schema.org/ListItem"
+      >
+        {index < breadcrumbItems.length - 1 ? (
+          <a
+            href={item.url}
+            itemprop="item"
+            class="breadcrumb-link"
+          >
+            <span itemprop="name">{item.name}</span>
+          </a>
+        ) : (
+          <span itemprop="name" class="breadcrumb-current" aria-current="page">
+            {item.name}
+          </span>
+        )}
+        <meta itemprop="position" content={String(index + 1)}>
+        {index < breadcrumbItems.length - 1 && (
+          <span class="breadcrumb-separator" aria-hidden="true">/</span>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<style>
+  .breadcrumb-nav {
+    margin-bottom: 2rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border-gray, #dee2e6);
+  }
+
+  .breadcrumb-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 0.9rem;
+  }
+
+  .breadcrumb-item {
+    display: flex;
+    align-items: center;
+  }
+
+  .breadcrumb-link {
+    color: var(--primary-color, #1A3A5A);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .breadcrumb-link:hover {
+    color: var(--accent-color, #f49626);
+    text-decoration: underline;
+  }
+
+  .breadcrumb-current {
+    color: var(--text-color, #333);
+    font-weight: 600;
+  }
+
+  .breadcrumb-separator {
+    margin: 0 0.75rem;
+    color: var(--medium-gray, #6c757d);
+    font-weight: normal;
+  }
+
+  /* Mobile optimization */
+  @media (max-width: 768px) {
+    .breadcrumb-nav {
+      margin-bottom: 1rem;
+      padding: 0.5rem 0;
+    }
+
+    .breadcrumb-list {
+      font-size: 0.8rem;
+    }
+
+    .breadcrumb-separator {
+      margin: 0 0.5rem;
+    }
+
+    /* Hide middle items on small screens if there are more than 3 */
+    .breadcrumb-item:not(:first-child):not(:last-child):not(:nth-last-child(2)) {
+      display: none;
+    }
+
+    /* Show ellipsis when items are hidden */
+    .breadcrumb-item:first-child:not(:nth-last-child(2))::after {
+      content: " ... ";
+      margin: 0 0.5rem;
+      color: var(--medium-gray, #6c757d);
+    }
+  }
+
+  /* Focus styles for accessibility */
+  .breadcrumb-link:focus {
+    outline: 2px solid var(--accent-color, #f49626);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .breadcrumb-link {
+      text-decoration: underline;
+    }
+
+    .breadcrumb-separator {
+      font-weight: bold;
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .breadcrumb-link {
+      transition: none;
+    }
+  }
+</style>

@@ -1,0 +1,97 @@
+---
+// Get current path for active link styling
+const currentPath = Astro.url.pathname;
+---
+
+<header>
+  <div class="container">
+    <a href="/" class="logo-link" aria-label="Austin Move Finder Home">
+      <picture>
+        <source srcset="/logo.webp" type="image/webp">
+        <img src="/logo.png" alt="Austin Move Finder - Your trusted moving partner in Austin" class="logo" loading="eager" decoding="async">
+      </picture>
+    </a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href="/" class={currentPath === '/' ? 'active' : ''}>Home</a>
+      <a href="/quote" class={currentPath === '/quote' ? 'active' : ''}>Get Quotes</a>
+      <a href="/blog" class={currentPath.startsWith('/blog') ? 'active' : ''}>Blog</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  header {
+    padding-block: 14px;
+    background: #fff;
+    border-bottom: 1px solid #eee;
+  }
+
+  header .container {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    column-gap: 24px;
+  }
+
+  .logo,
+  .logo {
+    display: block;
+    height: var(--logo-max-height, 70px);
+    width: auto;
+  }
+
+  .logo-link {
+    display: block;
+  }
+
+  .main-nav {
+    justify-self: end;
+    display: flex;
+    gap: 28px;
+    align-items: center;
+  }
+
+  .main-nav a {
+    display: inline-block;
+    padding: 6px 0;
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 600;
+    transition: color .2s ease;
+  }
+
+  .main-nav a:hover,
+  .main-nav a.active {
+    color: var(--accent-color);
+  }
+
+  /* Mobile responsiveness */
+  @media (max-width: 768px) {
+    header .container {
+      grid-template-columns: auto 1fr;
+      column-gap: 16px;
+    }
+
+    .main-nav {
+      gap: 20px;
+    }
+
+    .logo {
+      height: 50px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    header .container {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto;
+      row-gap: 12px;
+      text-align: center;
+    }
+
+    .main-nav {
+      justify-self: center;
+      gap: 16px;
+    }
+  }
+</style>

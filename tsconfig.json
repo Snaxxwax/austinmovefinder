@@ -1,0 +1,23 @@
+{
+  "extends": "astro/tsconfigs/base",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@/components/*": ["./src/components/*"],
+      "@/assets/*": ["./src/assets/*"],
+      "@/styles/*": ["./src/styles/*"]
+    },
+    "types": ["@cloudflare/workers-types"],
+    "allowJs": true,
+    "resolveJsonModule": true
+  },
+  "include": [
+    ".astro/types.d.ts",
+    "src/**/*",
+    "functions/**/*"
+  ],
+  "exclude": [
+    "dist"
+  ]
+}

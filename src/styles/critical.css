@@ -1,0 +1,187 @@
+/* Critical CSS - Above the fold styles only */
+
+/* CSS Variables */
+:root {
+  --primary-color: #1a3a5a;
+  --accent-color: #f49626;
+  --accent-hover-color: #e08519;
+  --primary-hover-color: #25517c;
+  --secondary-color: #f8f9fa;
+  --text-color: #333;
+  --heading-font: "Poppins", system-ui, -apple-system, sans-serif;
+  --body-font: "Poppins", system-ui, -apple-system, sans-serif;
+  --logo-max-height: 70px;
+  --form-bg-color: #f8f9fa;
+  --border-gray: #dee2e6;
+  --medium-gray: #6c757d;
+  --success-green: #28a745;
+}
+
+/* Reset and base styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--body-font);
+  margin: 0;
+  padding: 0;
+  color: var(--text-color);
+  line-height: 1.6;
+  background-color: #fff;
+  font-size: 16px;
+  font-display: swap;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--heading-font);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+h1 {
+  font-size: 2.5rem;
+  color: var(--primary-color);
+}
+
+/* Container */
+.container {
+  width: 90%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Header styles (critical) */
+.header {
+  background-color: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  will-change: transform;
+}
+
+.header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+.logo {
+  max-height: var(--logo-max-height);
+  width: auto;
+}
+
+/* Hero section (critical) */
+.hero {
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("/hero-background.webp");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: #fff;
+  text-align: center;
+  padding: 6rem 0;
+  min-height: 400px;
+  will-change: transform;
+  contain: layout style paint;
+}
+
+.hero-content h1 {
+  font-family: var(--heading-font);
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+  color: #fff;
+}
+
+.hero-content p {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* CTA Button (critical) */
+.cta-button {
+  display: inline-block;
+  background-color: var(--accent-color);
+  color: #fff;
+  padding: 1rem 2rem;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  transform: translateZ(0);
+  will-change: transform, background-color;
+}
+
+.cta-button:hover {
+  background-color: var(--accent-hover-color);
+  transform: translateY(-2px) translateZ(0);
+  box-shadow: 0 4px 15px rgba(249, 168, 38, 0.3);
+}
+
+/* Performance optimizations */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.loaded {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.error {
+  opacity: 0.7;
+  filter: grayscale(100%);
+}
+
+/* Mobile responsiveness (critical) */
+@media (max-width: 768px) {
+  .container {
+    width: 95%;
+  }
+
+  .hero {
+    padding: 4rem 0;
+    background-attachment: scroll; /* Better performance on mobile */
+  }
+
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+
+  .hero-content p {
+    font-size: 1rem;
+  }
+}
+
+/* Prevent FOUC */
+.no-js .lazy {
+  display: none;
+}
+
+/* Layout shift prevention */
+.feature-icon {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+}
