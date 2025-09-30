@@ -9,7 +9,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "check": "astro check",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.astro",
+    "lint": "eslint .",
     "format": "prettier --write .",
     "optimize-images": "node scripts/image-optimization.js",
     "deploy": "npm run build && wrangler pages deploy dist",
@@ -54,6 +54,7 @@
     "sharp-cli": "^4.2.0",
     "terser": "^5.44.0",
     "typescript": "^5.6.2",
+    "typescript-eslint": "^8.45.0",
     "vitest": "^3.2.4",
     "webpack-bundle-analyzer": "^4.10.2",
     "wrangler": "^4.40.1"
