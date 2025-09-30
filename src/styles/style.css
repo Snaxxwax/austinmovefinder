@@ -15,6 +15,44 @@
   --border-gray: #dee2e6;
   --medium-gray: #6c757d;
   --success-green: #28a745;
+  --focus-ring-color: #f9a826;
+  --focus-ring-width: 3px;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus-visible for better keyboard navigation */
+*:focus {
+  outline: none;
+}
+
+*:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* Remove default focus for mouse users */
+:focus:not(:focus-visible) {
+  outline: none;
 }
 
 body {
@@ -103,14 +141,42 @@ header .container {
   text-decoration: none;
   border-radius: 5px;
   font-weight: 600;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border: none;
   cursor: pointer;
   font-size: 1rem;
+  position: relative;
+  overflow: hidden;
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.cta-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
 }
 
 .cta-button:hover {
   background-color: var(--accent-hover-color);
+  transform: translateY(-2px) scale(1.02) translateZ(0);
+  box-shadow: 0 6px 20px rgba(249, 168, 38, 0.4);
+}
+
+.cta-button:active {
+  transform: translateY(0) scale(0.98) translateZ(0);
+}
+
+.cta-button:active::before {
+  width: 300px;
+  height: 300px;
 }
 
 /* Info Sections (How it works, Why Us) */
@@ -265,12 +331,61 @@ header .container {
   background: var(--accent-color);
   border-color: var(--accent-color);
   color: white;
+  animation: pulse-ring 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 rgba(249, 168, 38, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(249, 168, 38, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(249, 168, 38, 0);
+  }
 }
 
 .progress-step.completed .progress-step-circle {
   background: var(--success-green);
   border-color: var(--success-green);
   color: white;
+  animation: checkmark-pop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes checkmark-pop {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Animated checkmark for completed steps */
+.progress-step.completed .progress-step-circle::after {
+  content: '✓';
+  position: absolute;
+  font-size: 24px;
+  font-weight: bold;
+  animation: checkmark-draw 0.4s ease-in-out 0.2s forwards;
+  opacity: 0;
+}
+
+@keyframes checkmark-draw {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .progress-step-label {
@@ -541,7 +656,7 @@ input:checked + .toggle-slider:before {
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   text-decoration: none;
   display: inline-flex;
   align-items: center;
@@ -549,6 +664,26 @@ input:checked + .toggle-slider:before {
   min-height: 48px;
   position: relative;
   overflow: hidden;
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%);
+  transition: width 0.5s, height 0.5s;
+}
+
+.btn:active::after {
+  width: 300px;
+  height: 300px;
 }
 
 .btn-primary {
@@ -558,8 +693,12 @@ input:checked + .toggle-slider:before {
 
 .btn-primary:hover:not(:disabled) {
   background: var(--accent-hover-color);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(249, 168, 38, 0.3);
+  transform: translateY(-2px) scale(1.02) translateZ(0);
+  box-shadow: 0 6px 16px rgba(249, 168, 38, 0.4);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0) scale(0.98) translateZ(0);
 }
 
 .btn-secondary {
@@ -570,6 +709,12 @@ input:checked + .toggle-slider:before {
 .btn-secondary:hover:not(:disabled) {
   background: var(--medium-gray);
   color: white;
+  transform: translateY(-1px) scale(1.01) translateZ(0);
+  box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+}
+
+.btn-secondary:active:not(:disabled) {
+  transform: translateY(0) scale(0.99) translateZ(0);
 }
 
 .btn:disabled {

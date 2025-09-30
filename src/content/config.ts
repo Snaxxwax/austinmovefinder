@@ -47,7 +47,6 @@ const pagesCollection = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
-    layout: z.enum(['default', 'landing', 'legal']).default('default'),
     lastModified: z.date().optional(),
     noindex: z.boolean().default(false),
     draft: z.boolean().default(false)

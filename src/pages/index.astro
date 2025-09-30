@@ -4,6 +4,8 @@ import Header from '@/components/layout/Header.astro';
 import Footer from '@/components/layout/Footer.astro';
 import HeroSection from '@/components/ui/HeroSection.astro';
 import FeatureCard from '@/components/ui/FeatureCard.astro';
+import TrustBadgeBar from '@/components/ui/TrustBadgeBar.astro';
+import TestimonialSection from '@/components/ui/TestimonialSection.astro';
 
 const pageTitle = "Austin Move Finder - Find Top Movers in Austin";
 const pageDescription = "Compare quotes from trusted, local moving companies in Austin. Get free, no-obligation estimates in minutes. Licensed and insured movers only.";
@@ -20,6 +22,8 @@ const pageDescription = "Compare quotes from trusted, local moving companies in 
       ctaLink="/quote"
       backgroundImage="/hero-background.webp"
     />
+
+    <TrustBadgeBar variant="hero" />
 
     <section id="how-it-works" class="info-section">
       <div class="container">
@@ -44,28 +48,7 @@ const pageDescription = "Compare quotes from trusted, local moving companies in 
       </div>
     </section>
 
-    <section id="why-us" class="info-section alternate-bg">
-      <div class="container">
-        <h2>Why Choose Austin Move Finder?</h2>
-        <div class="features-container">
-          <FeatureCard
-            icon="/icon-trusted.webp"
-            title="Trusted Local Movers"
-            description="We only partner with reputable, insured, and licensed moving companies based in Austin."
-          />
-          <FeatureCard
-            icon="/icon-save-money.webp"
-            title="Save Time & Money"
-            description="Stop calling around. Get multiple quotes from one simple request and find the best deal."
-          />
-          <FeatureCard
-            icon="/icon-no-obligation.webp"
-            title="Completely Free"
-            description="Our service is 100% free to use, with no hidden fees and no obligation to book."
-          />
-        </div>
-      </div>
-    </section>
+    <TestimonialSection />
 
     <section class="cta-section">
       <div class="container">
