@@ -1,4 +1,6 @@
 ---
+import PostHog from '../posthog.astro';
+
 export interface Props {
   title: string;
   description: string;
@@ -219,6 +221,7 @@ const cspMeta = [
       }
     }
   </style>
+  <PostHog />
 </head>
 
 <body>
