@@ -6,6 +6,7 @@
 import { readFileSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
+import { htmlToText } from "html-to-text";
 
 // Get current directory for ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -157,22 +158,11 @@ export class EmailTemplateEngine {
    * Generate text version from HTML
    */
   generateTextVersion(html) {
-    return (
-      html
-        // Remove HTML tags
-        .replace(/<[^>]*>/g, "")
-        // Convert common HTML entities
-        .replace(/&nbsp;/g, " ")
-        .replace(/&amp;/g, "&")
-        .replace(/&lt;/g, "<")
-        .replace(/&gt;/g, ">")
-        .replace(/&quot;/g, '"')
-        .replace(/&#39;/g, "'")
-        // Clean up whitespace
-        .replace(/\n\s*\n/g, "\n\n")
-        .replace(/[ \t]+/g, " ")
-        .trim()
-    );
+    // Use the well-tested html-to-text library for robust conversion
+    return htmlToText(html, {
+      wordwrap: false,
+      // Add more options as needed for your formatting preferences
+    }).trim();
   }
 
   /**
