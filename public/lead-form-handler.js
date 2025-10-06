@@ -14,6 +14,17 @@ const STEPS = [
 ];
 
 class LeadFormHandler {
+  /**
+   * Helper to produce a cryptographically secure random string of given length (using hex alphabet).
+   */
+  generateSecureRandomString(length) {
+    // Each byte gives two hex chars, so need ceiling(length / 2) bytes.
+    const bytes = new Uint8Array(Math.ceil(length / 2));
+    window.crypto.getRandomValues(bytes);
+    let hex = Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('');
+    return hex.substring(0, length);
+  }
+
   constructor() {
     this.currentStep = 0;
     this.formData = this.getInitialData();
@@ -62,7 +73,7 @@ class LeadFormHandler {
 
     let sessionId = sessionStorage.getItem('session_id');
     if (!sessionId) {
-      sessionId = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+      sessionId = `${Date.now()}-${this.generateSecureRandomString(7)}`;
       sessionStorage.setItem('session_id', sessionId);
     }
 
