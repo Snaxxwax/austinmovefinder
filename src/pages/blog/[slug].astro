@@ -1,0 +1,464 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '@/components/layout/BaseLayout.astro';
+import Header from '@/components/layout/Header.astro';
+import Footer from '@/components/layout/Footer.astro';
+
+// Enable prerendering for blog posts
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+const { title, description, publishDate, category, tags, image, imageAlt, readTime, author } = post.data;
+
+const formattedDate = publishDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+});
+
+// Get related posts (same category, excluding current post)
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const relatedPosts = allPosts
+  .filter(p => p.slug !== post.slug && p.data.category === category)
+  .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf())
+  .slice(0, 3);
+---
+
+<BaseLayout title={title} description={description}>
+  <Header />
+
+  <main>
+    <article class="blog-post">
+      <div class="blog-header">
+        <div class="container">
+          <div class="breadcrumb">
+            <a href="/">Home</a> / <a href="/blog">Blog</a> / <span>{title}</span>
+          </div>
+
+          <div class="post-meta">
+            <span class="category">{category}</span>
+            <span class="date">{formattedDate}</span>
+            <span class="read-time">{readTime}</span>
+          </div>
+
+          <h1>{title}</h1>
+          <p class="lead">{description}</p>
+
+          <div class="author-info">
+            <span>By {author}</span>
+          </div>
+        </div>
+      </div>
+
+      {image && (
+        <div class="featured-image">
+          <img src={image} alt={imageAlt || title} />
+        </div>
+      )}
+
+      <div class="blog-content">
+        <div class="container">
+          <div class="content-wrapper">
+            <Content />
+          </div>
+
+          {tags && tags.length > 0 && (
+            <div class="tags">
+              <h3>Tags:</h3>
+              <div class="tag-list">
+                {tags.map(tag => (
+                  <span class="tag">{tag}</span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div class="cta-section">
+            <h2>Ready to Move to Austin?</h2>
+            <p>Get free quotes from trusted Austin moving companies</p>
+            <a href="/quote" class="cta-button">Get Free Quotes</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    {relatedPosts.length > 0 && (
+      <section class="related-posts">
+        <div class="container">
+          <h2>Related Articles</h2>
+          <div class="related-grid">
+            {relatedPosts.map(relatedPost => (
+              <article class="related-card">
+                {relatedPost.data.image && (
+                  <a href={`/blog/${relatedPost.slug}`} class="related-image">
+                    <img
+                      src={relatedPost.data.image}
+                      alt={relatedPost.data.imageAlt || relatedPost.data.title}
+                      loading="lazy"
+                    />
+                  </a>
+                )}
+                <div class="related-content">
+                  <span class="category">{relatedPost.data.category}</span>
+                  <h3>
+                    <a href={`/blog/${relatedPost.slug}`}>{relatedPost.data.title}</a>
+                  </h3>
+                  <p>{relatedPost.data.description}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  /* Blog Header */
+  .blog-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover-color) 100%);
+    color: white;
+    padding: 2rem 0 3rem;
+  }
+
+  .breadcrumb {
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+  }
+
+  .breadcrumb a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+  }
+
+  .breadcrumb a:hover {
+    color: white;
+  }
+
+  .breadcrumb span {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .post-meta {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    font-size: 0.9rem;
+  }
+
+  .category {
+    background: var(--accent-color);
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-weight: 600;
+  }
+
+  .blog-header h1 {
+    font-family: var(--heading-font);
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+
+  .lead {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    opacity: 0.95;
+  }
+
+  .author-info {
+    font-size: 0.95rem;
+    opacity: 0.9;
+  }
+
+  /* Featured Image */
+  .featured-image {
+    max-width: 1200px;
+    margin: -2rem auto 3rem;
+    padding: 0 1rem;
+  }
+
+  .featured-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Blog Content */
+  .blog-content {
+    padding: 2rem 0 4rem;
+  }
+
+  .content-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.8;
+    font-size: 1.05rem;
+  }
+
+  .content-wrapper :global(h2) {
+    font-family: var(--heading-font);
+    color: var(--primary-color);
+    font-size: 1.8rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .content-wrapper :global(h3) {
+    font-family: var(--heading-font);
+    color: var(--primary-color);
+    font-size: 1.4rem;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .content-wrapper :global(p) {
+    margin-bottom: 1.5rem;
+  }
+
+  .content-wrapper :global(ul),
+  .content-wrapper :global(ol) {
+    margin-bottom: 1.5rem;
+    padding-left: 2rem;
+  }
+
+  .content-wrapper :global(li) {
+    margin-bottom: 0.5rem;
+  }
+
+  .content-wrapper :global(strong) {
+    color: var(--primary-color);
+    font-weight: 600;
+  }
+
+  .content-wrapper :global(a) {
+    color: var(--primary-color);
+    text-decoration: underline;
+  }
+
+  .content-wrapper :global(a:hover) {
+    color: var(--accent-color);
+  }
+
+  .content-wrapper :global(blockquote) {
+    border-left: 4px solid var(--accent-color);
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+    font-style: italic;
+    color: #666;
+  }
+
+  .content-wrapper :global(code) {
+    background: #f5f5f5;
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    font-size: 0.9em;
+  }
+
+  /* Tags */
+  .tags {
+    max-width: 800px;
+    margin: 3rem auto;
+    padding-top: 2rem;
+    border-top: 2px solid #eee;
+  }
+
+  .tags h3 {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+  }
+
+  .tag-list {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    background: #f5f5f5;
+    padding: 0.4rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    color: #666;
+  }
+
+  /* CTA Section */
+  .cta-section {
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 2.5rem;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover-color) 100%);
+    color: white;
+    border-radius: 12px;
+    text-align: center;
+  }
+
+  .cta-section h2 {
+    font-family: var(--heading-font);
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .cta-section p {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .cta-button {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    background: var(--accent-color);
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+  }
+
+  .cta-button:hover {
+    background: var(--accent-hover-color);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Related Posts */
+  .related-posts {
+    background: #f8f9fa;
+    padding: 4rem 0;
+  }
+
+  .related-posts h2 {
+    font-family: var(--heading-font);
+    color: var(--primary-color);
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  .related-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+
+  .related-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .related-image {
+    display: block;
+    overflow: hidden;
+  }
+
+  .related-image img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .related-card:hover .related-image img {
+    transform: scale(1.05);
+  }
+
+  .related-content {
+    padding: 1.5rem;
+  }
+
+  .related-content .category {
+    background: var(--accent-color);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    display: inline-block;
+    margin-bottom: 1rem;
+  }
+
+  .related-content h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .related-content h3 a {
+    color: var(--primary-color);
+    text-decoration: none;
+  }
+
+  .related-content h3 a:hover {
+    color: var(--accent-color);
+  }
+
+  .related-content p {
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  /* Mobile Responsiveness */
+  @media (max-width: 768px) {
+    .blog-header h1 {
+      font-size: 1.8rem;
+    }
+
+    .lead {
+      font-size: 1rem;
+    }
+
+    .content-wrapper {
+      padding: 0 1rem;
+      font-size: 1rem;
+    }
+
+    .content-wrapper :global(h2) {
+      font-size: 1.5rem;
+    }
+
+    .content-wrapper :global(h3) {
+      font-size: 1.2rem;
+    }
+
+    .cta-section {
+      margin: 2rem 1rem;
+      padding: 2rem 1rem;
+    }
+
+    .cta-section h2 {
+      font-size: 1.5rem;
+    }
+
+    .related-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

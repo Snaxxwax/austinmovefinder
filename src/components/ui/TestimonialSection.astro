@@ -1,0 +1,156 @@
+---
+import TestimonialCard from './TestimonialCard.astro';
+
+// Sample testimonials - replace with real data
+const testimonials = [
+  {
+    name: "Sarah Johnson",
+    location: "South Austin",
+    rating: 5,
+    text: "Austin Move Finder made my move so easy! I got quotes from 4 different movers in minutes. The process was smooth and I saved money by comparing prices.",
+    date: "2 weeks ago"
+  },
+  {
+    name: "Michael Chen",
+    location: "North Austin",
+    rating: 5,
+    text: "Excellent service! The movers were professional, careful with my belongings, and finished ahead of schedule. Highly recommend using this platform.",
+    date: "1 month ago"
+  },
+  {
+    name: "Emily Rodriguez",
+    location: "West Lake Hills",
+    rating: 5,
+    text: "Best moving experience I've had! The quotes were competitive and the moving company was top-notch. Everything arrived safely and on time.",
+    date: "3 weeks ago"
+  }
+];
+---
+
+<section class="testimonial-section">
+  <div class="container">
+    <div class="section-header">
+      <h2>What Austin Residents Are Saying</h2>
+      <p class="section-subtitle">Real reviews from people who found their perfect mover through our platform</p>
+    </div>
+
+    <div class="testimonials-grid">
+      {testimonials.map((testimonial) => (
+        <TestimonialCard {...testimonial} />
+      ))}
+    </div>
+
+    <div class="testimonial-stats">
+      <div class="stat-item">
+        <div class="stat-number">4.9</div>
+        <div class="stat-label">
+          <div class="stat-stars">★★★★★</div>
+          <div>Average Rating</div>
+        </div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">10,000+</div>
+        <div class="stat-label">Successful Moves</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">500+</div>
+        <div class="stat-label">Verified Reviews</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .testimonial-section {
+    padding: 4rem 0;
+    background: var(--secondary-color);
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .section-header h2 {
+    font-family: var(--heading-font);
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+  }
+
+  .section-subtitle {
+    font-size: 1.1rem;
+    color: var(--medium-gray);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .testimonial-stats {
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+    flex-wrap: wrap;
+    padding: 2rem 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .stat-item {
+    text-align: center;
+    min-width: 150px;
+  }
+
+  .stat-number {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-label {
+    font-size: 1rem;
+    color: var(--text-color);
+    font-weight: 600;
+  }
+
+  .stat-stars {
+    color: var(--accent-color);
+    font-size: 1.2rem;
+    margin-bottom: 0.25rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .testimonial-section {
+      padding: 3rem 0;
+    }
+
+    .section-header h2 {
+      font-size: 1.8rem;
+    }
+
+    .section-subtitle {
+      font-size: 1rem;
+    }
+
+    .testimonials-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .testimonial-stats {
+      gap: 2rem;
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+    }
+  }
+</style>

@@ -1,0 +1,108 @@
+---
+import BaseLayout from '@/components/layout/BaseLayout.astro';
+import Header from '@/components/layout/Header.astro';
+import Footer from '@/components/layout/Footer.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  lastUpdated?: string;
+}
+
+const { title, description, lastUpdated } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <Header />
+
+  <main>
+    <section class="legal-section">
+      <div class="container">
+        <h1>{title}</h1>
+        {lastUpdated && (
+          <p class="last-updated">Last updated: {lastUpdated}</p>
+        )}
+
+        <div class="legal-content">
+          <slot />
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  /* Legal Section */
+  .legal-section {
+    padding: 3rem 0;
+    background: #fff;
+    min-height: 70vh;
+  }
+
+  .legal-section h1 {
+    font-family: var(--heading-font);
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+
+  .last-updated {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+    margin-bottom: 3rem;
+  }
+
+  .legal-content {
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.8;
+  }
+
+  .legal-content :global(h2) {
+    font-family: var(--heading-font);
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 0.5rem;
+  }
+
+  .legal-content :global(p) {
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+  }
+
+  .legal-content :global(ul) {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .legal-content :global(li) {
+    margin-bottom: 0.5rem;
+  }
+
+  .legal-content :global(strong) {
+    color: var(--primary-color);
+    font-weight: 600;
+  }
+
+  /* Mobile Responsiveness */
+  @media (max-width: 768px) {
+    .legal-section h1 {
+      font-size: 2rem;
+    }
+
+    .legal-content {
+      padding: 0 1rem;
+    }
+
+    .legal-content :global(h2) {
+      font-size: 1.3rem;
+    }
+  }
+</style>

@@ -1,0 +1,142 @@
+---
+// Social Proof Badge Component
+// Simple, static trust indicator - no fake urgency or rotating messages
+
+export interface Props {
+  variant?: 'hero' | 'form' | 'footer';
+}
+
+const { variant = 'form' } = Astro.props;
+
+const content = {
+  hero: {
+    icon: '⭐',
+    text: 'Trusted by 10,000+ Austin residents since 2020',
+    subtext: '4.9 average rating from 500+ verified reviews'
+  },
+  form: {
+    icon: '✓',
+    text: 'Join 10,000+ satisfied customers',
+    subtext: null
+  },
+  footer: {
+    icon: '⭐',
+    text: '500+ verified reviews',
+    subtext: null
+  }
+};
+
+const badge = content[variant];
+---
+
+<div class={`social-proof-badge social-proof-badge--${variant}`}>
+  <span class="social-proof-icon" aria-hidden="true">{badge.icon}</span>
+  <div class="social-proof-content">
+    <span class="social-proof-text">{badge.text}</span>
+    {badge.subtext && (
+      <span class="social-proof-subtext">{badge.subtext}</span>
+    )}
+  </div>
+</div>
+
+<style>
+  .social-proof-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    background: var(--secondary-color);
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: var(--text-color);
+  }
+
+  .social-proof-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+  }
+
+  .social-proof-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .social-proof-text {
+    font-weight: 600;
+    color: var(--primary-color);
+  }
+
+  .social-proof-subtext {
+    font-size: 0.85rem;
+    color: var(--medium-gray);
+  }
+
+  /* Hero Variant - Larger, more prominent */
+  .social-proof-badge--hero {
+    padding: 16px 24px;
+    font-size: 1rem;
+    background: linear-gradient(135deg, #fff 0%, var(--secondary-color) 100%);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  .social-proof-badge--hero .social-proof-icon {
+    font-size: 2rem;
+  }
+
+  .social-proof-badge--hero .social-proof-text {
+    font-size: 1.1rem;
+  }
+
+  /* Form Variant - Centered, above form */
+  .social-proof-badge--form {
+    margin: 0 auto 24px;
+  }
+
+  /* Footer Variant - Compact */
+  .social-proof-badge--footer {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    background: transparent;
+    border: none;
+  }
+
+  .social-proof-badge--footer .social-proof-icon {
+    font-size: 1.2rem;
+  }
+
+  /* Mobile responsiveness */
+  @media (max-width: 768px) {
+    .social-proof-badge {
+      font-size: 0.85rem;
+      padding: 10px 16px;
+      gap: 10px;
+    }
+
+    .social-proof-badge--hero {
+      padding: 14px 20px;
+      font-size: 0.95rem;
+    }
+
+    .social-proof-badge--hero .social-proof-text {
+      font-size: 1rem;
+    }
+
+    .social-proof-content {
+      gap: 2px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .social-proof-badge {
+      flex-direction: column;
+      text-align: center;
+      gap: 8px;
+    }
+
+    .social-proof-badge--hero .social-proof-icon {
+      font-size: 1.75rem;
+    }
+  }
+</style>

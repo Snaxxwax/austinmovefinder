@@ -1,0 +1,5 @@
+{
+  "name": "Moving Company Lead Capture Form",
+  "description": "A multi-step, production-ready lead capture form for a local moving-leads site. It collects validated prospect data and submits it to a backend webhook.",
+  "requestFramePermissions": []
+}

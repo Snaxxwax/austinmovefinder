@@ -1,0 +1,430 @@
+/**
+ * Accessibility Enhancement CSS for Austin Move Finder Quote Form
+ * Ensures WCAG 2.1 AA compliance and excellent user experience
+ */
+
+/* Screen Reader Only Content */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Skip Navigation Links */
+.skip-nav-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: #000;
+  color: #fff;
+  padding: 8px;
+  z-index: 10000;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: 600;
+  transition: top 0.3s ease;
+}
+
+.skip-nav-link:focus {
+  top: 6px;
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
+/* Enhanced Focus Indicators */
+*:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Remove default outline for non-keyboard focus */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Ensure focus is visible for keyboard users */
+*:focus-visible {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+/* Button Focus States */
+.btn:focus,
+.btn:focus-visible {
+  outline: 2px solid #0056b3;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.25);
+}
+
+/* Service Card Focus States */
+.service-card:focus,
+.service-card:focus-visible {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Form Field Focus States */
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .btn {
+    border: 2px solid;
+  }
+
+  .service-card {
+    border: 2px solid;
+  }
+
+  .progress-step {
+    border: 2px solid;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Error States with High Contrast */
+.form-group.error input,
+.form-group.error select,
+.form-group.error textarea {
+  border-color: #dc3545;
+  outline-color: #dc3545;
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.25);
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-top: 0.25rem;
+  display: block;
+  line-height: 1.4;
+}
+
+/* Field Help Text */
+.field-help {
+  color: #6c757d;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  line-height: 1.4;
+}
+
+/* Required Field Indicators */
+.required-star {
+  color: #dc3545;
+  font-weight: bold;
+  margin-left: 2px;
+}
+
+/* Progress Bar Accessibility */
+.progress-bar[role="progressbar"] {
+  position: relative;
+}
+
+.progress-step[aria-current="step"] {
+  background-color: #007bff;
+  color: white;
+  font-weight: 600;
+}
+
+.progress-step[aria-current="step"] .progress-step-circle {
+  background-color: #007bff;
+  color: white;
+}
+
+/* Service Cards as Radio Group */
+.service-cards[role="radiogroup"] .service-card[role="radio"] {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.service-cards[role="radiogroup"] .service-card[role="radio"]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.service-cards[role="radiogroup"]
+  .service-card[role="radio"][aria-checked="true"] {
+  background-color: #e3f2fd;
+  border-color: #007bff;
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.2);
+}
+
+/* Checkbox and Radio Button Enhancements */
+input[type="checkbox"],
+input[type="radio"] {
+  min-width: 16px;
+  min-height: 16px;
+}
+
+/* Ensure adequate spacing for touch targets */
+.checkbox-item,
+.service-card {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  padding: 12px;
+}
+
+/* Toggle Switch Accessibility */
+.toggle-switch {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  min-height: 44px;
+}
+
+.toggle-switch input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.toggle-slider {
+  position: relative;
+  width: 50px;
+  height: 24px;
+  background-color: #ccc;
+  border-radius: 12px;
+  transition: background-color 0.2s ease;
+}
+
+.toggle-slider::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+}
+
+.toggle-switch input:checked + .toggle-slider {
+  background-color: #007bff;
+}
+
+.toggle-switch input:checked + .toggle-slider::before {
+  transform: translateX(26px);
+}
+
+.toggle-switch:focus-within .toggle-slider {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .field-help {
+    color: #adb5bd;
+  }
+
+  .skip-nav-link {
+    background: #fff;
+    color: #000;
+  }
+
+  .toggle-slider {
+    background-color: #495057;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .skip-nav-link,
+  .spinner,
+  .progress-bar {
+    display: none !important;
+  }
+
+  .form-step {
+    page-break-inside: avoid;
+  }
+}
+
+/* Large Text Support */
+@media (min-resolution: 2dppx) {
+  .required-star {
+    font-size: 1.1em;
+  }
+}
+
+/* Keyboard Navigation Enhancements */
+.form-step:focus-within {
+  outline: none;
+}
+
+/* Fieldset and Legend Styling */
+fieldset {
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  padding: 16px;
+  margin: 0 0 16px 0;
+}
+
+legend {
+  font-weight: 600;
+  padding: 0 8px;
+  color: #495057;
+}
+
+/* Message Box Enhancements */
+.message-box[role="alert"] {
+  border-radius: 4px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  border-left: 4px solid;
+  font-weight: 500;
+}
+
+.message-box.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border-left-color: #dc3545;
+}
+
+.message-box.success {
+  background-color: #d1edff;
+  color: #155724;
+  border-left-color: #28a745;
+}
+
+.message-box.warning {
+  background-color: #fff3cd;
+  color: #856404;
+  border-left-color: #ffc107;
+}
+
+/* Loading States */
+.spinner[aria-hidden="true"] {
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  display: none;
+}
+
+.btn.loading .spinner[aria-hidden="true"] {
+  display: inline-block;
+  margin-left: 8px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive Design for Accessibility */
+@media (max-width: 768px) {
+  .skip-nav-link {
+    left: 16px;
+    right: 16px;
+    width: auto;
+  }
+
+  .service-cards {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .form-row {
+    flex-direction: column;
+  }
+
+  .checkbox-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Ensure minimum tap target sizes on mobile */
+@media (max-width: 768px) {
+  .btn,
+  .service-card,
+  .checkbox-item,
+  .toggle-switch {
+    min-height: 48px;
+  }
+
+  input,
+  select,
+  textarea {
+    min-height: 48px;
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+}
+
+/* Color Contrast Improvements */
+.btn-primary {
+  background-color: #0056b3;
+  border-color: #0056b3;
+  color: #ffffff;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: #004085;
+  border-color: #004085;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  border-color: #6c757d;
+  color: #ffffff;
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus {
+  background-color: #545b62;
+  border-color: #545b62;
+}
+
+/* Ensure adequate spacing between form elements */
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-row {
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.button-group {
+  margin-top: 32px;
+  gap: 16px;
+}

@@ -1,0 +1,141 @@
+---
+import FAQItem from './FAQItem.astro';
+
+// FAQ data with 8 common questions about the moving quote service
+const faqs = [
+  {
+    id: 'faq-1',
+    question: 'How long does it take to get quotes?',
+    answer: "You'll receive 3-5 quotes within 24 hours, often within a few hours. Our network of Austin movers responds quickly to ensure you can plan your move efficiently."
+  },
+  {
+    id: 'faq-2',
+    question: 'Is this service really free?',
+    answer: "Yes, completely free! We're paid by moving companies for qualified leads, so you never pay a cent. No hidden fees, no obligations, no catch."
+  },
+  {
+    id: 'faq-3',
+    question: 'How are moving companies vetted?',
+    answer: "All companies are licensed, insured, and verified through state databases. We check reviews, insurance status, and complaint history before adding them to our network."
+  },
+  {
+    id: 'faq-4',
+    question: 'Can I cancel after requesting quotes?',
+    answer: "Absolutely! There's zero obligation. Request quotes, review them, and only proceed if you find a mover you like. You're in complete control."
+  },
+  {
+    id: 'faq-5',
+    question: 'What information do movers need?',
+    answer: "Basic details: move size, dates, locations, and special requirements. The more details you provide, the more accurate your quotes will be."
+  },
+  {
+    id: 'faq-6',
+    question: 'How accurate are the quotes?',
+    answer: "Quotes are estimates based on information provided. Final costs are confirmed after an in-person or virtual assessment. Most quotes are accurate within 10-15%."
+  },
+  {
+    id: 'faq-7',
+    question: 'Do I have to choose a mover from here?',
+    answer: "No! Use our service to compare quotes, then book however you prefer. Many customers use our quotes for comparison shopping."
+  },
+  {
+    id: 'faq-8',
+    question: "What if I'm not satisfied?",
+    answer: "Contact us immediately. We work with movers to resolve issues and maintain high service standards. Your satisfaction matters to us."
+  }
+];
+---
+
+<section class="faq-section" aria-labelledby="faq-heading">
+  <div class="container">
+    <div class="faq-header">
+      <h2 id="faq-heading">Frequently Asked Questions</h2>
+      <p class="faq-subtitle">
+        Everything you need to know about our moving quote service
+      </p>
+    </div>
+
+    <div class="faq-list" role="list">
+      {faqs.map((faq, index) => (
+        <FAQItem
+          question={faq.question}
+          answer={faq.answer}
+          id={faq.id}
+          isFirst={index === 0}
+        />
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Schema.org FAQ Markup for SEO -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map(faq => ({
+    "@type": "Question",
+    "name": faq.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": faq.answer
+    }
+  }))
+})} />
+
+<style>
+  .faq-section {
+    padding: 60px 0;
+    background: #fff;
+  }
+
+  .faq-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .faq-header h2 {
+    font-size: 2.2rem;
+    color: var(--primary-color);
+    margin-bottom: 16px;
+  }
+
+  .faq-subtitle {
+    font-size: 1.1rem;
+    color: var(--medium-gray);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .faq-list {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  /* Mobile adjustments */
+  @media (max-width: 768px) {
+    .faq-section {
+      padding: 40px 0;
+    }
+
+    .faq-header {
+      margin-bottom: 32px;
+    }
+
+    .faq-header h2 {
+      font-size: 1.8rem;
+    }
+
+    .faq-subtitle {
+      font-size: 1rem;
+    }
+
+    .faq-list {
+      border-radius: 8px;
+    }
+  }
+</style>
