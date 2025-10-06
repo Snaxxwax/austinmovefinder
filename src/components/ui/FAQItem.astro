@@ -1,0 +1,194 @@
+---
+// Individual FAQ Item Component with expand/collapse animation
+
+export interface Props {
+  question: string;
+  answer: string;
+  id: string;
+  isFirst?: boolean;
+}
+
+const { question, answer, id, isFirst = false } = Astro.props;
+---
+
+<div class="faq-item" data-faq-item>
+  <button
+    class="faq-question"
+    aria-expanded="false"
+    aria-controls={`faq-answer-${id}`}
+    data-faq-toggle
+    type="button"
+  >
+    <span class="faq-question-text">{question}</span>
+    <svg
+      class="faq-icon"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <polyline points="6 9 12 15 18 9"></polyline>
+    </svg>
+  </button>
+
+  <div
+    class="faq-answer-wrapper"
+    id={`faq-answer-${id}`}
+    role="region"
+    aria-labelledby={`faq-question-${id}`}
+  >
+    <div class="faq-answer">
+      <p>{answer}</p>
+    </div>
+  </div>
+</div>
+
+<style>
+  .faq-item {
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .faq-question {
+    width: 100%;
+    padding: 20px 24px;
+    background: transparent;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    transition: background-color 0.2s ease;
+    min-height: 48px;
+  }
+
+  .faq-question:hover {
+    background: var(--secondary-color);
+  }
+
+  .faq-question:focus-visible {
+    outline: 3px solid var(--accent-color);
+    outline-offset: -3px;
+  }
+
+  .faq-question-text {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    line-height: 1.4;
+  }
+
+  .faq-icon {
+    flex-shrink: 0;
+    color: var(--accent-color);
+    transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+  }
+
+  .faq-question[aria-expanded="true"] .faq-icon {
+    transform: rotate(180deg);
+  }
+
+  .faq-answer-wrapper {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+  }
+
+  .faq-answer-wrapper.expanded {
+    max-height: 500px; /* Large enough for most answers */
+  }
+
+  .faq-answer {
+    padding: 0 24px 24px 24px;
+  }
+
+  .faq-answer p {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--text-color);
+  }
+
+  /* Mobile adjustments */
+  @media (max-width: 768px) {
+    .faq-question {
+      padding: 16px 20px;
+    }
+
+    .faq-question-text {
+      font-size: 1rem;
+    }
+
+    .faq-answer {
+      padding: 0 20px 20px 20px;
+    }
+
+    .faq-answer p {
+      font-size: 0.95rem;
+    }
+  }
+</style>
+
+<script>
+  // FAQ accordion functionality
+  function initFAQItem() {
+    const faqItems = document.querySelectorAll('[data-faq-item]');
+
+    faqItems.forEach((item) => {
+      const toggle = item.querySelector('[data-faq-toggle]');
+      const answerWrapper = item.querySelector('.faq-answer-wrapper');
+
+      if (!toggle || !answerWrapper) return;
+
+      toggle.addEventListener('click', () => {
+        const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+
+        // Close all other FAQ items (accordion behavior)
+        faqItems.forEach((otherItem) => {
+          if (otherItem !== item) {
+            const otherToggle = otherItem.querySelector('[data-faq-toggle]');
+            const otherWrapper = otherItem.querySelector('.faq-answer-wrapper');
+
+            if (otherToggle && otherWrapper) {
+              otherToggle.setAttribute('aria-expanded', 'false');
+              otherWrapper.classList.remove('expanded');
+            }
+          }
+        });
+
+        // Toggle current item
+        toggle.setAttribute('aria-expanded', (!isExpanded).toString());
+        answerWrapper.classList.toggle('expanded');
+
+        // Track analytics
+        if (typeof posthog !== 'undefined') {
+          posthog.capture('faq_item_toggled', {
+            question: toggle.querySelector('.faq-question-text')?.textContent,
+            expanded: !isExpanded
+          });
+        }
+      });
+
+      // Keyboard support
+      toggle.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggle.click();
+        }
+      });
+    });
+  }
+
+  // Initialize on page load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFAQItem);
+  } else {
+    initFAQItem();
+  }
+</script>

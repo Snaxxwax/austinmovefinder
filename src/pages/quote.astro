@@ -1,5 +1,11 @@
 ---
 import PostHog from '../components/posthog.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import ExitIntentModal from '../components/ui/ExitIntentModal.astro';
+import SocialProofBadge from '../components/ui/SocialProofBadge.astro';
+import FAQAccordion from '../components/ui/FAQAccordion.astro';
+
 const pageTitle = "Get Free Moving Quotes - Austin Move Finder";
 const pageDescription = "Get instant moving quotes from trusted Austin movers. Takes only 2 minutes. Compare quotes from 3-5 top-rated moving companies.";
 ---
@@ -38,25 +44,21 @@ const pageDescription = "Get instant moving quotes from trusted Austin movers. T
     <PostHog />
 </head>
 <body>
-    <header>
-        <div class="container">
-            <a href="/" class="logo-link" aria-label="Austin Move Finder Home">
-                <img src="/logo.png" alt="Austin Move Finder - Your trusted moving partner in Austin" class="logo">
-            </a>
-            <nav class="main-nav">
-                <a href="/" class="nav-link">Home</a>
-                <a href="/quote" class="nav-link active">Get Quote</a>
-                <a href="/about" class="nav-link">About</a>
-                <a href="/contact" class="nav-link">Contact</a>
-            </nav>
-        </div>
-    </header>
+    <Header />
+
+    <!-- Exit Intent Modal -->
+    <ExitIntentModal />
 
     <main id="main-content">
         <section class="form-section" aria-labelledby="main-heading">
             <div class="container">
                 <h1 id="main-heading">Get Instant Moving Quotes</h1>
                 <p class="subtitle">Takes only 2 minutes • Get quotes from 3-5 top movers</p>
+
+                <!-- Social Proof Badge -->
+                <div style="text-align: center; margin: 24px 0;">
+                    <SocialProofBadge variant="form" />
+                </div>
 
                 <!-- Message Box -->
                 <div id="message-box" class="message-box" role="alert" aria-live="polite" aria-atomic="true"></div>
@@ -89,18 +91,12 @@ const pageDescription = "Get instant moving quotes from trusted Austin movers. T
                 </form>
             </div>
         </section>
+
+        <!-- FAQ Accordion -->
+        <FAQAccordion />
     </main>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2024 Austin Move Finder. All rights reserved.</p>
-            <nav class="footer-nav">
-                <a href="/privacy">Privacy Policy</a>
-                <a href="/terms">Terms of Service</a>
-                <a href="/contact">Contact Us</a>
-            </nav>
-        </div>
-    </footer>
+    <Footer />
 
     <!-- Turnstile Integration -->
     <script is:inline>
@@ -138,6 +134,9 @@ const pageDescription = "Get instant moving quotes from trusted Austin movers. T
     <script is:inline src="/form-enhancements.js"></script>
     <script is:inline src="/quote-form-handler.js"></script>
     <script is:inline src="/src/scripts/keyboard-navigation.js"></script>
+
+    <!-- Phase 2 Scripts -->
+    <script src="/src/scripts/exit-intent.js"></script>
 
     <!-- Fallback to original quote.js if enhanced scripts fail -->
     <script is:inline>

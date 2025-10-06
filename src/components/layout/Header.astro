@@ -1,4 +1,6 @@
 ---
+import MobileMenu from '../ui/MobileMenu.astro';
+
 // Get current path for active link styling
 const currentPath = Astro.url.pathname;
 ---
@@ -11,13 +13,34 @@ const currentPath = Astro.url.pathname;
         <img src="/logo.png" alt="Austin Move Finder - Your trusted moving partner in Austin" class="logo" loading="eager" decoding="async">
       </picture>
     </a>
+
+    <!-- Desktop Navigation -->
     <nav class="main-nav" aria-label="Main navigation">
       <a href="/" class={currentPath === '/' ? 'active' : ''}>Home</a>
       <a href="/quote" class={currentPath === '/quote' ? 'active' : ''}>Get Quotes</a>
       <a href="/blog" class={currentPath.startsWith('/blog') ? 'active' : ''}>Blog</a>
     </nav>
+
+    <!-- Mobile Menu Toggle -->
+    <button
+      id="mobile-menu-toggle"
+      class="mobile-menu-toggle"
+      aria-label="Open menu"
+      aria-expanded="false"
+      type="button"
+    >
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
   </div>
 </header>
+
+<!-- Mobile Menu Component -->
+<MobileMenu currentPath={currentPath} />
+
+<!-- Mobile Menu Script -->
+<script src="/src/scripts/mobile-menu.js"></script>
 
 <style>
   header {
@@ -65,15 +88,63 @@ const currentPath = Astro.url.pathname;
     color: var(--accent-color);
   }
 
+  /* Mobile Menu Toggle Button */
+  .mobile-menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 48px;
+    height: 48px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 12px;
+    z-index: 10;
+    justify-self: end;
+  }
+
+  .hamburger-line {
+    width: 24px;
+    height: 3px;
+    background-color: var(--primary-color);
+    border-radius: 2px;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    transform-origin: center;
+  }
+
+  /* Hamburger to X animation */
+  .mobile-menu-toggle.active .hamburger-line:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .mobile-menu-toggle.active .hamburger-line:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+
+  .mobile-menu-toggle.active .hamburger-line:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  .mobile-menu-toggle:focus-visible {
+    outline: 3px solid var(--accent-color);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
   /* Mobile responsiveness */
   @media (max-width: 768px) {
     header .container {
-      grid-template-columns: auto 1fr;
+      grid-template-columns: auto 1fr auto;
       column-gap: 16px;
     }
 
     .main-nav {
-      gap: 20px;
+      display: none; /* Hide desktop nav on mobile */
+    }
+
+    .mobile-menu-toggle {
+      display: flex;
     }
 
     .logo {
@@ -82,16 +153,8 @@ const currentPath = Astro.url.pathname;
   }
 
   @media (max-width: 480px) {
-    header .container {
-      grid-template-columns: 1fr;
-      grid-template-rows: auto auto;
-      row-gap: 12px;
-      text-align: center;
-    }
-
-    .main-nav {
-      justify-self: center;
-      gap: 16px;
+    .logo {
+      height: 45px;
     }
   }
 </style>

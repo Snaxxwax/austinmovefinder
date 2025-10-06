@@ -1,0 +1,35 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import LegalPage from '@/components/pages/LegalPage.astro';
+
+// Enable prerendering for content collection pages
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const pages = await getCollection('pages', ({ data }) => !data.draft);
+
+  return pages.map((page) => ({
+    params: { slug: page.slug },
+    props: { page },
+  }));
+}
+
+interface Props {
+  page: CollectionEntry<'pages'>;
+}
+
+const { page } = Astro.props;
+const { Content } = await page.render();
+const { title, description, lastModified } = page.data;
+
+const lastUpdated = lastModified
+  ? new Date(lastModified).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long'
+    })
+  : undefined;
+---
+
+<LegalPage title={title} description={description} lastUpdated={lastUpdated}>
+  <Content />
+</LegalPage>
