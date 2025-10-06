@@ -205,7 +205,7 @@ export const AUSTIN_MOVING_KEYWORDS = [
   "professional movers austin",
 ];
 
-export function generateSchemaOrg(config: SEOConfig): any {
+export function generateSchemaOrg(config: SEOConfig): Record<string, unknown> | Record<string, unknown>[] {
   const schemas = [];
 
   // Local Business Schema
