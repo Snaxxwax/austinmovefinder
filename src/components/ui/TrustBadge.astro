@@ -1,0 +1,110 @@
+---
+export interface Props {
+  icon: string;
+  title: string;
+  description?: string;
+  type?: 'large' | 'small';
+}
+
+const { icon, title, description, type = 'large' } = Astro.props;
+---
+
+<div class={`trust-badge trust-badge-${type}`}>
+  <div class="badge-icon">{icon}</div>
+  <div class="badge-content">
+    <h4 class="badge-title">{title}</h4>
+    {description && type === 'large' && <p class="badge-description">{description}</p>}
+  </div>
+</div>
+
+<style>
+  .trust-badge {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+  }
+
+  .trust-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .trust-badge-small {
+    padding: 0.75rem;
+    gap: 0.75rem;
+  }
+
+  .badge-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background: var(--secondary-color);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+  }
+
+  .trust-badge-small .badge-icon {
+    font-size: 1.5rem;
+    width: 40px;
+    height: 40px;
+  }
+
+  .trust-badge:hover .badge-icon {
+    background: var(--accent-color);
+    transform: scale(1.1);
+  }
+
+  .badge-content {
+    flex-grow: 1;
+  }
+
+  .badge-title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    line-height: 1.3;
+  }
+
+  .trust-badge-small .badge-title {
+    font-size: 0.9rem;
+  }
+
+  .badge-description {
+    margin: 0.25rem 0 0;
+    font-size: 0.85rem;
+    color: var(--medium-gray);
+    line-height: 1.4;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .trust-badge {
+      padding: 0.75rem;
+    }
+
+    .badge-icon {
+      width: 40px;
+      height: 40px;
+      font-size: 1.5rem;
+    }
+
+    .badge-title {
+      font-size: 0.9rem;
+    }
+
+    .badge-description {
+      font-size: 0.8rem;
+    }
+  }
+</style>

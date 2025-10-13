@@ -1,0 +1,300 @@
+---
+import { Image, getImage } from 'astro:assets';
+
+export interface Props {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  class?: string;
+  loading?: 'lazy' | 'eager';
+  decoding?: 'async' | 'sync' | 'auto';
+  sizes?: string;
+  widths?: number[];
+  quality?: number;
+  priority?: boolean;
+  aspectRatio?: number;
+}
+
+const {
+  src,
+  alt,
+  width = 800,
+  height,
+  class: className = '',
+  loading = 'lazy',
+  decoding = 'async',
+  sizes,
+  widths = [320, 480, 768, 1024, 1280, 1600],
+  quality = 80,
+  priority = false,
+  aspectRatio,
+  ...rest
+} = Astro.props;
+
+// Calculate height if aspect ratio is provided
+const calculatedHeight = height || (aspectRatio ? Math.round(width / aspectRatio) : undefined);
+
+// Generate responsive sizes if not provided
+const responsiveSizes = sizes || `
+  (max-width: 320px) 320px,
+  (max-width: 480px) 480px,
+  (max-width: 768px) 768px,
+  (max-width: 1024px) 1024px,
+  (max-width: 1280px) 1280px,
+  1600px
+`.replace(/\s+/g, ' ').trim();
+
+// Try to use Astro's Image component for optimization
+let useAstroImage = false;
+let imageSrc = src;
+
+try {
+  // Check if this is a local image that can be optimized
+  if (src.startsWith('/') && !src.includes('://')) {
+    // For public directory images, we'll use picture element with WebP
+    useAstroImage = false;
+    imageSrc = src;
+  } else {
+    useAstroImage = false;
+    imageSrc = src;
+  }
+} catch (e) {
+  useAstroImage = false;
+  imageSrc = src;
+}
+
+// Generate WebP and fallback paths for public images
+const webpSrc = imageSrc.replace(/\.(png|jpg|jpeg)$/i, '.webp');
+const fallbackSrc = imageSrc;
+---
+
+{useAstroImage ? (
+  <Image
+    src={imageSrc}
+    alt={alt}
+    width={width}
+    height={calculatedHeight}
+    class={className}
+    loading={priority ? 'eager' : loading}
+    decoding={decoding}
+    sizes={responsiveSizes}
+    widths={widths}
+    quality={quality}
+    format="webp"
+    fallbackFormat="jpeg"
+    {...rest}
+  />
+) : (
+  <picture class={`responsive-image ${className}`}>
+    <!-- WebP source for modern browsers -->
+    <source
+      srcset={webpSrc}
+      type="image/webp"
+      sizes={responsiveSizes}
+    />
+    <!-- Fallback for browsers that don't support WebP -->
+    <img
+      src={fallbackSrc}
+      alt={alt}
+      width={width}
+      height={calculatedHeight}
+      loading={priority ? 'eager' : loading}
+      decoding={decoding}
+      sizes={responsiveSizes}
+      class="responsive-img"
+      {...rest}
+    />
+  </picture>
+)}
+
+<style>
+  .responsive-image {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .responsive-img {
+    max-width: 100%;
+    height: auto;
+    transition: opacity 0.3s ease;
+  }
+
+  .responsive-img[loading="lazy"] {
+    opacity: 0;
+  }
+
+  .responsive-img.loaded {
+    opacity: 1;
+  }
+
+  .responsive-img.error {
+    opacity: 0.7;
+    filter: grayscale(100%);
+  }
+
+  /* Prevent layout shift during image load */
+  .responsive-image img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* Loading placeholder */
+  .responsive-image::before {
+    content: '';
+    display: block;
+    width: 100%;
+    padding-bottom: calc(var(--aspect-ratio, 56.25) * 1%);
+    background-color: #f0f0f0;
+    background-image:
+      linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.5) 50%, transparent 60%),
+      linear-gradient(90deg, #f0f0f0, #e0e0e0, #f0f0f0);
+    background-size: 200% 100%, 100% 100%;
+    background-repeat: no-repeat;
+    animation: shimmer 1.5s infinite;
+    border-radius: 4px;
+  }
+
+  .responsive-image img:not([loading="lazy"]),
+  .responsive-image img.loaded {
+    position: relative;
+    z-index: 1;
+  }
+
+  .responsive-image img.loaded ~ ::before {
+    display: none;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0, 0 0;
+    }
+    100% {
+      background-position: 200% 0, 0 0;
+    }
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .responsive-img.error {
+      filter: contrast(1);
+      border: 2px solid currentColor;
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .responsive-img {
+      transition: none;
+    }
+
+    .responsive-image::before {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  // Enhanced image loading with better error handling
+  class ResponsiveImageLoader {
+    constructor() {
+      this.init();
+    }
+
+    init() {
+      // Handle all responsive images
+      const images = document.querySelectorAll('.responsive-img');
+      images.forEach(img => this.setupImage(img));
+    }
+
+    setupImage(img) {
+      if (img.dataset.setup) return;
+      img.dataset.setup = 'true';
+
+      // Set up loading event listeners
+      img.addEventListener('load', () => {
+        img.classList.add('loaded');
+        this.reportPerformance(img);
+      });
+
+      img.addEventListener('error', () => {
+        this.handleImageError(img);
+      });
+
+      // If image is already loaded (cached)
+      if (img.complete && img.naturalHeight !== 0) {
+        img.classList.add('loaded');
+      }
+    }
+
+    handleImageError(img) {
+      console.warn('Image failed to load:', img.src);
+      img.classList.add('error');
+
+      // Try fallback to PNG if WebP failed
+      const picture = img.closest('picture');
+      if (picture && img.src.includes('.webp')) {
+        const fallbackSrc = img.src.replace('.webp', '.png');
+        if (fallbackSrc !== img.src) {
+          img.src = fallbackSrc;
+          // Remove WebP source to prevent further attempts
+          const webpSource = picture.querySelector('source[type="image/webp"]');
+          if (webpSource) webpSource.remove();
+          return;
+        }
+      }
+
+      // Set a placeholder or alternative image if available
+      const placeholder = img.dataset.placeholder;
+      if (placeholder) {
+        img.src = placeholder;
+      } else {
+        // Generate a simple placeholder
+        this.generatePlaceholder(img);
+      }
+    }
+
+    generatePlaceholder(img) {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = img.width || 400;
+      canvas.height = img.height || 300;
+
+      // Create a simple placeholder
+      ctx.fillStyle = '#f0f0f0';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#999';
+      ctx.font = '16px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('Image unavailable', canvas.width / 2, canvas.height / 2);
+
+      img.src = canvas.toDataURL();
+    }
+
+    reportPerformance(img) {
+      if ('PerformanceObserver' in window) {
+        try {
+          const observer = new PerformanceObserver((list) => {
+            list.getEntries().forEach((entry) => {
+              if (entry.name === img.currentSrc || entry.name === img.src) {
+                console.log(`Image loaded: ${img.alt || 'unnamed'} (${Math.round(entry.loadTime)}ms)`);
+              }
+            });
+          });
+          observer.observe({ entryTypes: ['resource'] });
+        } catch (e) {
+          // PerformanceObserver not supported
+        }
+      }
+    }
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => new ResponsiveImageLoader());
+  } else {
+    new ResponsiveImageLoader();
+  }
+</script>

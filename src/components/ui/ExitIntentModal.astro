@@ -1,0 +1,277 @@
+---
+// Exit Intent Modal Component
+// Triggers when user shows intent to leave to recover form abandonment
+---
+
+<div id="exit-intent-modal" class="exit-intent-modal" role="dialog" aria-modal="true" aria-labelledby="exit-modal-title" aria-hidden="true">
+  <div class="exit-modal-overlay" data-close-modal></div>
+
+  <div class="exit-modal-content">
+    <button class="exit-modal-close" aria-label="Close" data-close-modal type="button">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+
+    <div class="exit-modal-body">
+      <div class="exit-modal-icon">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--accent-color)" stroke-width="2">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+          <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
+      </div>
+
+      <h2 id="exit-modal-title" class="exit-modal-title">
+        Wait! Don't Miss Out on Free Quotes
+      </h2>
+
+      <p class="exit-modal-subtitle">
+        Join 10,000+ people who found their perfect Austin mover
+      </p>
+
+      <ul class="exit-modal-benefits">
+        <li>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--success-green)" stroke-width="2">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          Get 3-5 quotes in 24 hours
+        </li>
+        <li>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--success-green)" stroke-width="2">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          100% free, no hidden fees
+        </li>
+        <li>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--success-green)" stroke-width="2">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          Only licensed & insured movers
+        </li>
+      </ul>
+
+      <div class="exit-modal-actions">
+        <a href="#quote-form" class="exit-modal-cta-primary" data-exit-cta>
+          Get My Free Quotes
+        </a>
+        <button class="exit-modal-cta-secondary" data-close-modal type="button">
+          No Thanks
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .exit-intent-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+
+  .exit-intent-modal.visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .exit-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    cursor: pointer;
+  }
+
+  .exit-modal-content {
+    position: relative;
+    background: #fff;
+    border-radius: 12px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    transform: scale(0.9);
+    transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+  }
+
+  .exit-intent-modal.visible .exit-modal-content {
+    transform: scale(1);
+  }
+
+  .exit-modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--medium-gray);
+    padding: 8px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    z-index: 1;
+    min-width: 40px;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .exit-modal-close:hover {
+    background: var(--secondary-color);
+    color: var(--text-color);
+  }
+
+  .exit-modal-close:focus-visible {
+    outline: 3px solid var(--accent-color);
+    outline-offset: 2px;
+  }
+
+  .exit-modal-body {
+    padding: 48px 32px 32px;
+    text-align: center;
+  }
+
+  .exit-modal-icon {
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .exit-modal-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 0 0 12px 0;
+    line-height: 1.2;
+  }
+
+  .exit-modal-subtitle {
+    font-size: 1rem;
+    color: var(--medium-gray);
+    margin: 0 0 32px 0;
+  }
+
+  .exit-modal-benefits {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 32px 0;
+    text-align: left;
+    max-width: 350px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .exit-modal-benefits li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    font-size: 1rem;
+    color: var(--text-color);
+  }
+
+  .exit-modal-benefits svg {
+    flex-shrink: 0;
+  }
+
+  .exit-modal-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .exit-modal-cta-primary {
+    display: block;
+    padding: 16px 32px;
+    background: var(--accent-color);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+  }
+
+  .exit-modal-cta-primary:hover {
+    background: var(--accent-hover-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(244, 150, 38, 0.3);
+  }
+
+  .exit-modal-cta-primary:focus-visible {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 2px;
+  }
+
+  .exit-modal-cta-secondary {
+    background: transparent;
+    border: none;
+    color: var(--medium-gray);
+    padding: 12px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+  }
+
+  .exit-modal-cta-secondary:hover {
+    color: var(--text-color);
+  }
+
+  .exit-modal-cta-secondary:focus-visible {
+    outline: 3px solid var(--accent-color);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Mobile adjustments */
+  @media (max-width: 768px) {
+    .exit-modal-content {
+      width: 95%;
+    }
+
+    .exit-modal-body {
+      padding: 40px 24px 24px;
+    }
+
+    .exit-modal-title {
+      font-size: 1.5rem;
+    }
+
+    .exit-modal-subtitle {
+      font-size: 0.95rem;
+    }
+
+    .exit-modal-benefits li {
+      font-size: 0.95rem;
+      padding: 10px 0;
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .exit-intent-modal,
+    .exit-modal-content,
+    .exit-modal-close,
+    .exit-modal-cta-primary {
+      transition: none;
+    }
+  }
+</style>

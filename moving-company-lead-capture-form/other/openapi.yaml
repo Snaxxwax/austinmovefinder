@@ -1,0 +1,64 @@
+
+openapi: 3.0.0
+info:
+  title: Moving Lead API
+  version: 1.0.0
+  description: API for capturing moving company leads.
+
+paths:
+  /lead:
+    post:
+      summary: Submit a new moving lead
+      description: Receives lead data from the web form, validates it, and processes it.
+      operationId: submitLead
+      requestBody:
+        description: Lead data payload
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './json-schema.json'
+      responses:
+        '200':
+          description: Lead submitted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  lead_id:
+                    type: string
+                    format: uuid
+                    example: "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d"
+        '400':
+          description: Bad Request - Validation failed due to invalid or missing data.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: "validation_failed"
+                  details:
+                    type: object
+                    description: "Details about validation errors."
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: "internal_error"

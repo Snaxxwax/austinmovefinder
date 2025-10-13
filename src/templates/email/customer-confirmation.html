@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Your Moving Quote Request - {{quoteId}}</title>
+    <!--[if mso]>
+      <noscript>
+        <xml>
+          <o:OfficeDocumentSettings>
+            <o:AllowPNG />
+            <o:PixelsPerInch>96</o:PixelsPerInch>
+          </o:OfficeDocumentSettings>
+        </xml>
+      </noscript>
+    <![endif]-->
+    <style>
+      /* Reset and base styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.6;
+        color: #333333;
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 0;
+        width: 100% !important;
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+      }
+
+      /* Email container */
+      .email-container {
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Header */
+      .header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #ffffff;
+        padding: 30px 20px;
+        text-align: center;
+      }
+
+      .header h1 {
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      }
+
+      .header p {
+        font-size: 16px;
+        opacity: 0.9;
+        margin: 0;
+      }
+
+      /* Content sections */
+      .content {
+        padding: 40px 30px;
+      }
+
+      .greeting {
+        font-size: 18px;
+        color: #2c3e50;
+        margin-bottom: 25px;
+      }
+
+      .quote-details {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 25px;
+        margin: 25px 0;
+        border-left: 4px solid #667eea;
+      }
+
+      .quote-details h3 {
+        color: #2c3e50;
+        font-size: 18px;
+        margin-bottom: 15px;
+        font-weight: 600;
+      }
+
+      .detail-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px solid #e9ecef;
+      }
+
+      .detail-row:last-child {
+        border-bottom: none;
+      }
+
+      .detail-label {
+        font-weight: 600;
+        color: #495057;
+        flex: 1;
+      }
+
+      .detail-value {
+        color: #2c3e50;
+        font-weight: 500;
+        flex: 1;
+        text-align: right;
+      }
+
+      /* Next steps */
+      .next-steps {
+        background: #e8f5e8;
+        border-radius: 8px;
+        padding: 25px;
+        margin: 25px 0;
+        border-left: 4px solid #28a745;
+      }
+
+      .next-steps h3 {
+        color: #155724;
+        font-size: 18px;
+        margin-bottom: 15px;
+        font-weight: 600;
+      }
+
+      .step {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 15px;
+        padding: 12px 0;
+      }
+
+      .step:last-child {
+        margin-bottom: 0;
+      }
+
+      .step-number {
+        background: #28a745;
+        color: white;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: bold;
+        margin-right: 15px;
+        flex-shrink: 0;
+      }
+
+      .step-content {
+        color: #155724;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      /* Quote ID highlight */
+      .quote-id {
+        background: #fff3cd;
+        border: 1px solid #ffeaa7;
+        border-radius: 6px;
+        padding: 15px;
+        text-align: center;
+        margin: 20px 0;
+      }
+
+      .quote-id strong {
+        color: #856404;
+        font-size: 18px;
+        font-weight: 700;
+      }
+
+      /* Contact section */
+      .contact-info {
+        background: #f1f3f4;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 25px 0;
+        text-align: center;
+      }
+
+      .contact-info h4 {
+        color: #2c3e50;
+        margin-bottom: 15px;
+        font-size: 16px;
+      }
+
+      .contact-info p {
+        color: #495057;
+        margin: 5px 0;
+        font-size: 14px;
+      }
+
+      .contact-link {
+        color: #667eea;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .contact-link:hover {
+        text-decoration: underline;
+      }
+
+      /* Footer */
+      .footer {
+        background: #2c3e50;
+        color: #ecf0f1;
+        padding: 30px 20px;
+        text-align: center;
+        font-size: 14px;
+      }
+
+      .footer p {
+        margin: 5px 0;
+        opacity: 0.8;
+      }
+
+      .footer .unsubscribe {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #34495e;
+      }
+
+      .footer .unsubscribe a {
+        color: #bdc3c7;
+        text-decoration: none;
+      }
+
+      .footer .unsubscribe a:hover {
+        text-decoration: underline;
+      }
+
+      /* Responsive design */
+      @media only screen and (max-width: 600px) {
+        .email-container {
+          width: 100% !important;
+          margin: 0 !important;
+        }
+
+        .content {
+          padding: 30px 20px;
+        }
+
+        .header {
+          padding: 25px 20px;
+        }
+
+        .header h1 {
+          font-size: 24px;
+        }
+
+        .quote-details,
+        .next-steps,
+        .contact-info {
+          padding: 20px;
+          margin: 20px 0;
+        }
+
+        .detail-row {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 5px;
+        }
+
+        .detail-value {
+          text-align: left;
+        }
+      }
+
+      /* Dark mode support */
+      @media (prefers-color-scheme: dark) {
+        .footer {
+          background: #1a1a1a;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="email-container">
+      <!-- Header -->
+      <div class="header">
+        <h1>{{businessName}}</h1>
+        <p>Your Trusted Austin Moving Partner</p>
+      </div>
+
+      <!-- Main Content -->
+      <div class="content">
+        <div class="greeting">Dear {{customerName}},</div>
+
+        <p>
+          Thank you for requesting a moving quote! We've received your request
+          and our team is already working to connect you with Austin's most
+          trusted moving professionals.
+        </p>
+
+        <!-- Quote ID -->
+        <div class="quote-id">
+          <strong>Quote ID: {{quoteId}}</strong>
+        </div>
+
+        <!-- Quote Details -->
+        <div class="quote-details">
+          <h3>📋 Your Move Details</h3>
+
+          <div class="detail-row">
+            <span class="detail-label">Move Date:</span>
+            <span class="detail-value">{{moveDate}}</span>
+          </div>
+
+          <div class="detail-row">
+            <span class="detail-label">From:</span>
+            <span class="detail-value">{{fromZip}}</span>
+          </div>
+
+          <div class="detail-row">
+            <span class="detail-label">To:</span>
+            <span class="detail-value">{{toZip}}</span>
+          </div>
+
+          <div class="detail-row">
+            <span class="detail-label">Home Size:</span>
+            <span class="detail-value">{{moveSize}}</span>
+          </div>
+
+          <div class="detail-row">
+            <span class="detail-label">Service Type:</span>
+            <span class="detail-value">{{serviceType}}</span>
+          </div>
+        </div>
+
+        <!-- Next Steps -->
+        <div class="next-steps">
+          <h3>🚀 What Happens Next?</h3>
+
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <strong>Review (Within 2 Hours)</strong><br />
+              Our team will review your request and match you with the best
+              local movers for your specific needs.
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <strong>Receive Quotes (Same Day)</strong><br />
+              You'll receive personalized quotes from 3-5 top-rated Austin
+              moving companies.
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <strong>Connect & Schedule</strong><br />
+              Our partner movers will contact you directly to schedule in-home
+              estimates and answer any questions.
+            </div>
+          </div>
+        </div>
+
+        <p>All of our partner moving companies are:</p>
+        <ul style="margin: 15px 0; padding-left: 20px; color: #495057">
+          <li>Licensed and insured</li>
+          <li>Highly rated by Austin customers</li>
+          <li>Background-checked professionals</li>
+          <li>Committed to transparent pricing</li>
+        </ul>
+
+        <!-- Contact Information -->
+        <div class="contact-info">
+          <h4>Questions? We're Here to Help!</h4>
+          <p>
+            Phone:
+            <a href="tel:{{businessPhone}}" class="contact-link"
+              >{{businessPhone}}</a
+            >
+          </p>
+          <p>
+            Email:
+            <a href="mailto:support@austinmovefinder.com" class="contact-link"
+              >support@austinmovefinder.com</a
+            >
+          </p>
+          <p>
+            Website:
+            <a href="{{businessWebsite}}" class="contact-link"
+              >{{businessWebsite}}</a
+            >
+          </p>
+        </div>
+
+        <p style="margin-top: 30px; color: #6c757d; font-style: italic">
+          💡 <strong>Pro Tip:</strong> Moving during weekdays or off-peak
+          seasons can save you up to 20% on your moving costs!
+        </p>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer">
+        <p><strong>{{businessName}}</strong></p>
+        <p>Making Your Austin Move Simple & Stress-Free</p>
+        <p>Austin, Texas | {{businessPhone}}</p>
+
+        <div class="unsubscribe">
+          <p>
+            <a href="{{unsubscribeUrl}}?email={{customerEmail}}&id={{quoteId}}"
+              >Unsubscribe</a
+            >
+            |
+            <a href="{{businessWebsite}}/privacy">Privacy Policy</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

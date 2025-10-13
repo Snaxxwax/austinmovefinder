@@ -1,0 +1,53 @@
+---
+// Turnstile Integration Component for Austin Move Finder
+---
+
+<script is:inline>
+// Turnstile callback functions
+window.onTurnstileSuccess = function(token) {
+    console.log('Turnstile verification successful');
+    const hiddenInput = document.getElementById('cf-turnstile-response');
+    if (hiddenInput) {
+        hiddenInput.value = token;
+    }
+
+    // Enable submit button if it was disabled due to missing verification
+    const submitBtn = document.getElementById('submit-btn');
+    if (submitBtn && submitBtn.hasAttribute('data-turnstile-pending')) {
+        submitBtn.removeAttribute('data-turnstile-pending');
+        submitBtn.disabled = false;
+    }
+};
+
+window.onTurnstileError = function(error) {
+    console.error('Turnstile verification error:', error);
+    const messageBox = document.getElementById('message-box');
+    if (messageBox) {
+        messageBox.textContent = 'Security verification failed. Please refresh the page and try again.';
+        messageBox.className = 'message-box error show';
+    }
+};
+
+window.onTurnstileExpired = function() {
+    console.log('Turnstile token expired');
+    const hiddenInput = document.getElementById('cf-turnstile-response');
+    if (hiddenInput) {
+        hiddenInput.value = '';
+    }
+
+    const messageBox = document.getElementById('message-box');
+    if (messageBox) {
+        messageBox.textContent = 'Security verification expired. Please complete the verification again.';
+        messageBox.className = 'message-box error show';
+    }
+};
+
+// Auto-load Turnstile script when on quote page
+if (window.location.pathname === '/quote' || window.location.pathname.includes('quote')) {
+    const script = document.createElement('script');
+    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+    script.async = true;
+    script.defer = true;
+    document.head.appendChild(script);
+}
+</script>

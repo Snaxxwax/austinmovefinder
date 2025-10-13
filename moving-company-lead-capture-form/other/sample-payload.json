@@ -1,0 +1,43 @@
+
+{
+  "lead_id": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+  "timestamp": "2024-08-15T14:30:00Z",
+  "prospect": {
+    "first_name": "Jane",
+    "last_name": "Doe",
+    "email": "jane.doe@example.com",
+    "phone": "+15125551234"
+  },
+  "move": {
+    "from_zip": "78701",
+    "to_zip": "90210",    const digits = prospectPayload.phone.replace(/\D/g, '');
+
+    "date": "2024-09-15",
+    "flexible": false,
+    "home_size": "2BR",
+    "items_count": null,
+    "stairs_or_elevator": "elevator",
+    "parking_constraints": "Loading dock available from 9 AM to 5 PM.",
+    "budget_range": "$2k-$3.9k",
+    "notes": "Have a large piano that requires special handling."
+  },
+  "tracking": {
+    "utm_source": "google",
+    "utm_medium": "cpc",
+    "utm_campaign": "fall_moving_sale",
+    "utm_term": "movers_in_austin",
+    "utm_content": "ad_variant_b",
+    "gclid": "Cj0KCQjwhf-lBhDIARIsAJEV...",
+    "fbclid": null,
+    "referrer_url": "https://www.google.com/",
+    "landing_url": "https://your-moving-site.com/get-a-quote?utm_source=google...",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) ...",
+    "ip": "203.0.113.1",
+    "first_page_seen_at": "2024-08-15T14:28:10Z",
+    "session_id": "1723732090000-abcdef1"
+  },
+  "consent": {
+    "tcpa": true,
+    "text": "I agree to be contacted by phone, SMS, and email by partner moving companies regarding my inquiry. Message/data rates may apply. Consent not required to purchase."
+  }
+}

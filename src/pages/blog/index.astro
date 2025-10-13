@@ -1,0 +1,289 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/components/layout/BaseLayout.astro';
+import Header from '@/components/layout/Header.astro';
+import Footer from '@/components/layout/Footer.astro';
+
+// Get all published blog posts, sorted by date
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const sortedPosts = allPosts.sort(
+  (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
+);
+
+// Get unique categories for filtering
+const categories = [...new Set(allPosts.map(post => post.data.category))];
+
+const pageTitle = "Moving Tips & Guides - Austin Move Finder Blog";
+const pageDescription = "Expert moving advice, Austin neighborhood guides, cost-saving tips, and comprehensive resources for your Austin move.";
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <Header />
+
+  <main>
+    <section class="blog-hero">
+      <div class="container">
+        <h1>Moving Tips & Guides</h1>
+        <p class="subtitle">Expert advice for your Austin move</p>
+      </div>
+    </section>
+
+    <section class="blog-content">
+      <div class="container">
+        <div class="category-filter">
+          <button class="filter-btn active" data-category="all">All Posts</button>
+          {categories.map(category => (
+            <button class="filter-btn" data-category={category}>{category}</button>
+          ))}
+        </div>
+
+        <div class="blog-grid">
+          {sortedPosts.map((post) => (
+            <article class="blog-card" data-categories={post.data.category}>
+              {post.data.image && (
+                <a href={`/blog/${post.slug}`} class="blog-image">
+                  <img
+                    src={post.data.image}
+                    alt={post.data.imageAlt || post.data.title}
+                    loading="lazy"
+                  />
+                </a>
+              )}
+              <div class="blog-card-content">
+                <div class="blog-meta">
+                  <span class="category">{post.data.category}</span>
+                  <span class="read-time">{post.data.readTime}</span>
+                </div>
+                <h2>
+                  <a href={`/blog/${post.slug}`}>{post.data.title}</a>
+                </h2>
+                <p class="excerpt">{post.data.description}</p>
+                <div class="blog-footer">
+                  <span class="date">
+                    {post.data.publishDate.toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                    })}
+                  </span>
+                  <a href={`/blog/${post.slug}`} class="read-more">
+                    Read More →
+                  </a>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  /* Hero Section */
+  .blog-hero {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover-color) 100%);
+    color: white;
+    padding: 4rem 0 3rem;
+    text-align: center;
+  }
+
+  .blog-hero h1 {
+    font-family: var(--heading-font);
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .subtitle {
+    font-size: 1.2rem;
+    opacity: 0.9;
+  }
+
+  /* Blog Content */
+  .blog-content {
+    padding: 3rem 0;
+  }
+
+  /* Category Filter */
+  .category-filter {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .filter-btn {
+    padding: 0.5rem 1.5rem;
+    border: 2px solid var(--primary-color);
+    background: white;
+    color: var(--primary-color);
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .filter-btn:hover,
+  .filter-btn.active {
+    background: var(--primary-color);
+    color: white;
+  }
+
+  /* Blog Grid */
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
+  }
+
+  .blog-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .blog-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+  }
+
+  .blog-image {
+    display: block;
+    overflow: hidden;
+  }
+
+  .blog-image img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .blog-card:hover .blog-image img {
+    transform: scale(1.05);
+  }
+
+  .blog-card-content {
+    padding: 1.5rem;
+  }
+
+  .blog-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .category {
+    background: var(--accent-color);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-weight: 600;
+    font-size: 0.85rem;
+  }
+
+  .read-time {
+    color: #666;
+  }
+
+  .blog-card h2 {
+    font-family: var(--heading-font);
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+  }
+
+  .blog-card h2 a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .blog-card h2 a:hover {
+    color: var(--accent-color);
+  }
+
+  .excerpt {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .blog-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+  }
+
+  .date {
+    color: #999;
+    font-size: 0.9rem;
+  }
+
+  .read-more {
+    color: var(--primary-color);
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .read-more:hover {
+    color: var(--accent-color);
+  }
+
+  /* Mobile Responsiveness */
+  @media (max-width: 768px) {
+    .blog-hero h1 {
+      font-size: 2rem;
+    }
+
+    .blog-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .category-filter {
+      gap: 0.5rem;
+    }
+
+    .filter-btn {
+      padding: 0.4rem 1rem;
+      font-size: 0.9rem;
+    }
+  }
+</style>
+
+<script>
+  // Category filtering
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const blogCards = document.querySelectorAll('.blog-card');
+
+  filterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      // Update active state
+      filterButtons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+
+      const category = button.getAttribute('data-category');
+
+      // Filter cards
+      blogCards.forEach(card => {
+        if (category === 'all') {
+          card.style.display = 'block';
+        } else {
+          const cardCategory = card.getAttribute('data-categories');
+          card.style.display = cardCategory === category ? 'block' : 'none';
+        }
+      });
+    });
+  });
+</script>

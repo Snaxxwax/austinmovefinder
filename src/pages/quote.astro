@@ -1,0 +1,154 @@
+---
+import PostHog from '../components/posthog.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import ExitIntentModal from '../components/ui/ExitIntentModal.astro';
+import SocialProofBadge from '../components/ui/SocialProofBadge.astro';
+import FAQAccordion from '../components/ui/FAQAccordion.astro';
+
+const pageTitle = "Get Free Moving Quotes - Austin Move Finder";
+const pageDescription = "Get instant moving quotes from trusted Austin movers. Takes only 2 minutes. Compare quotes from 3-5 top-rated moving companies.";
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription}>
+
+    <!-- Open Graph meta tags -->
+    <meta property="og:title" content={pageTitle}>
+    <meta property="og:description" content={pageDescription}>
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://austinmovefinder.com/quote">
+    <meta property="og:image" content="https://austinmovefinder.com/logo.png">
+
+    <!-- Twitter Card meta tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content={pageTitle}>
+    <meta name="twitter:description" content={pageDescription}>
+    <meta name="twitter:image" content="https://austinmovefinder.com/logo.png">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://austinmovefinder.com/quote">
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/src/styles/accessibility.css">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <PostHog />
+</head>
+<body>
+    <Header />
+
+    <!-- Exit Intent Modal -->
+    <ExitIntentModal />
+
+    <main id="main-content">
+        <section class="form-section" aria-labelledby="main-heading">
+            <div class="container">
+                <h1 id="main-heading">Get Instant Moving Quotes</h1>
+                <p class="subtitle">Takes only 2 minutes • Get quotes from 3-5 top movers</p>
+
+                <!-- Social Proof Badge -->
+                <div style="text-align: center; margin: 24px 0;">
+                    <SocialProofBadge variant="form" />
+                </div>
+
+                <!-- Message Box -->
+                <div id="message-box" class="message-box" role="alert" aria-live="polite" aria-atomic="true"></div>
+
+                <!-- Progress Bar -->
+                <div class="progress-bar" role="progressbar" aria-label="Form completion progress" aria-valuenow="1" aria-valuemin="1" aria-valuemax="2">
+                    <div class="progress-bar-fill" id="progress-fill"></div>
+                    <div class="progress-step active" data-step="1" aria-current="step">
+                        <div class="progress-step-circle" aria-hidden="true">1</div>
+                        <div class="progress-step-label">Basic Info</div>
+                    </div>
+                    <div class="progress-step" data-step="2">
+                        <div class="progress-step-circle" aria-hidden="true">2</div>
+                        <div class="progress-step-label">Move Details</div>
+                    </div>
+                    <div class="progress-step" data-step="3">
+                        <div class="progress-step-circle" aria-hidden="true">✓</div>
+                        <div class="progress-step-label">Complete</div>
+                    </div>
+                </div>
+
+                <form id="quote-form" method="POST" novalidate role="form" aria-label="Moving quote request form">
+                    <!-- Honeypot -->
+                    <div class="honeypot" aria-hidden="true">
+                        <input type="text" name="website" tabindex="-1" autocomplete="off">
+                    </div>
+
+                    <!-- Dynamic Form Steps Container -->
+                    <div id="form-steps-container" aria-live="polite"></div>
+                </form>
+            </div>
+        </section>
+
+        <!-- FAQ Accordion -->
+        <FAQAccordion />
+    </main>
+
+    <Footer />
+
+    <!-- Turnstile Integration -->
+    <script is:inline>
+        // Turnstile callback functions
+        window.onTurnstileSuccess = function(token) {
+            console.log('Turnstile verification successful');
+            const hiddenInput = document.getElementById('cf-turnstile-response');
+            if (hiddenInput) {
+                hiddenInput.value = token;
+            }
+        };
+
+        window.onTurnstileError = function(error) {
+            console.error('Turnstile verification error:', error);
+            const messageBox = document.getElementById('message-box');
+            if (messageBox) {
+                messageBox.textContent = 'Security verification failed. Please refresh the page and try again.';
+                messageBox.className = 'message-box error show';
+            }
+        };
+
+        window.onTurnstileExpired = function() {
+            console.log('Turnstile token expired');
+            const hiddenInput = document.getElementById('cf-turnstile-response');
+            if (hiddenInput) {
+                hiddenInput.value = '';
+            }
+        };
+    </script>
+
+    <!-- Cloudflare Turnstile -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+    <!-- Enhanced Form Scripts -->
+    <script is:inline src="/form-enhancements.js"></script>
+    <script is:inline src="/quote-form-handler.js"></script>
+    <script is:inline src="/src/scripts/keyboard-navigation.js"></script>
+
+    <!-- Phase 2 Scripts -->
+    <script src="/src/scripts/exit-intent.js"></script>
+
+    <!-- Fallback to original quote.js if enhanced scripts fail -->
+    <script is:inline>
+        // Fallback mechanism
+        window.addEventListener('load', () => {
+            if (!window.quoteFormHandler && !window.formEnhancements) {
+                console.warn('Enhanced scripts failed, loading fallback');
+                const fallbackScript = document.createElement('script');
+                fallbackScript.src = '/quote.js';
+                document.head.appendChild(fallbackScript);
+            }
+        });
+    </script>
+</body>
+</html>

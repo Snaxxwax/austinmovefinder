@@ -1,0 +1,93 @@
+backend:
+  name: github
+  repo: snaxxwax/austinmovefinder
+  branch: main
+  base_url: https://api.netlify.com
+  auth_endpoint: auth
+
+publish_mode: editorial_workflow
+media_folder: "apps/web-astro/public/uploads"
+public_folder: "/uploads"
+
+collections:
+  - name: "pages"
+    label: "Pages"
+    folder: "apps/web-astro/src/content/pages"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Description", name: "description", widget: "text"}
+      - {label: "Layout", name: "layout", widget: "select", options: ["default", "landing", "legal"], default: "default"}
+      - {label: "No Index", name: "noindex", widget: "boolean", default: false}
+      - {label: "Draft", name: "draft", widget: "boolean", default: false}
+      - {label: "Body", name: "body", widget: "markdown"}
+
+  - name: "blog"
+    label: "Blog Posts"
+    folder: "apps/web-astro/src/content/blog"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Description", name: "description", widget: "text"}
+      - {label: "Publish Date", name: "publishDate", widget: "datetime"}
+      - {label: "Category", name: "category", widget: "select", options: ["Moving Tips", "Neighborhoods", "Cost Guide", "Seasonal", "Planning"]}
+      - {label: "Tags", name: "tags", widget: "list", required: false}
+      - {label: "Featured Image", name: "image", widget: "image", required: false}
+      - {label: "Image Alt Text", name: "imageAlt", widget: "string", required: false}
+      - {label: "Read Time", name: "readTime", widget: "string", default: "5 min read"}
+      - {label: "Featured", name: "featured", widget: "boolean", default: false}
+      - {label: "Author", name: "author", widget: "string", default: "Austin Move Finder Team"}
+      - {label: "Draft", name: "draft", widget: "boolean", default: false}
+      - {label: "Body", name: "body", widget: "markdown"}
+
+  - name: "neighborhoods"
+    label: "Neighborhoods"
+    folder: "apps/web-astro/src/content/neighborhoods"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Description", name: "description", widget: "text"}
+      - label: "Location"
+        name: "location"
+        widget: "object"
+        fields:
+          - {label: "Latitude", name: "lat", widget: "number", value_type: "float"}
+          - {label: "Longitude", name: "lng", widget: "number", value_type: "float"}
+      - {label: "ZIP Codes", name: "zip_codes", widget: "list", default: []}
+      - {label: "Median Home Price", name: "median_home_price", widget: "string", required: false}
+      - {label: "Median Rent", name: "median_rent", widget: "string", required: false}
+      - {label: "Walkability Score", name: "walkability_score", widget: "number", required: false, min: 0, max: 100}
+      - {label: "School Rating", name: "school_rating", widget: "string", required: false}
+      - {label: "Crime Rating", name: "crime_rating", widget: "select", options: ["Very Low", "Low", "Moderate", "High"], required: false}
+      - {label: "Featured Image", name: "image", widget: "image", required: false}
+      - {label: "Image Alt Text", name: "imageAlt", widget: "string", required: false}
+      - {label: "Highlights", name: "highlights", widget: "list", default: []}
+      - {label: "Amenities", name: "amenities", widget: "list", default: []}
+      - {label: "Transportation", name: "transportation", widget: "list", default: []}
+      - {label: "Featured", name: "featured", widget: "boolean", default: false}
+      - {label: "Draft", name: "draft", widget: "boolean", default: false}
+      - {label: "Body", name: "body", widget: "markdown"}
+
+  - name: "settings"
+    label: "Settings"
+    files:
+      - file: "apps/web-astro/src/data/site.json"
+        label: "Site Settings"
+        name: "site"
+        fields:
+          - {label: "Site Title", name: "title", widget: "string"}
+          - {label: "Site Description", name: "description", widget: "text"}
+          - {label: "Site URL", name: "url", widget: "string"}
+          - {label: "Contact Email", name: "email", widget: "string"}
+          - {label: "Contact Phone", name: "phone", widget: "string"}
+          - label: "Social Media"
+            name: "social"
+            widget: "object"
+            fields:
+              - {label: "Facebook", name: "facebook", widget: "string", required: false}
+              - {label: "Twitter", name: "twitter", widget: "string", required: false}
+              - {label: "Instagram", name: "instagram", widget: "string", required: false}
+              - {label: "LinkedIn", name: "linkedin", widget: "string", required: false}

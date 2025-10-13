@@ -1,0 +1,120 @@
+---
+import TrustBadge from './TrustBadge.astro';
+
+export interface Props {
+  variant?: 'hero' | 'form' | 'footer';
+}
+
+const { variant = 'hero' } = Astro.props;
+
+const badges = {
+  hero: [
+    { icon: '🛡️', title: 'Licensed & Insured', description: 'All movers are fully licensed and insured' },
+    { icon: '💰', title: '100% Free Service', description: 'No hidden fees, completely free to use' },
+    { icon: '⭐', title: 'Verified Reviews', description: 'Only verified customer reviews' },
+    { icon: '🤝', title: 'No Obligation', description: 'Compare quotes with no commitment' }
+  ],
+  form: [
+    { icon: '🔒', title: 'Secure & Private', description: 'Your information is safe with us' },
+    { icon: '⚡', title: 'Instant Quotes', description: 'Get quotes in minutes' },
+    { icon: '✓', title: 'Trusted Partners', description: 'Only vetted moving companies' }
+  ],
+  footer: [
+    { icon: '🛡️', title: 'Licensed Movers Only' },
+    { icon: '💰', title: '100% Free Service' },
+    { icon: '⭐', title: '500+ Reviews' },
+    { icon: '🤝', title: 'No Hidden Fees' }
+  ]
+};
+
+const selectedBadges = badges[variant];
+const badgeSize = variant === 'footer' ? 'small' : 'large';
+---
+
+<div class={`trust-badge-bar trust-badge-bar-${variant}`}>
+  <div class="container">
+    {variant === 'hero' && (
+      <h3 class="trust-heading">Why Choose Austin Move Finder?</h3>
+    )}
+    {variant === 'form' && (
+      <h3 class="trust-heading">Your Information is Safe With Us</h3>
+    )}
+    <div class="badges-grid">
+      {selectedBadges.map((badge) => (
+        <TrustBadge {...badge} type={badgeSize} />
+      ))}
+    </div>
+  </div>
+</div>
+
+<style>
+  .trust-badge-bar {
+    padding: 2rem 0;
+  }
+
+  .trust-badge-bar-hero {
+    background: white;
+    border-top: 1px solid var(--border-gray);
+    border-bottom: 1px solid var(--border-gray);
+  }
+
+  .trust-badge-bar-form {
+    background: var(--secondary-color);
+    padding: 1.5rem 0;
+    margin: 2rem 0;
+    border-radius: 8px;
+  }
+
+  .trust-badge-bar-footer {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1.5rem 0;
+  }
+
+  .trust-heading {
+    text-align: center;
+    margin: 0 0 1.5rem 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--primary-color);
+  }
+
+  .trust-badge-bar-form .trust-heading {
+    font-size: 1.2rem;
+  }
+
+  .trust-badge-bar-footer .trust-heading {
+    color: white;
+  }
+
+  .badges-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .trust-badge-bar-footer .badges-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .trust-badge-bar {
+      padding: 1.5rem 0;
+    }
+
+    .trust-heading {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+    }
+
+    .badges-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .trust-badge-bar-footer .badges-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
