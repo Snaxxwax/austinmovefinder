@@ -4,7 +4,7 @@
  */
 
 import nodemailer from "nodemailer";
-
+import striptags from "striptags";
 export class NodemailerProvider {
   constructor(config) {
     this.config = config;
@@ -155,8 +155,7 @@ export class NodemailerProvider {
    */
   stripHtml(html) {
     if (!html) return "";
-    return html
-      .replace(/<[^>]*>/g, "")
+    return striptags(html)
       .replace(/&nbsp;/g, " ")
       .replace(/&amp;/g, "&")
       .replace(/&lt;/g, "<")
