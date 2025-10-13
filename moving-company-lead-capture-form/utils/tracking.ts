@@ -1,7 +1,12 @@
 import type { Tracking } from '../types';
 
 function generateSessionId(): string {
-  return `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+  // Use cryptographically secure randomness for the random part of the session ID
+  const arr = new Uint32Array(2);
+  window.crypto.getRandomValues(arr);
+  // Convert the array of random integers to a base36 string
+  const randomPart = Array.from(arr).map(n => n.toString(36)).join('');
+  return `${Date.now()}-${randomPart}`;
 }
 
 export function getTrackingData(): Tracking {
